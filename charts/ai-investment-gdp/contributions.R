@@ -12,14 +12,25 @@ gdp_contribution <- function(nominal, real, gdp_nominal, gdp_real, share_weight 
     nominal / gdp_nominal * compounding
 }
 
-ai_investment_contributions <- function(nipa) {
+# Share of capital goods in goods trade other than food and autos, lagged a
+# quarter along with the trade share it scales. This is the FEDS Note's weight.
+capital_goods_weights <- function(nipa) {
   nipa |>
     arrange(date) |>
-    mutate(
-      # Share of capital goods in goods trade other than food and autos, lagged
-      # a quarter along with the trade share it scales.
+    transmute(
+      date,
       export_weight = lag(capital_goods_exports / (capital_goods_exports + consumer_goods_exports)),
-      import_weight = lag(capital_goods_imports / (capital_goods_imports + consumer_goods_imports)),
+      import_weight = lag(capital_goods_imports / (capital_goods_imports + consumer_goods_imports))
+    )
+}
+
+# `trade_weights` has a date and the export and import weights that scale
+# computer trade.
+ai_investment_contributions <- function(nipa, trade_weights = capital_goods_weights(nipa)) {
+  nipa |>
+    inner_join(trade_weights, by = "date") |>
+    arrange(date) |>
+    mutate(
       software = gdp_contribution(software_nominal, software_real, gdp_nominal, gdp_real),
       computers = gdp_contribution(computers_nominal, computers_real, gdp_nominal, gdp_real),
       data_centers = gdp_contribution(data_centers_nominal, data_centers_real, gdp_nominal, gdp_real),

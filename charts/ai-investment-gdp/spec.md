@@ -62,22 +62,39 @@ BEA's flat files carry no release date, so each fetch is saved as `data/bea_nipa
 
 ## Census crosswalk
 
-Work in progress, to test the capital goods weight on computer trade.
+Tests the capital goods weight on computer trade. `trade_weights.R` fetches the Census detail, saves the snapshot, and prints the comparison below. It does not change the chart.
 
 - BEA's exports and imports of "computers, peripherals, and parts" (B850RC, B852RC) match Census end-use categories 21300 (computers) plus 21301 (computer accessories) within 1 to 3 percent in every quarter from 2022 Q1 to 2026 Q2. Compare Census's seasonally adjusted end-use series, summed to quarters and multiplied by four, with BEA's annual rates.
 - Census publishes those seasonally adjusted end-use series monthly back to 1994, with no API key: `https://www.census.gov/foreign-trade/statistics/historical/imports_enduse.xlsx` and `exports_enduse.xlsx`.
-- Detail below end-use, such as HS codes that separate servers from laptops, and trade by country, is not seasonally adjusted. Seasonal patterns mostly cancel in shares, so the plan is to take the composition from unadjusted HS data and apply it to BEA's adjusted totals, rather than adding unadjusted HS values to adjusted ones.
-- The Census trade API now requires a free key. It is read from the `CENSUS_API_KEY` environment variable and never committed.
+- HS detail comes from the Census international trade API (`timeseries/intltrade/imports/hs` and `exports/hs`) through `fetch_census_trade()`: general imports (`GEN_VAL_MO`) and total exports (`ALL_VAL_MO`), monthly, by country, not seasonally adjusted. The API needs a free key, read from the `CENSUS_API_KEY` environment variable and never committed.
+- Codes: all of HS 8471 at six digits (847130 laptops, 847141 and 847149 desktops and systems, 847150 processing units, which are mostly servers, 847160 input and output units, 847170 storage, 847180 other units, 847190 other) plus 847330, parts of 8471 machines. Together they are 86% of end-use 21300 plus 21301 imports in 2022, rising to 96% in 2026, and they carry nearly all the growth.
+- Not covered, because they are outside BEA's computer line: GPUs and other chips shipped on their own (HS 8542), network switches and routers (8517.62), and power and cooling equipment for data centers.
+- Snapshot: `data/census_trade_<fetch date>.csv`, monthly by HS code and partner, with partners grouped as Mexico, Taiwan, and all others. The full country detail is about 5 MB a pull, too large to commit on every refresh.
 
-## Open items
+### Findings, data through 2026 Q2 (Census through July 2026)
 
-As of 2026-09-26. Not yet decided or done.
+Composition of computer imports:
 
-- **The import weight understates the offset.** The FEDS capital goods weight scales computer imports by 0.51 to 0.69, although imported servers go almost entirely into business investment. It also weights exports more heavily, about 0.73, which tilts net trade toward positive. Over the four quarters through 2026 Q2, the offset is 0.21 point, or 31%, with the weight, and 0.36 point, or 55%, with no weight. Leading option: state the range in the title or a note, then replace the weight with one built from Census HS detail.
-- **Census HS detail.** With `CENSUS_API_KEY`, pull imports and exports by HS code and by country for HS 8471 and 8473.30: servers and processing units, laptops, and parts. Use the shares to (a) build a better import weight and (b) check whether the 2025 Q2 and Q3 export surge is parts sent to Mexico and returned as servers.
-- **2026 Q2 import price.** BEA's implied price of computer imports jumped about 12% in one quarter, and real imports fell 23% annualized while nominal imports rose. Check this before publishing a quarter where computer trade adds to growth.
-- **Semiconductors.** Census end-use semiconductor imports doubled between 2025 Q3 and 2026 Q2, from $67 billion to $138 billion at an annual rate. The FEDS method excludes them; ING includes them.
-- **Colors.** Orange means data centers and power here and utilization on the productivity chart, on the same page.
+| | 2022 | 2026 H1 |
+|---|---|---|
+| Processing units, mostly servers | 24–29% | 52–55% |
+| Parts | 19–24% | 26–27% |
+| Laptops | 33–36% | 9–10% |
+| Desktops and systems | 2–4% | 1–2% |
+| Storage and other units | 13–15% | 8–9% |
+
+Import weights and the offset, averaged over the four quarters through 2026 Q2. Gross contribution is 0.66 point in every case.
+
+| Weight on computer trade | Export weight | Import weight | Net contribution | Offset |
+|---|---|---|---|---|
+| Capital goods share (FEDS Note, current chart) | 0.73 | 0.63 | 0.45 | 31% |
+| Capital goods share of imports, on both sides | 0.63 | 0.63 | 0.44 | 33% |
+| Product mix from Census HS detail | 0.97 | 0.95 | 0.32 | 52% |
+| No weight | 1 | 1 | 0.30 | 55% |
+
+The product mix weight counts servers, storage, other units, and parts fully as capital goods and gives laptops and desktops the FEDS weight, since households buy them too. Because laptops and desktops are now about a tenth of computer trade, it lands close to no weight. The level of the import weight drives the gap; weighting exports more heavily than imports accounts for only about 2 points of it.
+
+Round trips through Mexico. Exports of parts to Mexico rose from $6 billion to $11 billion a year in 2022 and 2023 to $35 billion in 2026 H1. Server exports to Mexico went from $2 billion (annual rate) in 2025 Q2 to $15 billion in Q3, while server imports from Mexico reached $143 billion in 2026 Q2. The 2025 Q2 rise in exports was mostly servers to other destinations, including Europe and Singapore; Q3's was mostly Mexico. Netting exports against imports handles round trips correctly as long as both sides get the same weight.
 
 ## Known breaks and caveats
 
@@ -90,3 +107,4 @@ As of 2026-09-26. Not yet decided or done.
 - 2026-09-26: Follow the FEDS Note method because it publishes figure data that can be reproduced exactly. Credit it as the source of the method.
 - 2026-09-26: Show quarterly contributions, as the note does. Put the four-quarter averages behind the title in a note, computed from the data so they update on refresh.
 - 2026-09-26: Title: "Computer imports offset about a third of the AI buildout's boost to growth." Over the four quarters through 2026 Q2, 0.66 point gross and 0.45 net, an offset of 31%.
+- 2026-09-26: Pulled Census HS detail for computer trade and compared weights. The chart keeps the FEDS weight until the weight is decided.
