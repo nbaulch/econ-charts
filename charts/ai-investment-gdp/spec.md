@@ -56,7 +56,7 @@ For computer trade, the lagged share is multiplied by the capital goods share of
 
 Net contribution = software + computers + data centers + power + net exports of computers.
 
-The chart plots four-quarter averages of these quarterly contributions and combines data centers and power into one bar. The CSV has the averages, with data centers and power separate.
+The chart plots four-quarter averages of the gross total, the net total under the FEDS method, and a band from the lowest to the highest net total across the FEDS method, the BEA domestic-use trade weight, and computer trade deflated with the investment price. The CSV has the averages of every component as well.
 
 ## Vintages
 
@@ -167,3 +167,5 @@ As of 2026-09-26. Not yet decided or done.
 - 2026-09-26: The text above the chart opens with the general point, that AI investment has lifted growth over the past two years but headline figures overstate it because of imports. Check that wording on each refresh.
 - 2026-09-26: The text names the four components rather than calling the total "AI investment", since they also carry spending unrelated to AI: the same components added about 0.3 point a year to growth in 2022 and 2023. The chart subtitle drops "AI-related" for the same reason.
 - 2026-09-26: Plot four-quarter averages instead of quarterly contributions, as the text does, since quarterly bars swing too much to show the trend. Replaces the earlier decision to show quarterly contributions as the note does; `reproduce.R` still checks the quarterly figures. Tried splitting into two charts (gross by component, then gross against net); dropped because the first would stand alone on the headline figure the chart argues is overstated.
+- 2026-09-26: Show gross and net totals as lines, with the range across import assumptions as a band, instead of stacked components. Every number in the text is then on the chart, and the rise from 2025 is easy to see. The components are in the CSV.
+- 2026-09-26: Show gross and net totals as lines, with the range across import assumptions as a band, instead of stacked components. Every number in the text is then on the chart, and the rise from 2025 is easy to see. The components are in the CSV.

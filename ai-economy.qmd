@@ -11,7 +11,7 @@ What AI is and is not doing to the U.S. economy right now.
 ```{=html}
 <picture>
   <source media="(max-width: 600px)" srcset="charts/ai-investment-gdp/output/ai-investment-gdp-narrow.png">
-  <img src="charts/ai-investment-gdp/output/ai-investment-gdp.png" class="chart" alt="Stacked bar chart of the contribution of investment in software, computers, data centers, and power to U.S. real GDP growth, averaged over four quarters, from 2022 to 2026, with net trade in computers below zero and dots for the total net of that trade. The total rose from about 0.3 point before 2025 to 0.66 point in the four quarters through 2026 Q2, while net imports of computers subtracted about 0.2 point.">
+  <img src="charts/ai-investment-gdp/output/ai-investment-gdp.png" class="chart" alt="Line chart of the contribution of investment in software, computers, data centers, and power to U.S. real GDP growth, averaged over four quarters, from 2022 to 2026, before and after netting out imported computers. The two lines stay near 0.3 point until 2025, then rise; in the four quarters through 2026 Q2 the contribution was 0.66 point before netting imports and 0.34 to 0.45 point after.">
 </picture>
 ```
 
