@@ -59,6 +59,18 @@ These are the analyses I've been considering. Treat them as starting points. Ver
 - Nothing publishes without my review.
 - I prefer to work in R.
 
+## Code style
+
+The standard is a repo Hadley Wickham would be proud of: well thought out, functional, organized, and easy to read. Over-engineered code is a failure, not a safe default.
+
+- Follow the [tidyverse style guide](https://style.tidyverse.org/). Use tidyverse packages and idioms (dplyr, tidyr, purrr, readr, ggplot2) unless there's a clear reason not to.
+- Name objects and functions so a reader can tell what they hold or do without a comment: `snake_case`, nouns for data, verbs for functions (`fetch_btos()`, `adoption_by_industry`).
+- Write small, pure functions that take data and return data. Build steps with pipes, not intermediate `df1`, `df2`, `tmp`.
+- Keep code tight. No speculative abstraction, config layers, wrapper functions around a single call, or defensive checks for cases that can't happen. Add structure only when a second real use shows up.
+- Comment why, not what. No boilerplate headers, no comments restating the code.
+- Delete dead code rather than commenting it out.
+- If a simpler version would do the same job, write the simpler version.
+
 ## Environment notes
 
 - R is not preinstalled in the cloud container, but `apt-get install -y --no-install-recommends r-base-core` works (R 4.3.x as of September 2026). The container is ephemeral, so this has to be repeated each session unless it goes into the environment's setup script.
