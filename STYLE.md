@@ -68,6 +68,7 @@ Roboto, Datawrapper's default. It has lining, tabular figures, so numbers align.
 - Legend at the top left, above the plot.
 - Title, subtitle, legend, and notes align with the left edge of the image, not the plot panel.
 - White background. Saved as PNG with `ragg` at 200 dpi.
+- Every chart is saved twice: a wide version, 10 inches across, for desktops, and a narrow version, 4.2 inches across and named `*-narrow.png`, which the site shows on screens up to 600 pixels wide. `chart_labels()` wraps the title, subtitle, and notes to fit each width. The narrow version stacks its legend in one column.
 
 ## Sources
 

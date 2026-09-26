@@ -19,14 +19,14 @@ This is a working hypothesis, not a conclusion. If refreshed data stops supporti
 - The AI buildout is adding meaningfully to demand, though less than headline claims once imported equipment is netted out.
 - Adoption is real but thin, and concentrated in large firms. Firm-level, employment-weighted, and worker-level surveys give very different numbers, mostly because of who they count.
 - Labor market effects so far show up as fewer young workers entering AI-exposed occupations, not as layoffs.
-- The recent productivity acceleration is mostly firms using existing capital harder, not AI-driven efficiency gains. TFP is roughly flat.
+- The recent productivity acceleration is mostly firms using existing capital and labor harder, plus investment in computers and software, not AI-driven efficiency gains. Utilization-adjusted TFP grew strongly in 2023 and 2024 and has fallen over the past year.
 - Electricity is the physical constraint, and its effects are regional rather than national.
 
 ## Chart candidates
 
 These are the analyses I've been considering. Treat them as starting points. Verify sources, figures, and URLs yourself before relying on them.
 
-- **AI investment's contribution to real GDP growth**, gross versus net of imported computers and semiconductors.
+- **AI investment's contribution to real GDP growth**, gross versus net of imported computers and semiconductors. Built in `charts/ai-investment-gdp/`, following the FEDS Note method.
   - Related work: Federal Reserve FEDS Note on publicly available AI data (July 2026), ING THINK (August 2026), St. Louis Fed On the Economy (January 2026).
   - Data: BEA NIPA investment detail, Census trade data, Census construction spending.
 - **AI adoption across denominators**: Census BTOS firm share, BTOS employment-weighted, and the Real-Time Population Survey worker share.
@@ -71,7 +71,7 @@ charts/<chart-name>/
   build.R               fetch, transform, plot, top to bottom
   reproduce.R           check against the original analysis, for charts that maintain someone else's work
   data/                 small dated snapshots of fetched data (committed)
-  output/               chart image and CSV of the plotted series, both committed and both published
+  output/               chart images (wide and narrow) and CSV of the plotted series, all committed and published
 cache/                  large raw downloads (not committed)
 ```
 
@@ -108,19 +108,8 @@ The standard is a repo Hadley Wickham would be proud of: well thought out, funct
 
 - Run scripts from the project root, for example `Rscript charts/productivity-decomposition/build.R`. Paths are relative to it.
 - R packages are pinned in `renv.lock`. Run `renv::restore()` at the start of a session, and `renv::snapshot()` after adding a package.
-- The cloud container is ephemeral and has no R. This sets it up, and belongs in the environment's setup script:
-
-  ```sh
-  apt-get install -y --no-install-recommends r-base-core \
-    libfreetype6 libpng16-16t64 libtiff6 libjpeg-turbo8 libwebp7 libwebpmux3 \
-    libharfbuzz0b libfribidi0 fonts-dejavu-core
-  export RENV_CONFIG_REPOS_OVERRIDE="https://p3m.dev/cran/__linux__/noble/latest"
-  Rscript -e 'renv::restore(prompt = FALSE)'   # from the repo root
-  ```
-
-  For site previews, also install Quarto from the `.deb` on quarto.org (version 1.10.18, matching the publish workflow).
-
-  The graphics libraries are for `ragg`, which writes the chart PNGs. The repository override installs prebuilt Linux binaries from Posit instead of compiling from source, which cuts install time from many minutes to seconds. The lockfile itself points at plain CRAN, so it works on a Mac or Windows machine unchanged.
+- The cloud container is ephemeral and starts without R. `.claude/hooks/session-start.sh` runs at the start of every Claude Code on the web session and installs R, the graphics libraries `ragg` needs, Quarto 1.10.18 (matching the publish workflow), and the packages in `renv.lock`. It skips anything already installed. It installs packages as prebuilt Linux binaries from Posit rather than compiling from CRAN source, which takes seconds instead of many minutes. The lockfile itself points at plain CRAN, so it works on a Mac or Windows machine unchanged.
+- On your own machine, install R and Quarto normally, then run `renv::restore()` once.
 - Keep data pulls scripted and reproducible. Don't commit hand-edited data.
 
 ## AI features I'm interested in, not yet decided
@@ -136,8 +125,13 @@ Plain, measured, declarative. No em dashes as punctuation for effect, no stacked
 
 Charts follow `STYLE.md`. In particular, no acronyms on a chart except ones every reader knows, such as GDP and AI, and notes define terms in plain words rather than with equations.
 
+## Vintages and revisions
+
+- Charts show the latest release of their data.
+- Each fetch saves the source release as a dated file in the chart's `data/` folder, named by the source's release date when the source gives one. Git keeps the history.
+- A refresh compares the new plotted CSV with the committed one and reports revisions that matter, along with new data and methodology changes. The git diff of the CSV is the record.
+- Reproductions of someone else's work use the vintage closest to theirs when it is available, and say so when it isn't.
+
 ## Open questions
 
-- How to handle data vintages and revisions
-
-Ask me about these when they become relevant rather than deciding them silently.
+None right now. When a new decision about the stack, data, or publishing comes up, ask me rather than deciding it silently.

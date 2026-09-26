@@ -8,6 +8,7 @@ project:
   resources:
     - fonts/*.ttf
     - charts/*/output/*.csv
+    - charts/*/output/*.png
 
 website:
   title: "Economic Charts"

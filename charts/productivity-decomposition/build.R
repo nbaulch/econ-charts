@@ -82,17 +82,28 @@ productivity_chart <- ggplot(bars, aes(date, four_quarter_mean)) +
   scale_shape_manual(values = 16) +
   scale_x_date(date_breaks = "1 year", date_labels = "%Y") +
   scale_y_continuous(breaks = scales::breaks_width(1)) +
-  guides(fill = guide_legend(nrow = 1, order = 1)) +
-  labs(
-    title = "Recent productivity growth comes from higher utilization and computer investment",
-    subtitle = "Contributions to growth in U.S. business sector labor productivity, four-quarter average, percentage points",
-    caption = notes |> str_wrap(width = 140) |> str_c(collapse = "\n")
-  ) +
+  guides(shape = guide_legend(order = 2)) +
   theme_chart()
 
+title <- "Recent productivity growth comes from higher utilization and computer investment"
+subtitle <- "Contributions to growth in U.S. business sector labor productivity, four-quarter average, percentage points"
+
+# A wide version for desktops and a narrow one for phones, with text wrapped to fit each.
 save_chart(
-  productivity_chart,
+  productivity_chart +
+    chart_labels(title, subtitle, notes, width = 10) +
+    guides(fill = guide_legend(nrow = 1, order = 1)),
   file.path(chart_dir, "output", "productivity-decomposition.png"),
   width = 10,
   height = 7
+)
+
+save_chart(
+  productivity_chart +
+    chart_labels(title, subtitle, notes, width = 4.2) +
+    guides(fill = guide_legend(ncol = 1, order = 1)) +
+    theme(legend.box = "vertical", legend.spacing.y = unit(2, "pt")),
+  file.path(chart_dir, "output", "productivity-decomposition-narrow.png"),
+  width = 4.2,
+  height = 9.6
 )
