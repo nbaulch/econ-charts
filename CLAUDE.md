@@ -55,7 +55,7 @@ These are the analyses I've been considering. Treat them as starting points. Ver
 
 ## Constraints
 
-- Public data only. No employer data, tools, or accounts, including work Copilot credits.
+- Public data and personal tools and accounts only.
 - Nothing publishes without my review.
 - I prefer to work in R.
 
