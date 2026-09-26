@@ -1,13 +1,11 @@
 ::: {.chart-notes}
 
-**Firms:** Share of businesses using AI in the past two weeks.
+**Using AI:** The business used AI in any of its functions in the past two weeks.
 
-**Workers:** Share of employed adults using generative AI for their job.
-
-**Jobs at firms using AI:** Share of employment at firms using AI, from one survey in November 2025.
+**Size groups:** Averages of the Census Bureau's size classes, weighted by the number of firms in each.
 
 ::: {.chart-source}
-Sources: Census Bureau, [Business Trends and Outlook Survey](https://www.census.gov/hfp/btos/); [Real-Time Population Survey](https://www.genaiadoptiontracker.com/) (Bick, Blandin, and Deming); Federal Reserve Bank of Atlanta. Builds on Allen, ["Monitoring AI Adoption in the U.S. Economy"](https://www.federalreserve.gov/econres/notes/feds-notes/monitoring-ai-adoption-in-the-u-s-economy-20260403.html), FEDS Notes, April 2026. [Download the data (CSV)](charts/ai-adoption/output/ai-adoption.csv)
+Sources: Census Bureau, [Business Trends and Outlook Survey](https://www.census.gov/hfp/btos/), through September 6, 2026, and Statistics of U.S. Businesses, 2022; [Real-Time Population Survey](https://www.genaiadoptiontracker.com/) (Bick, Blandin, and Deming). Builds on Allen, ["Monitoring AI Adoption in the U.S. Economy"](https://www.federalreserve.gov/econres/notes/feds-notes/monitoring-ai-adoption-in-the-u-s-economy-20260403.html), FEDS Notes, April 2026. [Download the data (CSV)](charts/ai-adoption/output/ai-adoption.csv)
 :::
 
 :::

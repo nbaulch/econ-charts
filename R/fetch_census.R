@@ -89,3 +89,24 @@ fetch_census_btos_periods <- function() {
       published = as_date(`Publication Date`)
     )
 }
+
+# Firms and employment by enterprise size for the whole U.S. economy, from the
+# Statistics of U.S. Businesses detailed-size table for one year. Size codes
+# and labels are as published, such as "02" and "02: <5".
+# https://www.census.gov/programs-surveys/susb.html
+fetch_census_susb <- function(year, cache_dir = "cache/census_susb") {
+  dir.create(cache_dir, recursive = TRUE, showWarnings = FALSE)
+  path <- file.path(cache_dir, str_glue("us_state_naics_detailedsizes_{year}.txt"))
+  if (!file.exists(path)) {
+    download.file(
+      str_glue("https://www2.census.gov/programs-surveys/susb/tables/{year}/us_state_naics_detailedsizes_{year}.txt"),
+      path,
+      mode = "wb",
+      quiet = TRUE
+    )
+  }
+
+  read_csv(path, col_types = cols(.default = "c")) |>
+    filter(STATE == "00", NAICS == "--") |>
+    transmute(size_code = ENTRSIZE, size_label = ENTRSIZEDSCR, firms = as.numeric(FIRM), employment = as.numeric(EMPL))
+}

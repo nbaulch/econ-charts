@@ -5,6 +5,7 @@ library(readxl)
 library(stringr)
 library(lubridate)
 library(ggplot2)
+library(slider)
 
 source("R/fetch_census.R")
 source("R/fetch_rps.R")
@@ -14,6 +15,8 @@ chart_dir <- "charts/ai-adoption"
 
 # Question 7 asks whether the business used AI in the last two weeks. Census
 # widened it in November 2025 and publishes the old wording in a separate file.
+# The chart uses the new wording by firm size; the national series in both
+# wordings are kept in the snapshot for `reproduce.R`.
 btos_periods <- fetch_census_btos_periods()
 
 btos_ai_use <- bind_rows(
@@ -36,72 +39,94 @@ genai_use <- fetch_rps_genai()
 # The tracker doesn't date its releases, so the snapshot is named by the fetch date.
 write_csv(genai_use, file.path(chart_dir, "data", str_glue("rps_genai_{today()}.csv")))
 
-# Each survey period is dated by the end of the two weeks it asks about.
-firm_adoption <- btos_ai_use |>
-  filter(is.na(employment_size)) |>
-  inner_join(btos_periods, by = "period") |>
-  select(date = reference_end, wording, estimate)
+# Firm counts by size class weight the Census size classes into three groups.
+# SUSB's 200 to 299 class straddles the survey's 250 cutoff, so it is split
+# evenly.
+susb_year <- 2022
+firms_by_size <- fetch_census_susb(susb_year)
 
-worker_adoption <- genai_use |>
-  filter(sample == "Employed", use == "For Work", frequency == "Share Using GenAI", statistic == "Mean") |>
-  select(date, workers = value)
+firm_count <- \(codes) sum(firms_by_size$firms[firms_by_size$size_code %in% codes])
 
-# The Atlanta Fed survey's AI questions were fielded once, in November 2025, and
-# its microdata aren't public. The value is as reported by Allen (2026).
-jobs_at_adopting_firms <- tibble(date = ymd("2025-11-15"), jobs = 78)
-
-firm_adoption |>
-  pivot_wider(names_from = wording, values_from = estimate, names_prefix = "firms_") |>
-  full_join(worker_adoption, by = "date") |>
-  full_join(jobs_at_adopting_firms, by = "date") |>
-  arrange(date) |>
-  transmute(
-    date,
-    firms_old_question = firms_old_question,
-    firms = firms_new_question,
-    workers,
-    jobs_at_firms_using_ai = jobs
-  ) |>
-  write_csv(file.path(chart_dir, "output", "ai-adoption.csv"), na = "")
-
-latest_firms <- slice_max(firm_adoption, date)
-latest_workers <- slice_max(worker_adoption, date)
-
-measures <- tribble(
-  ~series, ~label, ~colour, ~definition,
-  "firms", "Firms", chart_colors[["blue"]],
-  "Share of businesses using AI in the past two weeks.",
-  "workers", "Workers", chart_colors[["orange"]],
-  "Share of employed adults using generative AI for their job.",
-  "jobs", "Jobs at firms using AI", chart_colors[["teal"]],
-  "Share of employment at firms using AI, from one survey in November 2025."
+size_classes <- tribble(
+  ~employment_size, ~group, ~firms,
+  "A", "small", firm_count("02"),
+  "B", "small", firm_count("03"),
+  "C", "small", firm_count(c("04", "05")),
+  "D", "small", firm_count(c("06", "07", "08", "09", "10")),
+  "E", "mid", firm_count(c("11", "12")),
+  "F", "mid", firm_count(c("13", "14")) + firm_count("15") / 2,
+  "G", "large", firm_count("01") - firm_count(c("02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14")) -
+    firm_count("15") / 2
 )
 
-# The last old-question period and the first new-question one, either side of the break.
-wording_break <- firm_adoption |>
-  filter(date == max(date[wording == "old_question"]) | date == min(date[wording == "new_question"])) |>
-  select(wording, estimate) |>
+write_csv(size_classes, file.path(chart_dir, "data", str_glue("census_susb_firms_{susb_year}.csv")))
+
+# Single size classes swing from survey to survey, so each point averages the
+# latest three surveys, six weeks of data. Each survey is dated by the end of
+# the two weeks it asks about.
+adoption_by_size <- btos_ai_use |>
+  filter(!is.na(employment_size)) |>
+  inner_join(size_classes, by = "employment_size") |>
+  summarise(estimate = weighted.mean(estimate, firms), .by = c(period, group)) |>
+  inner_join(btos_periods, by = "period") |>
+  arrange(reference_end) |>
+  mutate(estimate = slide_dbl(estimate, mean, .before = 2, .complete = TRUE), .by = group) |>
+  filter(!is.na(estimate)) |>
+  select(date = reference_end, group, estimate)
+
+adoption_by_size |>
+  pivot_wider(names_from = group, values_from = estimate) |>
+  transmute(
+    date,
+    firms_fewer_than_50_employees = small,
+    firms_50_to_249_employees = mid,
+    firms_250_or_more_employees = large
+  ) |>
+  mutate(across(-date, \(x) round(x, 1))) |>
+  write_csv(file.path(chart_dir, "output", "ai-adoption.csv"))
+
+groups <- tribble(
+  ~group, ~label, ~colour,
+  "large", "250 or more employees", chart_colors[["blue"]],
+  "mid", "50 to 249", chart_colors[["teal"]],
+  "small", "Fewer than 50", chart_colors[["grey"]]
+)
+
+latest <- adoption_by_size |>
+  filter(date == max(date)) |>
+  select(group, estimate) |>
   tibble::deframe()
+
+latest_all_firms <- btos_ai_use |>
+  filter(wording == "new_question", is.na(employment_size)) |>
+  slice_max(period)
+
+latest_workers <- genai_use |>
+  filter(sample == "Employed", use == "For Work", frequency == "Share Using GenAI", statistic == "Mean") |>
+  slice_max(date)
 
 write_chart_lead(
   str_glue(
-    "AI use is spreading, but how widespread it looks depends on who is counted. About ",
-    "{round(latest_firms$estimate)} percent of firms use AI, while {round(latest_workers$workers)} percent of workers ",
-    "use generative AI for their jobs. The gap is mostly about size: most firms are small, and large firms, which ",
-    "employ far more workers, are much more likely to use AI. One survey puts {jobs_at_adopting_firms$jobs} percent ",
-    "of jobs at firms that use it. How the question is asked matters too: when the Census Bureau broadened its ",
-    "question in November 2025, the firm share jumped from {round(wording_break[['old_question']])} to ",
-    "{round(wording_break[['new_question']])} percent."
+    "AI use is spreading across businesses of every size, but it is concentrated in large firms. About ",
+    "{round(latest[['large']])} percent of firms with 250 or more employees now use it, against ",
+    "{round(latest[['small']])} percent of firms with fewer than 50. Because most firms are small, only about ",
+    "{round(latest_all_firms$estimate)} percent of all firms use AI. Surveys of workers find wider use: ",
+    "{round(latest_workers$value)} percent of employed adults use generative AI for their jobs, a broader measure ",
+    "that counts any use of tools such as chatbots."
   ),
   file.path(chart_dir, "output", "ai-adoption-lead.md")
 )
 
 write_chart_notes(
-  notes = str_glue("**{measures$label}:** {measures$definition}"),
+  notes = c(
+    "**Using AI:** The business used AI in any of its functions in the past two weeks.",
+    "**Size groups:** Averages of the Census Bureau's size classes, weighted by the number of firms in each."
+  ),
   source = str_glue(
-    "Sources: Census Bureau, [Business Trends and Outlook Survey](https://www.census.gov/hfp/btos/); ",
-    "[Real-Time Population Survey](https://www.genaiadoptiontracker.com/) (Bick, Blandin, and Deming); Federal ",
-    "Reserve Bank of Atlanta. Builds on Allen, [\"Monitoring AI Adoption in the U.S. Economy\"]",
+    "Sources: Census Bureau, [Business Trends and Outlook Survey](https://www.census.gov/hfp/btos/), through ",
+    "{format(max(adoption_by_size$date), '%B %-d, %Y')}, and Statistics of U.S. Businesses, {susb_year}; ",
+    "[Real-Time Population Survey](https://www.genaiadoptiontracker.com/) (Bick, Blandin, and Deming). ",
+    "Builds on Allen, [\"Monitoring AI Adoption in the U.S. Economy\"]",
     "(https://www.federalreserve.gov/econres/notes/feds-notes/monitoring-ai-adoption-in-the-u-s-economy-20260403.html), ",
     "FEDS Notes, April 2026."
   ),
@@ -109,42 +134,18 @@ write_chart_notes(
   path = file.path(chart_dir, "output", "ai-adoption-notes.md")
 )
 
-source_line <- str_c(
-  "Sources: Census Bureau; Real-Time Population Survey; Atlanta Fed. ",
-  "Builds on Allen, FEDS Notes, April 2026."
-)
-
-adoption_chart <- ggplot(mapping = aes(date)) +
-  geom_line(
-    data = firm_adoption,
-    aes(y = estimate, colour = "firms", group = wording),
-    linewidth = 0.9
-  ) +
-  geom_line(data = worker_adoption, aes(y = workers, colour = "workers"), linewidth = 0.9) +
-  geom_point(data = worker_adoption, aes(y = workers, colour = "workers"), size = 1.8) +
-  geom_point(data = jobs_at_adopting_firms, aes(y = jobs, colour = "jobs"), size = 3) +
-  annotate(
-    "text",
-    x = ymd("2025-11-01"),
-    y = 4,
-    label = "Question\nwidened",
-    hjust = 0.5,
-    size = 3.2,
-    lineheight = 0.9,
-    colour = chart_greys[["muted"]],
-    family = "Roboto Chart"
-  ) +
-  scale_colour_manual(
-    values = setNames(measures$colour, measures$series),
-    labels = setNames(measures$label, measures$series),
-    breaks = measures$series
-  ) +
-  scale_x_date(date_breaks = "1 year", date_labels = "%Y") +
-  scale_y_continuous(limits = c(0, 85), breaks = seq(0, 80, 20), expand = expansion(mult = c(0, 0.02))) +
+adoption_chart <- adoption_by_size |>
+  mutate(group = factor(group, levels = groups$group)) |>
+  ggplot(aes(date, estimate, colour = group)) +
+  geom_line(linewidth = 0.9) +
+  scale_colour_manual(values = setNames(groups$colour, groups$group), labels = setNames(groups$label, groups$group)) +
+  scale_x_date(date_breaks = "3 months", date_labels = "%b %Y") +
+  scale_y_continuous(limits = c(0, 50), breaks = seq(0, 50, 10), expand = expansion(mult = c(0, 0.02))) +
   theme_chart()
 
-title <- "AI use looks thin across firms but widespread across workers"
-subtitle <- "Share using AI, percent"
+title <- "AI use is rising at firms of all sizes, led by large firms"
+subtitle <- "Share of firms using AI, by number of employees, averaged over three surveys, percent"
+source_line <- "Source: Census Bureau. Builds on Allen, FEDS Notes, April 2026."
 
 save_chart(
   adoption_chart + chart_labels(title, subtitle, source_line, width = 8),
@@ -156,8 +157,9 @@ save_chart(
 save_chart(
   adoption_chart +
     chart_labels(title, subtitle, source_line, width = 4.2) +
-    guides(colour = guide_legend(ncol = 1)),
+    guides(colour = guide_legend(ncol = 1)) +
+    theme(axis.text.x = element_text(size = rel(0.85))),
   file.path(chart_dir, "output", "ai-adoption-narrow.png"),
   width = 4.2,
-  height = 7.2
+  height = 6.4
 )

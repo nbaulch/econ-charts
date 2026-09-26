@@ -71,10 +71,22 @@ theme_chart <- function(base_size = 12) {
 chart_labels <- function(title, subtitle, source, width) {
   text_width <- width - 0.4
   labs(
-    title = stringr::str_wrap(title, floor(text_width * 8.5)),
-    subtitle = stringr::str_wrap(subtitle, floor(text_width * 12)),
-    caption = stringr::str_wrap(source, floor(text_width * 15.5))
+    title = wrap_without_orphan(title, floor(text_width * 8.5)),
+    subtitle = wrap_without_orphan(subtitle, floor(text_width * 12)),
+    caption = wrap_without_orphan(source, floor(text_width * 15.5))
   )
+}
+
+# Wraps text to `width` characters, narrowing the wrap until the last line has
+# at least two words, so no word sits alone on a line.
+wrap_without_orphan <- function(text, width) {
+  wrapped <- stringr::str_wrap(text, width)
+  last_line <- stringr::str_extract(wrapped, "[^\n]*$")
+  if (stringr::str_detect(wrapped, "\n") && !stringr::str_detect(last_line, " ")) {
+    wrap_without_orphan(text, width - 1)
+  } else {
+    wrapped
+  }
 }
 
 # Text on the site around each chart, written as Markdown files that the topic
