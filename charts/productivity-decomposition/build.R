@@ -24,86 +24,62 @@ contributions <- labor_productivity_contributions(
 
 write_csv(contributions, file.path(chart_dir, "output", "contributions.csv"))
 
-# Listed in stacking order, top to bottom, so the legend reads like the bars.
-three_components <- tribble(
-  ~series,             ~label,                                          ~colour,
-  "deepening",         "Capital deepening and labor composition",       chart_colors[["grey"]],
-  "tfp_util_adjusted", "Total factor productivity, utilization-adjusted", chart_colors[["blue"]],
-  "utilization",       "Utilization",                                   chart_colors[["orange"]]
+# In stacking order, top to bottom, so the legend and notes read like the bars.
+components <- tribble(
+  ~series, ~label, ~colour, ~definition,
+  "other_deepening", "Other capital and labor", chart_colors[["grey"]],
+  "Other equipment, buildings, and research per hour worked, plus a more educated and experienced workforce.",
+  "it_capital_deepening", "Computers and software", chart_colors[["teal"]],
+  "Computer and software capital per hour worked. Includes AI investment but is not limited to it.",
+  "tfp_util_adjusted", "Total factor productivity", chart_colors[["blue"]],
+  "Output growth not explained by capital, workforce skills, or utilization. The best gauge of efficiency gains.",
+  "utilization", "Utilization", chart_colors[["orange"]],
+  "How intensively businesses use the workers and equipment they already have. Estimated from hours per worker."
 )
 
-four_components <- tribble(
-  ~series,                ~label,                                          ~colour,
-  "other_deepening",      "Other capital deepening and labor composition", chart_colors[["grey"]],
-  "it_capital_deepening", "Computer and software capital deepening",       chart_colors[["teal"]],
-  "tfp_util_adjusted",    "Total factor productivity, utilization-adjusted", chart_colors[["blue"]],
-  "utilization",          "Utilization",                                   chart_colors[["orange"]]
+notes <- c(
+  str_glue("{components$label}: {components$definition}"),
+  "",
+  str_glue(
+    "Source: John Fernald, Quarterly Utilization-Adjusted Series on Total Factor Productivity, ",
+    "Federal Reserve Bank of San Francisco, release of {format(release_date, '%B %-d, %Y')}. ",
+    "Chart adapted from Ernie Tedeschi, \"AI and Productivity,\" Stripe Economics, July 2026."
+  )
 )
 
-definitions <- c(
-  utilization = "Utilization is how intensively businesses use the workers and equipment they already have, such as longer workweeks or machines running more hours. It is estimated from hours per worker.",
-  tfp = "Total factor productivity, utilization-adjusted, is growth in output that more capital, more skilled labor, and more intensive use of both do not explain. It is the closest measure to technology and efficiency gains.",
-  deepening = "Capital deepening is growth in equipment, software, and buildings per hour worked. Labor composition is the shift toward more educated and experienced workers.",
-  it_capital = "Computer and software capital deepening covers information processing equipment and software. It includes AI investment but is not limited to it."
+recent <- filter(contributions, date >= ymd("2022-01-01"))
+
+bars <- recent |>
+  filter(series %in% components$series) |>
+  mutate(series = factor(series, levels = components$series))
+
+productivity_chart <- ggplot(bars, aes(date, four_quarter_mean)) +
+  geom_col(aes(fill = series), width = 75, colour = "white", linewidth = 0.4) +
+  geom_hline(yintercept = 0, colour = chart_greys[["baseline"]], linewidth = 0.4) +
+  geom_point(
+    data = filter(recent, series == "labor_productivity"),
+    aes(shape = "Labor productivity growth"),
+    colour = chart_greys[["title"]],
+    size = 2.3
+  ) +
+  scale_fill_manual(
+    values = setNames(components$colour, components$series),
+    labels = setNames(components$label, components$series)
+  ) +
+  scale_shape_manual(values = 16) +
+  scale_x_date(date_breaks = "1 year", date_labels = "%Y") +
+  scale_y_continuous(breaks = scales::breaks_width(1)) +
+  guides(fill = guide_legend(nrow = 1, order = 1)) +
+  labs(
+    title = "Recent productivity growth comes from busier firms and more computers",
+    subtitle = "Contributions to growth in U.S. business sector labor productivity, four-quarter average, percentage points",
+    caption = notes |> str_wrap(width = 140) |> str_c(collapse = "\n")
+  ) +
+  theme_chart()
+
+save_chart(
+  productivity_chart,
+  file.path(chart_dir, "output", "productivity-decomposition.png"),
+  width = 10,
+  height = 7
 )
-
-source_note <- str_glue(
-  "Source: John Fernald, Quarterly Utilization-Adjusted Series on Total Factor Productivity, ",
-  "Federal Reserve Bank of San Francisco, release of {format(release_date, '%B %-d, %Y')}. ",
-  "Chart adapted from Ernie Tedeschi, \"AI and Productivity,\" Stripe Economics, July 2026."
-)
-
-caption <- function(notes) {
-  c(notes, source_note) |>
-    str_wrap(width = 160) |>
-    str_c(collapse = "\n")
-}
-
-plot_contributions <- function(contributions, components, title, notes) {
-  recent <- filter(contributions, date >= ymd("2022-01-01"))
-
-  bars <- recent |>
-    filter(series %in% components$series) |>
-    mutate(series = factor(series, levels = components$series))
-
-  ggplot(bars, aes(date, four_quarter_mean)) +
-    geom_col(aes(fill = series), width = 75, colour = "white", linewidth = 0.4) +
-    geom_hline(yintercept = 0, colour = chart_greys[["baseline"]], linewidth = 0.4) +
-    geom_point(
-      data = filter(recent, series == "labor_productivity"),
-      aes(shape = "Labor productivity growth"),
-      colour = chart_greys[["title"]],
-      size = 2.3
-    ) +
-    scale_fill_manual(
-      values = setNames(components$colour, components$series),
-      labels = setNames(components$label, components$series)
-    ) +
-    scale_shape_manual(values = 16) +
-    scale_x_date(date_breaks = "1 year", date_labels = "%Y") +
-    scale_y_continuous(breaks = scales::breaks_width(1)) +
-    guides(fill = guide_legend(ncol = 2, byrow = TRUE, order = 1)) +
-    labs(
-      title = str_wrap(title, width = 75),
-      subtitle = "Contributions to growth in U.S. business sector labor productivity, four-quarter average, percentage points",
-      caption = caption(notes)
-    ) +
-    theme_chart()
-}
-
-three_bar_chart <- plot_contributions(
-  contributions,
-  three_components,
-  title = "Recent productivity growth comes mostly from working existing equipment and workers harder",
-  notes = definitions[c("utilization", "tfp", "deepening")]
-)
-
-four_bar_chart <- plot_contributions(
-  contributions,
-  four_components,
-  title = "Recent productivity growth comes from working existing equipment and workers harder and from computer investment, not efficiency gains",
-  notes = definitions[c("utilization", "tfp", "deepening", "it_capital")]
-)
-
-save_chart(three_bar_chart, file.path(chart_dir, "output", "productivity-decomposition.png"), width = 10, height = 6.8)
-save_chart(four_bar_chart, file.path(chart_dir, "output", "productivity-decomposition-it-capital.png"), width = 10, height = 7.2)

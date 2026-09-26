@@ -1,6 +1,6 @@
 # Contributions to U.S. labor productivity growth
 
-Status: built in R from the September 3, 2026 release of the Fernald data, in two versions: Tedeschi's three components, and a four-component version that splits out computer and software capital. Titles are drafts for review.
+Status: built in R from the September 3, 2026 release of the Fernald data. The published version has four components, splitting computer and software capital out of Tedeschi's deepening bar. `reproduce.R` checks the three-component numbers against his chart.
 
 ## Question
 
@@ -83,3 +83,4 @@ Record decisions here with a date and the reason.
 - 2026-09-26: No acronyms or formulas on the chart. Notes define each component in plain words. See `STYLE.md`.
 - 2026-09-26: Added the four-component version. Four-quarter averages, 2026 Q2: labor productivity 2.16, utilization 1.51, computer and software capital deepening 0.66, other deepening and labor composition 0.34, utilization-adjusted TFP -0.34. Computer and software deepening has risen every quarter since 2025 Q2 (0.47).
 - 2026-09-26: Components are four-quarter trailing means of the quarterly annualized log changes. A black point shows labor productivity growth itself, since stacked bars with negative segments make the total hard to read.
+- 2026-09-26: Publish the four-component version only. It answers whether AI is raising productivity through investment, efficiency, or neither. Short legend labels, each defined in one line of the notes. Title: "Recent productivity growth comes from busier firms and more computers."

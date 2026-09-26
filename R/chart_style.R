@@ -38,11 +38,11 @@ theme_chart <- function(base_size = 12) {
       ),
       plot.subtitle = element_text(size = rel(1.05), margin = margin(b = 14)),
       plot.caption = element_text(
-        size = rel(0.75),
+        size = rel(0.85),
         colour = chart_greys[["muted"]],
         hjust = 0,
-        lineheight = 1.2,
-        margin = margin(t = 14)
+        lineheight = 1.3,
+        margin = margin(t = 16)
       ),
       plot.title.position = "plot",
       plot.caption.position = "plot",

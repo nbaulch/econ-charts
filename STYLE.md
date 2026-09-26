@@ -18,12 +18,14 @@ The hierarchy has four levels, and nothing else competes with them.
 | Title | The finding, in a plain sentence | Bold, largest, darkest grey |
 | Subtitle | What is measured, and its units | Regular, dark grey |
 | Labels and legend | Series names, axis values | Regular, smaller |
-| Notes and source | Definitions, source, credit | Smallest, lightest grey |
+| Notes and source | Definitions, source, credit | Smallest, lightest grey, with extra line spacing |
 
 - **Titles state the finding in everyday language** ("comes mostly from working existing equipment and workers harder"), not the dataset name. Accurate before catchy. The technical description belongs in the subtitle.
 - **No acronyms in anything a reader sees**: titles, labels, legends, notes. Spell out total factor productivity, not TFP. The exceptions are ones any reader knows, such as GDP and AI.
 - **Units go in the subtitle** and in any label that shows a value. No axis titles when the subtitle already gives the units.
-- **Notes define terms a general reader may not know**, in one or two plain sentences each. No equations. The spec holds the formulas.
+- **Legend labels are short**, two or three words. Anything a short label leaves out goes in the notes.
+- **Notes define terms a general reader may not know.** One line per term, written as "Label: definition," in the same order as the legend. Keep each definition short enough to fit on one line. No equations. The spec holds the formulas.
+- **A blank line separates the definitions from the source line.**
 - **The source line names the data and its release**, then credits the original analysis when the chart builds on someone else's work.
 - Sentence case everywhere. No rotated axis labels. Drop trailing zeros from numbers.
 
