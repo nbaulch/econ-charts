@@ -99,3 +99,19 @@ contributions_by_weight |>
   select(date, weight, net) |>
   pivot_wider(names_from = weight, values_from = net) |>
   print(n = Inf, width = Inf)
+
+# A weight is too high if the net computer imports it counts exceed business
+# investment in computers, which would leave investment with no domestic
+# content. BEA's final sales of computers put domestic content well above zero.
+trade_weights |>
+  list_rbind(names_to = "weight") |>
+  inner_join(nipa, by = "date") |>
+  filter(date > latest_quarter - months(12), date <= latest_quarter) |>
+  transmute(
+    date,
+    weight,
+    counted_imports_to_investment = (import_weight * computer_imports_nominal -
+      export_weight * computer_exports_nominal) / computers_nominal
+  ) |>
+  pivot_wider(names_from = weight, values_from = counted_imports_to_investment) |>
+  print(width = Inf)

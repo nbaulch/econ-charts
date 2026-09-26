@@ -94,7 +94,18 @@ Import weights and the offset, averaged over the four quarters through 2026 Q2. 
 
 The product mix weight counts servers, storage, other units, and parts fully as capital goods and gives laptops and desktops the FEDS weight, since households buy them too. Because laptops and desktops are now about a tenth of computer trade, it lands close to no weight. The level of the import weight drives the gap; weighting exports more heavily than imports accounts for only about 2 points of it.
 
+Domestic content check. A weight is too high if the net computer imports it counts exceed business investment in computers. Counted net imports as a share of that investment, 2025 Q3 to 2026 Q2: FEDS weight 0.45 to 0.72, product mix 0.79 to 1.06, no weight 0.87 to 1.10. The product mix weight fails in 2026.
+
 Round trips through Mexico. Exports of parts to Mexico rose from $6 billion to $11 billion a year in 2022 and 2023 to $35 billion in 2026 H1. Server exports to Mexico went from $2 billion (annual rate) in 2025 Q2 to $15 billion in Q3, while server imports from Mexico reached $143 billion in 2026 Q2. The 2025 Q2 rise in exports was mostly servers to other destinations, including Europe and Singapore; Q3's was mostly Mexico. Netting exports against imports handles round trips correctly as long as both sides get the same weight.
+
+## Open items
+
+As of 2026-09-26. Not yet decided or done.
+
+- **Which weight to use.** The FEDS weight is too low: servers, storage, and parts are about nine tenths of computer imports and go to business. The product mix weight is too high: by 2026 it counts net computer imports at 102 to 106 percent of business investment in computers, leaving no domestic content, while BEA's final sales of computers (BB01RC), the domestic content of all computer spending, is still about $120 billion a year. It misses that imported computers also go to households, government, and inventories. Next: build a weight from BEA's own uses of computers (business investment, consumer spending on computers DCPPRC, government, exports) and keep whichever candidate passes the domestic content check. The offset is likely between a third and a half; the title should not say "a third" until this is settled.
+- **2026 Q2 import price.** BEA's implied price of computer imports jumped about 12% in one quarter, and real imports fell 23% annualized while nominal imports rose. Check this before publishing a quarter where computer trade adds to growth.
+- **Semiconductors.** Census end-use semiconductor imports doubled between 2025 Q3 and 2026 Q2, from $67 billion to $138 billion at an annual rate. The FEDS method excludes them; ING includes them.
+- **Colors.** Orange means data centers and power here and utilization on the productivity chart, on the same page.
 
 ## Known breaks and caveats
 
