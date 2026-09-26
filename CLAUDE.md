@@ -16,17 +16,17 @@ Much of the best analysis in this area is published once, as a blog post or a Fe
 
 This is a working hypothesis, not a conclusion. If refreshed data stops supporting part of it, that's worth telling me, not smoothing over.
 
-- The AI buildout is adding meaningfully to demand, though less than headline claims once imported equipment is netted out.
-- Adoption is real but thin, and concentrated in large firms. Firm-level, employment-weighted, and worker-level surveys give very different numbers, mostly because of who they count.
-- Labor market effects so far show up as fewer young workers entering AI-exposed occupations, not as layoffs.
-- The recent productivity acceleration is mostly firms using existing capital and labor harder, plus investment in computers and software, not AI-driven efficiency gains. Utilization-adjusted TFP grew strongly in 2023 and 2024 and has fallen over the past year.
+- The AI buildout is adding to growth, though less than headline figures suggest once imported computers are netted out. Investment in software, computers, data centers, and power has lifted real GDP growth since early 2025, from a pre-buildout contribution that was mostly software.
+- Adoption is spreading but still thin among firms, and concentrated in large firms. Surveys of workers find much wider use than surveys of firms; the gap reflects both who is counted and how the question is asked.
+- The recent productivity acceleration is mostly firms using existing capital and labor harder, which Tedeschi links to meeting demand for AI capacity, plus investment in computers and software, not AI-driven efficiency gains. Utilization-adjusted TFP grew strongly in 2023 and 2024 and has fallen over the past year.
 
 ## Second topic: interest rates
 
 A working hypothesis, drafted September 2026 for review.
 
-- Most of the past year's rise in long-term Treasury yields reflects higher expected policy rates in a strong economy, and the rise is in real yields, not inflation compensation.
-- The term premium is higher than before 2024, but whether it rose further in the past year depends on the model, and a decomposition can't say whether fiscal policy, Treasury supply, or AI-related borrowing is behind it.
+- Long-term Treasury yields are higher than before 2024 mostly because of a higher term premium. A decomposition can't say whether fiscal policy, Treasury supply, or AI-related borrowing is behind it.
+- This year's rise mostly reflects higher expected policy rates in a strong economy, in both the Fed Board and New York Fed models. The models differ on how much the term premium added. The rise is mostly in real yields, with a smaller contribution from expected inflation.
+- Big tech has become a new source of long-term debt for investors to absorb, adding about a quarter as much as Treasury in the past year after little before 2025, while Treasury's own contribution has not grown.
 
 Charts: `charts/yield-decomposition/`, `charts/yield-rise-by-model/`, and `charts/duration-supply/` (built). Candidate: the 10-year yield split into inflation-protected yield and breakeven inflation, with the 2-year yield.
 
@@ -37,12 +37,11 @@ These are the analyses I've been considering. Treat them as starting points. Ver
 - **AI investment's contribution to real GDP growth**, gross versus net of imported computers and semiconductors. Built in `charts/ai-investment-gdp/`, following the FEDS Note method.
   - Related work: Federal Reserve FEDS Note on publicly available AI data (July 2026), ING THINK (August 2026), St. Louis Fed On the Economy (January 2026).
   - Data: BEA NIPA investment detail, Census trade data, Census construction spending.
-- **AI adoption across denominators**: Census BTOS firm share, BTOS employment-weighted, and the Real-Time Population Survey worker share.
-  - Related work: Allen, FEDS Note, April 2026.
-  - Known break: BTOS changed its AI question wording in November 2025.
-- **Employment of young workers by occupational AI exposure**, from CPS microdata.
+- **AI adoption by firm size.** Built in `charts/ai-adoption/`: the Census BTOS share of firms using AI in three size groups, weighted by Census firm counts. The earlier version across denominators (firms, workers, and one employment-weighted survey point) was dropped as hard to read; the worker share from the Real-Time Population Survey is quoted in the text.
+  - Related work: Allen, FEDS Note, April 2026; Bick and coauthors, St. Louis Fed, June 2026, on question wording.
+  - Known break: BTOS changed its AI question wording in November 2025. Size-class estimates exist only for the new wording.
+- **Employment of young workers by occupational AI exposure**, from CPS microdata. Dropped in September 2026, with its storyline bullet, because the Stanford and ADP Canaries dashboard already tracks it monthly.
   - Related work: Dallas Fed, January 2026.
-  - Lower priority because the Stanford and ADP Canaries dashboard already updates monthly.
 - **Electricity demand and prices by state.** Built and dropped in September 2026, because the link to AI is indirect and the investment chart already covers data centers and power. Findings, from EIA Form 861M: six states (Texas, Virginia, Ohio, Georgia, Arizona, Oregon) accounted for about three quarters of the growth in commercial electricity use from 2019 to mid-2026. Household prices rose no faster in states where demand grew fastest, matching Lawrence Berkeley National Laboratory and Brattle (2025). Data centers do raise costs through PJM's capacity market, which a state comparison can't show.
 - **Labor productivity versus utilization-adjusted TFP**, showing the utilization contribution. This is the first chart, in `charts/productivity-decomposition/`.
   - Related work: Ernie Tedeschi, Stripe Economics, July 2026.
