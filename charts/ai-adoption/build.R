@@ -76,14 +76,11 @@ latest_workers <- slice_max(worker_adoption, date)
 measures <- tribble(
   ~series, ~label, ~colour, ~definition,
   "firms", "Firms", chart_colors[["blue"]],
-  str_c(
-    "Share of businesses that used AI in the previous two weeks. Until October 2025 the question asked about AI ",
-    "in producing goods or services; since November 2025 it asks about AI in any business function."
-  ),
+  "Share of businesses using AI in the past two weeks.",
   "workers", "Workers", chart_colors[["orange"]],
-  "Share of employed adults who use generative AI for their job.",
+  "Share of employed adults using generative AI for their job.",
   "jobs", "Jobs at firms using AI", chart_colors[["teal"]],
-  "Share of employment at firms that use AI, from one survey of business executives in November 2025."
+  "Share of employment at firms using AI, from one survey in November 2025."
 )
 
 # The last old-question period and the first new-question one, either side of the break.
@@ -92,27 +89,28 @@ wording_break <- firm_adoption |>
   select(wording, estimate) |>
   tibble::deframe()
 
-lead <- str_glue(
-  "When Census widened its question in November 2025, the share of firms using AI rose from ",
-  "{round(wording_break[['old_question']])} to {round(wording_break[['new_question']])} percent. By ",
-  "{format(latest_firms$date, '%B %Y')} it was {round(latest_firms$estimate)} percent, and ",
-  "{share_of_size_class('G')} percent among firms with 250 or more employees. In ",
-  "{format(latest_workers$date, '%B %Y')}, {round(latest_workers$workers)} percent of workers used generative AI ",
-  "for their job."
+write_chart_lead(
+  str_glue(
+    "AI use is spreading, but how widespread it looks depends on who is counted and what is asked. About ",
+    "{round(latest_firms$estimate)} percent of firms used AI in {format(latest_firms$date, '%B %Y')}, against ",
+    "{round(latest_workers$workers)} percent of workers in {format(latest_workers$date, '%B %Y')}, and one survey ",
+    "puts {jobs_at_adopting_firms$jobs} percent of jobs at firms that use it. Large firms lead: ",
+    "{share_of_size_class('G')} percent of firms with 250 or more employees use it, against ",
+    "{share_of_size_class('A')} percent of those with fewer than five. Wording matters too: when the Census Bureau ",
+    "broadened its question in November 2025, the firm share jumped from {round(wording_break[['old_question']])} to ",
+    "{round(wording_break[['new_question']])} percent."
+  ),
+  file.path(chart_dir, "output", "ai-adoption-lead.md")
 )
-
-write_chart_lead(lead, file.path(chart_dir, "output", "ai-adoption-lead.md"))
 
 write_chart_notes(
   notes = str_glue("**{measures$label}:** {measures$definition}"),
   source = str_glue(
-    "Sources: Census Bureau, [Business Trends and Outlook Survey](https://www.census.gov/hfp/btos/), through ",
-    "{format(latest_firms$date, '%B %-d, %Y')}; Alexander Bick, Adam Blandin, and David Deming, Real-Time Population ",
-    "Survey, from the [Generative AI Adoption Tracker](https://www.genaiadoptiontracker.com/), through ",
-    "{format(latest_workers$date, '%B %Y')}; Federal Reserve Bank of Atlanta, Survey of Business Uncertainty. ",
-    "Chart builds on Jeffrey S. Allen, [\"Monitoring AI Adoption in the U.S. Economy\"]",
+    "Sources: Census Bureau, [Business Trends and Outlook Survey](https://www.census.gov/hfp/btos/); ",
+    "[Real-Time Population Survey](https://www.genaiadoptiontracker.com/) (Bick, Blandin, and Deming); Federal ",
+    "Reserve Bank of Atlanta. Builds on Allen, [\"Monitoring AI Adoption in the U.S. Economy\"]",
     "(https://www.federalreserve.gov/econres/notes/feds-notes/monitoring-ai-adoption-in-the-u-s-economy-20260403.html), ",
-    "FEDS Notes, Federal Reserve Board, April 2026."
+    "FEDS Notes, April 2026."
   ),
   csv_path = file.path(chart_dir, "output", "ai-adoption.csv"),
   path = file.path(chart_dir, "output", "ai-adoption-notes.md")

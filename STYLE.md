@@ -29,12 +29,13 @@ The image has four levels of text, and nothing else competes with them. Everythi
 
 ## Text around the chart
 
-Each chart's section on the page runs: heading, lead text, chart, notes, source. Text on the page stays readable at any screen size, unlike text drawn into an image, which shrinks to about 11 pixels on a phone and can't be zoomed cleanly, copied, clicked, or read aloud. Datawrapper handles notes the same way.
+Write for a busy senior reader, like a staff economist briefing the Treasury secretary. Each chart's section on the page runs: heading, one paragraph, chart, definitions, source. Text on the page stays readable at any screen size, unlike text drawn into the image.
 
-- **Lead, above the chart**: one or two sentences on what to notice. The first is written by hand in the topic page and holds no numbers that go stale. The second comes from `write_chart_lead()` in `build.R`, so its numbers update on refresh. The story still comes mainly from the charts and titles; the lead never grows into paragraphs.
-- **Notes, below the chart**: definitions first, one paragraph per term, written as "**Label:** definition," in the same order as the legend. Then any caveat a reader needs to read a specific part of the chart. No equations; the spec holds the formulas.
-- **Source, last**: the data and its release, credit to the original analysis with links, and the data download. Smaller and lighter than the notes, because readers look for it only when they need it.
-- `write_chart_notes()` writes the notes and source to `output/<chart>-notes.md`; the topic page includes the lead and notes files. Styles are `.chart-notes` and `.chart-source` in `styles.css`.
+- **One paragraph above the chart, two to six sentences.** The first sentence is the finding. The next gives the context a reader needs to judge its size, such as what the whole of GDP growth or business investment was. The rest is the supporting numbers. Anything a reader must know to read the chart correctly goes here, not in the notes.
+- `build.R` writes the paragraph with `write_chart_lead()` so its numbers update on refresh. Wording that could stop being true on a refresh, such as "nearly all," is recorded in the spec to check.
+- **Notes below the chart are one-line definitions of the legend items**, in legend order, written as "**Label:** definition." No caveats, methods, or analysis; those go in the paragraph or the spec.
+- **The source line is short**: the providers, the data's end date, and a link to the original analysis. Smaller and lighter than the notes. It ends with the data download link.
+- `write_chart_notes()` writes the definitions and source to `output/<chart>-notes.md`; the topic page includes the paragraph and notes files. Styles are `.chart-notes` and `.chart-source` in `styles.css`.
 
 ## Color
 

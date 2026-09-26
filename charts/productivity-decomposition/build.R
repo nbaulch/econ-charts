@@ -26,13 +26,13 @@ contributions <- labor_productivity_contributions(
 components <- tribble(
   ~series, ~label, ~colour, ~definition,
   "other_deepening", "Other capital and labor", chart_colors[["grey"]],
-  "Other equipment, buildings, and research per hour worked, plus a more educated and experienced workforce.",
+  "Other capital per hour worked, and workforce skills.",
   "it_capital_deepening", "Computers and software", chart_colors[["teal"]],
-  "Computer and software capital per hour worked. Includes AI investment but is not limited to it.",
+  "Computer and software capital per hour worked.",
   "tfp_util_adjusted", "Total factor productivity", chart_colors[["blue"]],
-  "Output growth not explained by capital, workforce skills, or utilization. The best gauge of efficiency gains.",
+  "Output growth not explained by capital, labor, or utilization.",
   "utilization", "Utilization", chart_colors[["orange"]],
-  "How intensively businesses use the workers and equipment they already have. Estimated from hours per worker."
+  "How intensively businesses use their existing workers and equipment."
 )
 
 # The public download: the plotted series, one row per quarter, full history.
@@ -56,24 +56,33 @@ latest <- contributions |>
   tibble::deframe()
 
 latest_quarter <- str_glue("{year(max(contributions$date))} Q{quarter(max(contributions$date))}")
-points <- \(x) str_glue("{if (x < 0) 'subtracted' else 'added'} {format(abs(round(x, 1)), nsmall = 1)} points")
+points <- \(x) format(abs(round(x, 1)), nsmall = 1)
 
-lead <- str_glue(
-  "Over the four quarters through {latest_quarter}, labor productivity grew {round(latest[['labor_productivity']], 1)} ",
-  "percent at an annual rate. Higher utilization {points(latest[['utilization']])}, computers and software ",
-  "{points(latest[['it_capital_deepening']])}, and total factor productivity {points(latest[['tfp_util_adjusted']])}."
+peak_efficiency <- contributions |>
+  filter(series == "tfp_util_adjusted", year(date) %in% 2023:2024) |>
+  slice_max(four_quarter_mean)
+
+write_chart_lead(
+  str_glue(
+    "Productivity growth remains solid, but it comes from businesses using their workers and equipment more ",
+    "intensively and from investment in computers, not from efficiency gains. Labor productivity grew ",
+    "{points(latest[['labor_productivity']])} percent over the four quarters through {latest_quarter}. Higher ",
+    "utilization added {points(latest[['utilization']])} points and computers and software ",
+    "{points(latest[['it_capital_deepening']])}, while total factor productivity, the best gauge of efficiency, ",
+    "{if (latest[['tfp_util_adjusted']] < 0) 'subtracted' else 'added'} {points(latest[['tfp_util_adjusted']])}. It had ",
+    "added as much as {points(peak_efficiency$four_quarter_mean)} points in ",
+    "{year(peak_efficiency$date)}."
+  ),
+  file.path(chart_dir, "output", "productivity-decomposition-lead.md")
 )
-
-write_chart_lead(lead, file.path(chart_dir, "output", "productivity-decomposition-lead.md"))
 
 write_chart_notes(
   notes = str_glue("**{components$label}:** {components$definition}"),
   source = str_glue(
-    "Source: John Fernald, [Quarterly Utilization-Adjusted Series on Total Factor Productivity]",
-    "(https://www.frbsf.org/research-and-insights/data-and-indicators/total-factor-productivity-tfp/), ",
-    "Federal Reserve Bank of San Francisco, release of {format(release_date, '%B %-d, %Y')}. ",
-    "Chart adapted from Ernie Tedeschi, [\"AI and Productivity\"](https://www.stripeeconomics.com/p/ai-and-productivity), ",
-    "Stripe Economics, July 2026."
+    "Source: John Fernald, Federal Reserve Bank of San Francisco, [utilization-adjusted total factor ",
+    "productivity](https://www.frbsf.org/research-and-insights/data-and-indicators/total-factor-productivity-tfp/), ",
+    "{format(release_date, '%B %-d, %Y')}. Adapted from Tedeschi, ",
+    "[\"AI and Productivity\"](https://www.stripeeconomics.com/p/ai-and-productivity), Stripe Economics, July 2026."
   ),
   csv_path = file.path(chart_dir, "output", "productivity-decomposition.csv"),
   path = file.path(chart_dir, "output", "productivity-decomposition-notes.md")

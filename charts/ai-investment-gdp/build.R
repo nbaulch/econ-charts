@@ -40,7 +40,9 @@ nipa_series <- c(
   semiconductor_exports_nominal = "LA001105",
   semiconductor_exports_real = "LB001105",
   semiconductor_imports_nominal = "LA001145",
-  semiconductor_imports_real = "LB001145"
+  semiconductor_imports_real = "LB001145",
+  gdp_growth = "A191RL",
+  business_investment_contribution = "A008RY"
 )
 
 nipa <- fetch_bea_nipa(nipa_series)
@@ -70,18 +72,17 @@ contributions |>
 components <- tribble(
   ~series, ~label, ~colour, ~definition,
   "data_centers_and_power", "Data centers and power", chart_colors[["orange"]],
-  "Construction of data centers and of electric power and other power facilities.",
+  "Construction of data centers and power plants.",
   "software", "Software", chart_colors[["purple"]],
-  "Business investment in software, both purchased and developed in house.",
+  "Business spending on software.",
   "computers", "Computers", chart_colors[["teal"]],
-  "Business investment in computers and peripheral equipment.",
+  "Business spending on computers and related equipment.",
   "computer_net_exports", "Net trade in computers", chart_colors[["red"]],
-  "Exports minus imports of computers and parts, counting only the capital goods share of trade."
+  "Computer exports minus imports, counting the share that goes to business."
 )
 
 latest_quarter <- max(contributions$date)
 past_year <- slice_tail(contributions, n = 4)
-offset_share <- \(past_year) round(100 * (1 - mean(past_year$net) / mean(past_year$gross)))
 
 # The FEDS weight uses goods trade overall; this one is specific to computers.
 past_year_computer_weight <- ai_investment_contributions(nipa, domestic_use_weights(nipa)) |>
@@ -94,35 +95,29 @@ past_year_investment_price <- nipa |>
 
 quarter_label <- str_glue("{year(latest_quarter)} Q{quarter(latest_quarter)}")
 
-lead <- str_glue(
-  "Over the four quarters through {quarter_label}, AI-related investment added ",
-  "{round(mean(past_year$gross), 2)} point a year to growth before computer trade and ",
-  "{round(mean(past_year$net), 2)} after, so imported computers offset {offset_share(past_year)} percent of the boost. ",
-  "Other reasonable ways of counting computer trade put the offset as high as ",
-  "{max(offset_share(past_year_computer_weight), offset_share(past_year_investment_price))} percent."
+past_year_nipa <- semi_join(nipa, past_year, by = "date")
+lowest_net <- min(mean(past_year_computer_weight$net), mean(past_year_investment_price$net))
+
+write_chart_lead(
+  str_glue(
+    "AI-related investment accounts for most of what business investment is adding to growth, but imported ",
+    "equipment offsets a third to a half of it. Over the four quarters through {quarter_label}, real GDP grew ",
+    "{format(round(mean(past_year_nipa$gdp_growth), 1), nsmall = 1)} percent at an annual rate, and business fixed ",
+    "investment added {round(mean(past_year_nipa$business_investment_contribution), 2)} percentage point. Software, ",
+    "computers, data centers, and power accounted for {round(mean(past_year$gross), 2)} point of that. Net of ",
+    "imported computers, their contribution falls to {round(mean(past_year$net), 2)} point, or to ",
+    "{round(lowest_net, 2)} under other reasonable ways of counting computer trade."
+  ),
+  file.path(chart_dir, "output", "ai-investment-gdp-lead.md")
 )
 
-write_chart_lead(lead, file.path(chart_dir, "output", "ai-investment-gdp-lead.md"))
-
 write_chart_notes(
-  notes = c(
-    str_glue("**{components$label}:** {components$definition}"),
-    str_glue(
-      "Counting computer trade by businesses' share of U.S. spending on computers, rather than the capital goods ",
-      "share of all goods trade, puts the offset at {offset_share(past_year_computer_weight)} percent. Valuing it at ",
-      "the prices of business investment in computers puts it at {offset_share(past_year_investment_price)} percent."
-    ),
-    # Specific to 2026 Q2; see the import price check in the spec. Revisit on refresh.
-    str_c(
-      "In 2026 Q2, computer trade added to growth even though spending on imported computers rose, because import ",
-      "prices rose about twice as fast as prices of business investment in computers."
-    )
-  ),
+  notes = str_glue("**{components$label}:** {components$definition}"),
   source = str_glue(
-    "Source: Bureau of Economic Analysis, National Income and Product Accounts, data through {quarter_label}. ",
-    "Method from Paul E. Soto, Mason Thieu, and Jeffrey S. Allen, [\"The AI Buildout and the Economy\"]",
+    "Source: Bureau of Economic Analysis, through {quarter_label}. Method from Soto, Thieu, and Allen, ",
+    "[\"The AI Buildout and the Economy\"]",
     "(https://www.federalreserve.gov/econres/notes/feds-notes/the-ai-buildout-and-the-economy-publicly-available-data-to-assess-ais-impact-20260717.html), ",
-    "FEDS Notes, Federal Reserve Board, July 2026."
+    "FEDS Notes, July 2026."
   ),
   csv_path = file.path(chart_dir, "output", "ai-investment-gdp.csv"),
   path = file.path(chart_dir, "output", "ai-investment-gdp-notes.md")

@@ -81,7 +81,6 @@ change_in <- \(which_model, which_period, which_part) changes |>
   filter(model == which_model, period == which_period, part == which_part) |>
   pull(change)
 
-points <- \(x) format(round(x, 2), nsmall = 2)
 
 market_yield <- tidyusmacro::getFRED(yield = "DGS10") |>
   filter(!is.na(yield))
@@ -107,47 +106,32 @@ latest_label <- format(latest_date, "%B %-d, %Y")
 year_ago_label <- format(latest_date - years(1), "%B %Y")
 two_years_ago_label <- format(latest_date - years(2), "%B %Y")
 
+one_decimal <- \(x) format(round(x, 1), nsmall = 1)
+
 write_chart_lead(
   str_glue(
-    "From {year_ago_label} to {latest_label}, the 10-year Treasury yield rose from ",
-    "{format(value_on_market(latest_date - years(1)), nsmall = 2)} to {format(value_on_market(latest_date), nsmall = 2)} ",
-    "percent. The New York Fed's model attributes {points(change_in('acm', 'past_year', 'expected_short_rates'))} ",
-    "point of the rise to higher expected short-term rates and {points(change_in('acm', 'past_year', 'term_premium'))} ",
-    "to the term premium. The Fed Board's model attributes ",
-    "{points(change_in('kim_wright', 'past_year', 'expected_short_rates'))} to expected rates and ",
-    "{points(change_in('kim_wright', 'past_year', 'term_premium'))} to the term premium. Over two years, the models ",
-    "agree that the term premium rose {points(min(two_year_term_premium))} to {points(max(two_year_term_premium))} point."
+    "The 10-year Treasury yield rose {one_decimal(value_on_market(latest_date) - value_on_market(latest_date - years(1)))} ",
+    "percentage point over the past year, to {format(value_on_market(latest_date), nsmall = 2)} percent, and the Fed's ",
+    "two main models disagree on why. The New York Fed model attributes nearly all of the rise to higher expected ",
+    "policy rates; the Fed Board model attributes {one_decimal(change_in('kim_wright', 'past_year', 'term_premium'))} ",
+    "point to a higher term premium. The main reason is that the Board model follows professional forecasters, who ",
+    "lowered their expected 10-year average bill rate to {one_decimal(latest_forecasts$median[2])} percent this year ",
+    "from {one_decimal(latest_forecasts$median[1])} percent while markets moved the other way. Both models agree the ",
+    "term premium has risen about {one_decimal(mean(two_year_term_premium))} point over two years."
   ),
   file.path(chart_dir, "output", "term-premium-lead.md")
 )
 
 write_chart_notes(
   notes = c(
-    str_c(
-      "**Expected short-term rates:** The average short-term interest rate over the next 10 years that the model ",
-      "infers investors expect. Mostly expected Federal Reserve policy."
-    ),
-    str_c(
-      "**Term premium:** The extra yield investors require to hold a 10-year bond rather than roll over short-term ",
-      "bills. It rises with uncertainty and with how much debt investors have to absorb. It can't be observed; each ",
-      "model estimates it as what is left after its estimate of expected rates."
-    ),
-    str_glue(
-      "**New York Fed model:** Adrian, Crump, and Moench, estimated from Treasury yields alone. ",
-      "**Fed Board model:** Kim and Wright, which also uses professional forecasters' predictions of short-term ",
-      "rates. Forecasters' expected average Treasury bill rate over the next 10 years went from ",
-      "{format(round(latest_forecasts$median[1], 1), nsmall = 1)} percent in early {year(latest_forecasts$survey[1])} to ",
-      "{format(round(latest_forecasts$median[2], 1), nsmall = 1)} percent in early {year(latest_forecasts$survey[2])}, so a ",
-      "model that follows them assigns more of a rise in yields to the term premium."
-    ),
-    "The bars for each model add up to the change in its fitted 10-year yield, which is close to the market yield."
+    "**Expected short-term rates:** The average short-term rate investors are estimated to expect over 10 years.",
+    "**Term premium:** The extra yield investors require to hold a 10-year note instead of short-term bills.",
+    "**New York Fed and Fed Board models:** Adrian, Crump, and Moench; and Kim and Wright."
   ),
   source = str_glue(
-    "Sources: Federal Reserve Bank of New York, [Treasury term premia]",
-    "(https://www.newyorkfed.org/research/data_indicators/term-premia-tabs) (Tobias Adrian, Richard Crump, and ",
-    "Emanuel Moench); Federal Reserve Board, three-factor term structure model (Don Kim and Jonathan Wright), and ",
-    "10-year Treasury yield, from FRED; Federal Reserve Bank of Philadelphia, Survey of Professional Forecasters. ",
-    "Data through {latest_label}."
+    "Sources: Federal Reserve Bank of New York, [term premia](https://www.newyorkfed.org/research/data_indicators/term-premia-tabs); ",
+    "Federal Reserve Board, from FRED; Federal Reserve Bank of Philadelphia, Survey of Professional Forecasters. ",
+    "Through {latest_label}."
   ),
   csv_path = file.path(chart_dir, "output", "term-premium.csv"),
   path = file.path(chart_dir, "output", "term-premium-notes.md")

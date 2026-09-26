@@ -6,8 +6,6 @@ What is driving long-term U.S. interest rates.
 
 ## The 10-year yield
 
-Long-term Treasury yields have risen about a point over the past year, to around 5 percent. Commentators disagree about why, and much of the disagreement comes from which model they use to split the yield into expected policy rates and a term premium.
-
 {{< include charts/term-premium/output/term-premium-lead.md >}}
 
 ```{=html}
@@ -20,8 +18,6 @@ Long-term Treasury yields have risen about a point over the past year, to around
 {{< include charts/term-premium/output/term-premium-notes.md >}}
 
 ## Who is supplying long-term debt
-
-One explanation for higher yields is that investors must absorb more long-term debt, from Treasury deficits or from the borrowing behind the AI buildout. Treasury's supply of interest rate risk to private investors has not risen over the past year, while big tech bond sales have added a large new amount.
 
 {{< include charts/duration-supply/output/duration-supply-lead.md >}}
 

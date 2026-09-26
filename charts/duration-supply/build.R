@@ -146,45 +146,40 @@ year_earlier_treasury <- duration_supply |>
 latest_label <- format(latest_month_end, "%B %Y")
 billions <- \(x) format(round(x), big.mark = ",")
 
+recent_treasury_peak <- duration_supply |>
+  filter(issuer == "treasury", date > latest_month_end %m-% months(24)) |>
+  slice_max(change_12_months)
+
+recent_issuers <- hyperscaler_bonds |>
+  filter(filed > latest_month_end %m-% months(12)) |>
+  distinct(company) |>
+  pull(company) |>
+  sort() |>
+  str_flatten_comma(last = ", and ")
+
 write_chart_lead(
   str_glue(
-    "In the 12 months to {latest_label}, Treasury securities added ${billions(latest[['treasury']])} billion in ",
-    "10-year equivalents to what private investors hold, compared with ${billions(year_earlier_treasury)} billion ",
-    "a year earlier. Dollar bonds sold by the five largest cloud and AI companies added ",
-    "${billions(latest[['hyperscalers']])} billion, {round(100 * latest[['hyperscalers']] / latest[['treasury']])} ",
-    "percent as much as Treasury."
+    "Treasury is not adding more long-term debt for private investors to absorb than it was a year ago; big tech ",
+    "borrowing is the new source. In the 12 months to {latest_label}, Treasury securities added ",
+    "${billions(latest[['treasury']])} billion in 10-year equivalents to private holdings, compared with ",
+    "${billions(year_earlier_treasury)} billion a year earlier and a peak of ",
+    "${billions(recent_treasury_peak$change_12_months)} billion in {format(recent_treasury_peak$date, '%B %Y')}. ",
+    "Bonds sold by {recent_issuers} added ${billions(latest[['hyperscalers']])} billion, ",
+    "{round(100 * latest[['hyperscalers']] / latest[['treasury']])} percent as much. That understates big tech's ",
+    "borrowing, since it leaves out private placements such as the financing for Meta's Hyperion data center."
   ),
   file.path(chart_dir, "output", "duration-supply-lead.md")
 )
 
 write_chart_notes(
   notes = c(
-    str_c(
-      "**10-year equivalents:** The amount of 10-year Treasury notes that would carry the same exposure to a ",
-      "change in interest rates. A $1 billion 30-year bond counts as about $2 billion; a 3-month bill counts as ",
-      "almost nothing."
-    ),
-    str_c(
-      "**Treasury securities:** All marketable Treasury debt except what the Federal Reserve holds. Buybacks reduce ",
-      "the amount outstanding. The change also reflects bonds getting closer to maturity, which lowers their ",
-      "exposure each month."
-    ),
-    str_glue(
-      "**Big tech bonds:** Dollar bonds registered with the Securities and Exchange Commission by Alphabet, ",
-      "Amazon, Meta, Microsoft, and Oracle. Complete from {format(hyperscaler_coverage_starts, '%B %Y')}, so the ",
-      "12-month change starts a year later. Excludes privately placed debt, such as the financing of Meta's ",
-      "Hyperion data center, and bonds in other currencies."
-    ),
-    str_c(
-      "Every month is valued at the latest yield curve, so changes show what was issued, not swings in yields. ",
-      "Corporate bonds are valued on the Treasury curve, without their credit spread."
-    )
+    "**10-year equivalents:** The amount of 10-year notes with the same sensitivity to interest rates.",
+    "**Treasury securities:** Marketable Treasury debt not held by the Federal Reserve.",
+    "**Big tech bonds:** Dollar bonds registered by Alphabet, Amazon, Meta, Microsoft, and Oracle."
   ),
   source = str_glue(
-    "Sources: Treasury, Monthly Statement of the Public Debt; Federal Reserve Bank of New York, System Open Market ",
-    "Account holdings; Securities and Exchange Commission, EDGAR filing fee exhibits; Federal Reserve Board, ",
-    "Treasury yields, from FRED. Data through {latest_label}. Related work: Alex Etra, Exante Data, \"Net duration ",
-    "supplied to the US private market,\" September 2026; Hugo De Vere, Srini Ramaswamy, and Seth Searls, ",
+    "Sources: Treasury; Federal Reserve Bank of New York; Securities and Exchange Commission. Through ",
+    "{latest_label}. Related work: Etra, Exante Data, September 2026; De Vere, Ramaswamy, and Searls, ",
     "[\"How AI debt financing impacts duration supply and interest rates\"]",
     "(https://www.dallasfed.org/research/economics/2026/0210-searls-aifinancing), Federal Reserve Bank of Dallas, ",
     "February 2026."
