@@ -1,0 +1,36 @@
+/* Matches the chart style in STYLE.md: Roboto, warm greys, plain layout. */
+
+@font-face {
+  font-family: "Roboto Chart";
+  src: url("fonts/Roboto-Regular.ttf") format("truetype");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Roboto Chart";
+  src: url("fonts/Roboto-Bold.ttf") format("truetype");
+  font-weight: 700;
+}
+
+body, .navbar {
+  font-family: "Roboto Chart", sans-serif;
+  color: #4a4a47;
+  background: #ffffff;
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  color: #222220;
+}
+
+a {
+  color: #1f6fb2;
+}
+
+.navbar {
+  border-bottom: 1px solid #e6e5e1;
+}
+
+.chart-download {
+  font-size: 0.9rem;
+}

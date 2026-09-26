@@ -1,0 +1,27 @@
+project:
+  type: website
+  output-dir: _site
+  # Only these pages are part of the site. Everything else in the repo is working material.
+  render:
+    - index.qmd
+    - ai-economy.qmd
+  resources:
+    - fonts/*.ttf
+    - charts/*/output/*.csv
+
+website:
+  title: "Economic Charts"
+  search: false
+  navbar:
+    background: "#ffffff"
+    foreground: "#222220"
+    left:
+      - href: ai-economy.qmd
+        text: The AI economy
+
+format:
+  html:
+    theme: default
+    css: styles.css
+    toc: false
+    anchor-sections: false

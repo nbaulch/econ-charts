@@ -1,0 +1,9 @@
+---
+title: "Economic Charts"
+---
+
+Curated charts on the U.S. economy, built from public data and kept up to date as new data are released. Charts that extend someone else's analysis credit and link the original.
+
+## Topics
+
+- [The AI economy](ai-economy.qmd): what AI is and is not doing to the U.S. economy right now.

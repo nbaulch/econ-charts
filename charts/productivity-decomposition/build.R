@@ -22,8 +22,6 @@ contributions <- labor_productivity_contributions(
 ) |>
   filter(!is.na(four_quarter_mean))
 
-write_csv(contributions, file.path(chart_dir, "output", "contributions.csv"))
-
 # In stacking order, top to bottom, so the legend and notes read like the bars.
 components <- tribble(
   ~series, ~label, ~colour, ~definition,
@@ -36,6 +34,21 @@ components <- tribble(
   "utilization", "Utilization", chart_colors[["orange"]],
   "How intensively businesses use the workers and equipment they already have. Estimated from hours per worker."
 )
+
+# The public download: the plotted series, one row per quarter, full history.
+download_columns <- c(
+  labor_productivity_growth = "labor_productivity",
+  other_capital_and_labor = "other_deepening",
+  computers_and_software = "it_capital_deepening",
+  total_factor_productivity = "tfp_util_adjusted",
+  utilization = "utilization"
+)
+
+contributions |>
+  pivot_wider(names_from = series, values_from = four_quarter_mean) |>
+  select(date, all_of(download_columns)) |>
+  mutate(across(-date, \(x) round(x, 3))) |>
+  write_csv(file.path(chart_dir, "output", "productivity-decomposition.csv"))
 
 notes <- c(
   str_glue("{components$label}: {components$definition}"),
