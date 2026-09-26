@@ -50,16 +50,31 @@ nipa <- fetch_bea_nipa(nipa_series)
 # fetch date and records the latest quarter it covers.
 write_csv(nipa, file.path(chart_dir, "data", str_glue("bea_nipa_{today()}.csv")))
 
-contributions <- ai_investment_contributions(nipa) |>
+# The FEDS Note's method and two alternatives, which give the range on the net
+# total: a trade weight specific to computers, and computer trade priced like
+# business investment in computers.
+contributions_by_method <- bind_rows(
+  fed = ai_investment_contributions(nipa),
+  computer_weight = ai_investment_contributions(nipa, domestic_use_weights(nipa)),
+  investment_price = ai_investment_contributions(deflate_trade_with_investment_price(nipa)),
+  .id = "method"
+) |>
   filter(!is.na(net))
 
 # Quarterly contributions swing widely, so the chart averages over four quarters,
 # as the text does.
 four_quarter_average <- \(x) (x + lag(x) + lag(x, 2) + lag(x, 3)) / 4
 
-averages <- contributions |>
-  mutate(across(software:net, four_quarter_average)) |>
+averages_by_method <- contributions_by_method |>
+  mutate(across(software:net, four_quarter_average), .by = method) |>
   filter(date >= ymd("2022-03-01"))
+
+averages <- averages_by_method |>
+  filter(method == "fed") |>
+  inner_join(
+    summarise(averages_by_method, net_low = min(net), net_high = max(net), .by = date),
+    by = "date"
+  )
 
 averages |>
   transmute(
@@ -70,7 +85,9 @@ averages |>
     power,
     computer_net_exports,
     total = gross,
-    total_net_of_computer_trade = net
+    total_net_of_computer_trade = net,
+    net_lowest = net_low,
+    net_highest = net_high
   ) |>
   mutate(across(-quarter_end, \(x) round(x, 3))) |>
   write_csv(file.path(chart_dir, "output", "ai-investment-gdp.csv"))
@@ -88,23 +105,12 @@ components <- tribble(
   "Computer exports minus imports, counting the share that goes to business."
 )
 
-latest_quarter <- max(contributions$date)
-past_year <- slice_tail(contributions, n = 4)
+range_label <- "Range under other import assumptions"
+range_definition <- "Estimates business's share of computer imports from U.S. computer spending, or prices imports like the computers businesses buy."
 
-# The FEDS weight uses goods trade overall; this one is specific to computers.
-past_year_computer_weight <- ai_investment_contributions(nipa, domestic_use_weights(nipa)) |>
-  semi_join(past_year, by = "date")
-
-past_year_investment_price <- nipa |>
-  deflate_trade_with_investment_price() |>
-  ai_investment_contributions() |>
-  semi_join(past_year, by = "date")
-
+latest_quarter <- max(averages$date)
 quarter_label <- str_glue("{year(latest_quarter)} Q{quarter(latest_quarter)}")
-
-past_year_nipa <- semi_join(nipa, past_year, by = "date")
-lowest_net <- min(mean(past_year_computer_weight$net), mean(past_year_investment_price$net))
-
+latest <- filter(averages, date == latest_quarter)
 before_the_boom <- filter(averages, date == ymd("2023-12-01"))
 
 # The four components carry the AI buildout but aren't all AI, so the text names
@@ -113,18 +119,15 @@ write_chart_lead(
   str_glue(
     "Investment in software, computers, data centers, and power\u2014the spending that carries the AI buildout\u2014has ",
     "lifted real GDP growth since early 2025, but by less than headline figures suggest because many of the ",
-    "computers are imported. Over the past four quarters, this investment added ",
-    "{round(mean(past_year$gross), 2)} percentage point to real GDP growth of ",
-    "{format(round(mean(past_year_nipa$gdp_growth), 1), nsmall = 1)} percent. Net of imported computers and parts, ",
-    "it added {round(mean(past_year$net), 2)} point, and as little as {round(lowest_net, 2)} under other reasonable ",
-    "assumptions. In 2023, before the buildout, it added about {round(before_the_boom$gross, 1)} point with or ",
-    "without imports."
+    "computers are imported. Net of those imports, it added {round(latest$net_low, 2)} to {round(latest$net_high, 2)} ",
+    "percentage point to real GDP growth over the past four quarters, depending on how imports are treated. In ",
+    "2023, before the buildout, it added about {round(before_the_boom$gross, 1)} point with or without imports."
   ),
   file.path(chart_dir, "output", "ai-investment-gdp-lead.md")
 )
 
 write_chart_notes(
-  notes = str_glue("**{components$label}:** {components$definition}"),
+  notes = str_glue("**{c(components$label, range_label)}:** {c(components$definition, range_definition)}"),
   source = str_glue(
     "Source: Bureau of Economic Analysis, through {quarter_label}. Method from Soto, Thieu, and Allen, ",
     "[\"The AI Buildout and the Economy\"]",
@@ -151,6 +154,12 @@ bars <- recent |>
 investment_chart <- ggplot(bars, aes(date, contribution)) +
   geom_col(aes(fill = series), width = 75, colour = "white", linewidth = 0.4) +
   geom_hline(yintercept = 0, colour = chart_greys[["baseline"]], linewidth = 0.4) +
+  geom_linerange(
+    data = recent,
+    aes(y = net, ymin = net_low, ymax = net_high, linetype = range_label),
+    colour = chart_greys[["title"]],
+    linewidth = 0.7
+  ) +
   geom_point(
     data = recent,
     aes(y = net, shape = "Total, net of computer trade"),
@@ -162,9 +171,10 @@ investment_chart <- ggplot(bars, aes(date, contribution)) +
     labels = setNames(components$label, components$series)
   ) +
   scale_shape_manual(values = 16) +
+  scale_linetype_manual(values = "solid") +
   scale_x_date(date_breaks = "1 year", date_labels = "%Y") +
   scale_y_continuous(breaks = scales::breaks_width(0.25)) +
-  guides(shape = guide_legend(order = 2)) +
+  guides(shape = guide_legend(order = 2), linetype = guide_legend(order = 3)) +
   theme_chart()
 
 title <- "Computer imports offset a third to a half of the AI buildout's boost to growth"
