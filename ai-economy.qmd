@@ -6,8 +6,7 @@ What AI is and is not doing to the U.S. economy right now.
 
 ## Investment
 
-<!-- Draft: rewrite before publishing. -->
-Much of the equipment behind the AI buildout is imported, so its boost to U.S. output is smaller than the investment spending suggests.
+Much of the equipment behind the AI buildout is imported. Imports subtract from GDP, so the buildout adds less to U.S. growth than the spending alone suggests.
 
 {{< include charts/ai-investment-gdp/output/ai-investment-gdp-lead.md >}}
 
@@ -22,8 +21,7 @@ Much of the equipment behind the AI buildout is imported, so its boost to U.S. o
 
 ## Adoption
 
-<!-- Draft: rewrite before publishing. -->
-Surveys disagree about how widely AI is used. Part of the gap is who they count, firms or workers, and part is what they ask.
+Surveys of firms and of workers give very different answers on how widely AI is used. The gap comes partly from whom each survey counts and partly from how it words the question.
 
 {{< include charts/ai-adoption/output/ai-adoption-lead.md >}}
 
@@ -38,8 +36,7 @@ Surveys disagree about how widely AI is used. Part of the gap is who they count,
 
 ## Productivity
 
-<!-- Draft: rewrite before publishing. -->
-Productivity growth has been strong, but most of it comes from businesses working their existing staff and equipment harder and from investment in computers and software, not from efficiency gains.
+Labor productivity has grown solidly over the past year, but not because businesses became more efficient. Most of the growth came from working existing staff and equipment harder and from investment in computers and software.
 
 {{< include charts/productivity-decomposition/output/productivity-decomposition-lead.md >}}
 
