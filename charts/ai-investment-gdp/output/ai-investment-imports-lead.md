@@ -1,1 +1,0 @@
-Headline figures overstate the boost because many of the computers are imported. Net of imported computers and parts, the contribution over the past four quarters was 0.45 point, and as little as 0.34 under other reasonable assumptions. Before the buildout, imports made little difference: in 2023 the contribution was 0.3 point before and after netting them.
