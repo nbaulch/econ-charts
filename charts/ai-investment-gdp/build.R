@@ -99,15 +99,18 @@ past_year_nipa <- semi_join(nipa, past_year, by = "date")
 lowest_net <- min(mean(past_year_computer_weight$net), mean(past_year_investment_price$net))
 
 ai_share_of_business_investment <- mean(past_year$gross) / mean(past_year_nipa$business_investment_contribution)
+before_the_boom <- filter(contributions, year(date) %in% 2022:2023)
 
 write_chart_lead(
   str_glue(
-    "Over the four quarters through {quarter_label}, AI-related investment added {round(mean(past_year$gross), 2)} ",
-    "percentage point to real GDP growth of {format(round(mean(past_year_nipa$gdp_growth), 1), nsmall = 1)} percent, ",
-    "about {5 * round(20 * ai_share_of_business_investment)} percent of business investment's contribution. Much of ",
-    "that spending buys imported computers, which don't add to U.S. output. Net of those imports, the boost was ",
-    "{round(mean(past_year$net), 2)} point, and as little as {round(lowest_net, 2)} under other reasonable ",
-    "assumptions."
+    "AI investment has lifted real GDP growth over the past two years, but headline figures overstate the boost ",
+    "because much of the equipment is imported. Over the four quarters through {quarter_label}, AI-related ",
+    "investment added {round(mean(past_year$gross), 2)} percentage point to growth of ",
+    "{format(round(mean(past_year_nipa$gdp_growth), 1), nsmall = 1)} percent, about ",
+    "{5 * round(20 * ai_share_of_business_investment)} percent of business investment's contribution. Net of ",
+    "imported computers, the boost was {round(mean(past_year$net), 2)} point, and as little as ",
+    "{round(lowest_net, 2)} under other reasonable assumptions. In 2022 and 2023 it averaged about ",
+    "{round(mean(before_the_boom$net), 1)} point."
   ),
   file.path(chart_dir, "output", "ai-investment-gdp-lead.md")
 )
