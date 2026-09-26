@@ -64,13 +64,12 @@ peak_efficiency <- contributions |>
 write_chart_lead(
   str_glue(
     "So far, AI appears to be lifting productivity through the buildout rather than by making businesses more ",
-    "efficient. Labor productivity, or output per hour worked, grew {points(latest[['labor_productivity']])} percent ",
-    "over the past four quarters. Most of that came from higher utilization, which added ",
-    "{points(latest[['utilization']])} percentage points: businesses getting more out of the workers and equipment ",
-    "they already have, such as running factories longer and making fuller use of servers already paid for. Tedeschi ",
-    "argues that much of this reflects firms stretching existing capacity to meet demand for AI. Investment in ",
-    "computers and software added {points(latest[['it_capital_deepening']])} point. Total factor productivity, which ",
-    "measures producing more with the same resources and is where efficiency gains from using AI would show up, ",
+    "efficient. Labor productivity grew {points(latest[['labor_productivity']])} percent over the past four quarters. ",
+    "Higher utilization\u2014working existing staff and equipment harder\u2014added {points(latest[['utilization']])} ",
+    "percentage points, and investment in computers and software {points(latest[['it_capital_deepening']])}. ",
+    "[Ernie Tedeschi of Stripe](https://www.stripeeconomics.com/p/ai-and-productivity) argues that much of the higher ",
+    "utilization reflects firms pushing servers, factories, and other capacity they already have to meet demand for ",
+    "AI. Total factor productivity, where efficiency gains from using AI would show up, ",
     "{if (latest[['tfp_util_adjusted']] < 0) 'subtracted' else 'added'} {points(latest[['tfp_util_adjusted']])} point, ",
     "after adding as much as {points(peak_efficiency$four_quarter_mean)} points in {year(peak_efficiency$date)}."
   ),
