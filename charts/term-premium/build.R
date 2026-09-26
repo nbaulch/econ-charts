@@ -160,10 +160,7 @@ term_premium_chart <- ggplot(bars, aes(model, change)) +
 
 title <- "Two Fed models disagree on why long-term yields rose this year"
 subtitle <- str_glue("Change in the 10-year Treasury yield and its parts to {format(latest_date, '%B %Y')}, by model, percentage points")
-source_line <- str_glue(
-  "Sources: Federal Reserve Bank of New York (Adrian, Crump, and Moench); Federal Reserve Board (Kim and Wright). ",
-  "Data through {latest_label}."
-)
+source_line <- "Sources: Federal Reserve Bank of New York (Adrian, Crump, and Moench); Federal Reserve Board (Kim and Wright)."
 
 save_chart(
   term_premium_chart + chart_labels(title, subtitle, source_line, width = 8),

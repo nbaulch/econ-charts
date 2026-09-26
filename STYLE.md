@@ -24,14 +24,14 @@ The image has four levels of text, and nothing else competes with them. Everythi
 - **No acronyms in anything a reader sees**: titles, labels, legends, notes. Spell out total factor productivity, not TFP. The exceptions are ones any reader knows, such as GDP and AI.
 - **Units go in the subtitle** and in any label that shows a value. No axis titles when the subtitle already gives the units.
 - **Legend labels are short**, two or three words. Anything a short label leaves out goes in the notes.
-- **The source line in the image is short**: the data's provider and release, and the original analysis by author and outlet. An image saved or shared on its own still says where it came from.
+- **The source line in the image is short**: the data's provider and the original analysis by author and outlet, so an image saved or shared on its own still says where it came from. No data end date when the chart already shows it; that goes in the notes on the page.
 - Sentence case everywhere. No rotated axis labels. Drop trailing zeros from numbers.
 
 ## Text around the chart
 
 Write for a busy senior reader, like a staff economist briefing the Treasury secretary. Each chart's section on the page runs: heading, one paragraph, chart, definitions, source. Text on the page stays readable at any screen size, unlike text drawn into the image.
 
-- **One paragraph above the chart, two to six sentences.** The first sentence is the finding. The next gives the context a reader needs to judge its size, such as what the whole of GDP growth or business investment was. The rest is the supporting numbers. Anything a reader must know to read the chart correctly goes here, not in the notes.
+- **One paragraph above the chart, two to six sentences.** The first sentence is the general point. The rest backs it up, one message per sentence. Numbers quoted should be ones a reader can find on the chart. Anything a reader must know to read the chart correctly goes here, not in the notes.
 - `build.R` writes the paragraph with `write_chart_lead()` so its numbers update on refresh. Wording that could stop being true on a refresh, such as "nearly all," is recorded in the spec to check.
 - **Notes below the chart are one-line definitions of the legend items**, in legend order, written as "**Label:** definition." No caveats, methods, or analysis; those go in the paragraph or the spec.
 - **The source line is short**: the providers, the data's end date, and a link to the original analysis. Smaller and lighter than the notes. It ends with the data download link.

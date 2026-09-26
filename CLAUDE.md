@@ -129,9 +129,25 @@ Propose designs when we get there, but don't build these before the first chart 
 
 ## Writing style for anything published
 
-Plain, measured, declarative. No em dashes as punctuation for effect, no stacked lists of three for rhythm, no marketing language. Chart titles should be accurate before they're catchy.
+Plain, measured, declarative. No stacked lists of three for rhythm, no marketing language. Em dashes are fine for an aside, not for effect. Charts follow `STYLE.md`: no acronyms on a chart except ones every reader knows, such as GDP and AI, and notes define terms in plain words rather than with equations.
 
-Charts follow `STYLE.md`. In particular, no acronyms on a chart except ones every reader knows, such as GDP and AI, and notes define terms in plain words rather than with equations.
+Write like a staff economist briefing the Treasury secretary: high level, short, and cut hard.
+
+- **The paragraph above a chart** opens with the general point, then backs it up. Two to six sentences, each with one clear purpose and message. If a sentence is doing two jobs, split it or cut one.
+- **Be factual about what is measured.** Name things for what they are. If a category is broader than its label, such as "AI investment" that includes software spending unrelated to AI, name the components instead.
+- **Numbers in the text should be visible on the chart.** If a reader would wonder where a number comes from, show it on the chart or drop it. Keep precision consistent, and don't round a number up to make a point.
+- **Mention a range or alternative estimate only if it changes the story.** Otherwise keep it in the spec as a refresh check.
+- **Avoid words with two meanings in one paragraph**, such as "headline" for both a gross figure and GDP growth.
+- **Don't repeat on the chart what the chart already shows**, such as the data's end date in the image's source line. The release date goes in the notes below the chart.
+- **Notes below the chart are short definitions only.** If it matters, it goes in the paragraph.
+
+For charts:
+
+- **The title states the chart's message**, all of it: if the paragraph makes two points, the title carries both. Accurate before catchy.
+- **One chart that tells the whole story beats two that split it.** Never publish a standalone chart of a figure the text argues is misleading.
+- **Smooth the data when noise hides the story**, and use the same measure the text quotes, such as four-quarter averages.
+
+When I ask for options, give a recommendation. When I'm unsure, show me a preview rather than describing it.
 
 ## Vintages and revisions
 
