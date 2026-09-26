@@ -73,7 +73,7 @@ chart_labels <- function(title, subtitle, source, width) {
   labs(
     title = stringr::str_wrap(title, floor(text_width * 8.5)),
     subtitle = stringr::str_wrap(subtitle, floor(text_width * 12)),
-    caption = stringr::str_wrap(source, floor(text_width * 14.5))
+    caption = stringr::str_wrap(source, floor(text_width * 15.5))
   )
 }
 
