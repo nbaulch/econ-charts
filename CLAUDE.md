@@ -26,7 +26,7 @@ This is a working hypothesis, not a conclusion. If refreshed data stops supporti
 
 These are the analyses I've been considering. Treat them as starting points. Verify sources, figures, and URLs yourself before relying on them.
 
-- **AI investment's contribution to real GDP growth**, gross versus net of imported computers and semiconductors.
+- **AI investment's contribution to real GDP growth**, gross versus net of imported computers and semiconductors. Built in `charts/ai-investment-gdp/`, following the FEDS Note method.
   - Related work: Federal Reserve FEDS Note on publicly available AI data (July 2026), ING THINK (August 2026), St. Louis Fed On the Economy (January 2026).
   - Data: BEA NIPA investment detail, Census trade data, Census construction spending.
 - **AI adoption across denominators**: Census BTOS firm share, BTOS employment-weighted, and the Real-Time Population Survey worker share.

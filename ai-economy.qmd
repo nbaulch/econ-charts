@@ -4,6 +4,19 @@ title: "The AI economy"
 
 What AI is and is not doing to the U.S. economy right now.
 
+## Investment
+
+::: {.column-page}
+```{=html}
+<picture>
+  <source media="(max-width: 600px)" srcset="charts/ai-investment-gdp/output/ai-investment-gdp-narrow.png">
+  <img src="charts/ai-investment-gdp/output/ai-investment-gdp.png" class="chart" alt="Stacked bar chart of quarterly contributions of AI-related investment to U.S. real GDP growth from 2022 to 2026: software, computers, data centers and power, and net trade in computers. Investment contributions rose sharply in 2025, while net imports of computers subtracted up to 0.6 point in some quarters.">
+</picture>
+```
+:::
+
+[Download the data (CSV)](charts/ai-investment-gdp/output/ai-investment-gdp.csv){.chart-download}
+
 ## Productivity
 
 ::: {.column-page}
