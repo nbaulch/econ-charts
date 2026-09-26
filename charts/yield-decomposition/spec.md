@@ -30,9 +30,9 @@ Commentary, September 2026, for context:
 ## Transformations
 
 - The four parts sum to the fitted 10-year zero-coupon yield. The TIPS liquidity premium, also in the file, is part of inflation compensation measured from inflation-protected securities, not of the nominal yield, and is not used.
-- Monthly averages of daily values, then the change from the December 2021 average, the last month before the Fed began raising rates.
+- Monthly averages of daily values, then the change from the December 2023 average, the last month before the term premium's rise. The text's rise since before the Fed began hiking uses the December 2021 average.
 - Term premium in the text = real term premium plus inflation risk premium. Expected rates = expected real short-term rates plus expected inflation.
-- The CSV has monthly levels since 1983 and changes since December 2021.
+- The CSV has monthly levels since 1983 and changes since December 2023.
 
 ## Vintages
 
@@ -65,3 +65,4 @@ Commentary, September 2026, for context:
 - 2026-09-26: Replace the two-model bar chart (ACM against Kim-Wright, change over one and two years) with a monthly decomposition of the change since December 2023 from DKW, following how Tedeschi and Moody's chart it. Time series of levels and of 12-month changes were tried and dropped as hard to read. DKW is the one public model that also splits real rates from inflation, which the storyline asks about.
 - 2026-09-26: Title: "The 10-year yield's rise since 2023 has come mostly from the term premium." Check on each refresh that the term premium is still the largest part.
 - 2026-09-26: Measure from December 2021 so the chart gives context back to the start of the hiking cycle, and add a second chart, `charts/yield-rise-by-model/`, for this year's rise with both models. Renamed from `charts/term-premium/`. Title: "The 10-year yield rose first on expected rates, then on the term premium." Change since December 2021 through August 2026: yield +3.25, expected real short-term rates +1.55, real term premium +0.81, expected inflation +0.74, inflation risk premium +0.14. The text says the term premium accounted for "most of the further rise" since 2023 (0.56 of 0.72); check on each refresh.
+- 2026-09-26: Back to measuring from December 2023. From 2021, the hiking cycle's 2.5-point rise in expected rates set the scale and shrank the term premium, which the debate is about; the text gives the rise since 2021 in one sentence. Title: "The 10-year yield's rise since 2023 has come mostly from the term premium."

@@ -11,7 +11,7 @@ What is driving long-term U.S. interest rates.
 ```{=html}
 <picture>
   <source media="(max-width: 600px)" srcset="charts/yield-decomposition/output/yield-decomposition-narrow.png">
-  <img src="charts/yield-decomposition/output/yield-decomposition.png" class="chart" alt="Stacked bar chart of the monthly change since December 2021 in the 10-year Treasury yield, split into expected real short-term rates, real term premium, expected inflation, and inflation risk premium, from the Fed Board model. The yield rose about 3 points, mostly from expected rates in 2022 and 2023 and increasingly from the term premium since 2024.">
+  <img src="charts/yield-decomposition/output/yield-decomposition.png" class="chart" alt="Stacked bar chart of the monthly change since December 2023 in the 10-year Treasury yield, split into expected real short-term rates, real term premium, expected inflation, and inflation risk premium, from the Fed Board model. By August 2026 the yield was about 0.7 point higher, mostly from the real term premium and inflation risk premium, with expected inflation adding about 0.2 point and expected real short-term rates little changed.">
 </picture>
 ```
 
