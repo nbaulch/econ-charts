@@ -30,3 +30,9 @@ read_sffed_tfp <- function(path) {
     filter(str_detect(date, "^\\d{4}:Q\\d$")) |>
     mutate(date = yq(date))
 }
+
+read_sffed_capital <- function(path) {
+  read_excel(path, sheet = "Capital-input-details", skip = 1) |>
+    filter(str_detect(date, "^\\d{4}:Q\\d$")) |>
+    mutate(date = yq(date))
+}

@@ -1,6 +1,6 @@
 # Contributions to U.S. labor productivity growth
 
-Status: built in R from the September 3, 2026 release of the Fernald data. Title and styling are drafts for review.
+Status: built in R from the September 3, 2026 release of the Fernald data, in two versions: Tedeschi's three components, and a four-component version that splits out computer and software capital. Titles are drafts for review.
 
 ## Question
 
@@ -30,7 +30,8 @@ Approximate readings from the published chart, in percentage points:
 
 | Data | Provider | Fetch | Identifier |
 |------|----------|-------|------------|
-| Quarterly TFP and its components, U.S. business sector | San Francisco Fed (Fernald) | `fetch_sffed_tfp()` | `quarterly_tfp.xlsx`, sheet "quarterly" |
+| Quarterly TFP and its components, U.S. business sector | San Francisco Fed (Fernald) | `fetch_sffed_tfp()`, `read_sffed_tfp()` | `quarterly_tfp.xlsx`, sheet "quarterly" |
+| Capital input by asset, with income-share weights | San Francisco Fed (Fernald) | `read_sffed_capital()` | same file, sheet "Capital-input-details" |
 
 Data URL: https://www.frbsf.org/wp-content/uploads/quarterly_tfp.xlsx
 
@@ -47,7 +48,8 @@ Columns used: `dLP`, `dk`, `dhours`, `dLQ`, `alpha`, `dtfp`, `dutil`, `dtfp_util
    - Utilization-adjusted TFP: `dtfp_util`
    - The four sum to `dLP`.
 2. Tedeschi combines capital deepening and labor composition into one "labor and capital deepening" bar.
-3. Four-quarter trailing mean of each component. This matches "four-quarter annualized average" and keeps the sum equal to the four-quarter mean of `dLP`.
+3. Four-component version: capital deepening split by asset. Capital input growth `dk` equals the weighted sum of asset growth rates exactly, using the `wgt_*` columns. Computer and software capital deepening is `alpha * (wgt_info_processing_equip * dk_info_processing_equip + wgt_software * dk_software - (wgt_info_processing_equip + wgt_software) * dhours)`. The remainder of capital deepening, plus labor composition, is the "other" bar. This covers all information processing equipment and software, not only AI.
+4. Four-quarter trailing mean of each component. This matches "four-quarter annualized average" and keeps the sum equal to the four-quarter mean of `dLP`.
 
 ## Vintages
 
@@ -69,7 +71,7 @@ The July vintage is not public. An exact match would require asking Fernald's te
 ## Known breaks and caveats
 
 - Utilization is not observed. It is inferred from hours per worker, following Basu, Fernald, Fisher, and Kimball. The chart's argument depends on that method.
-- Capital deepening is where AI investment in data centers and computers shows up. Folding it into one bar with labor composition hides that channel. The capital detail sheet splits capital input by asset type, including information processing equipment and software, so a separate AI-related capital bar is possible.
+- The computer and software bar is a proxy for AI investment. It includes all information processing equipment and software, and it leaves out data center buildings, which are in structures. It is a capital services measure, so a surge in investment shows up gradually as the stock grows.
 
 ## Decision log
 
@@ -77,4 +79,7 @@ Record decisions here with a date and the reason.
 
 - 2026-09-26: Chose this chart over the industry AI adoption scatter. The question is macro: is productivity growth coming from TFP or from utilization. The scatter answers a narrower cross-sectional question.
 - 2026-09-26: Fernald release of 2026-09-03 inspected. Data run through 2026 Q2. Component identities verified.
+- 2026-09-26: Credit. The data and the growth accounting are Fernald's, so the source line names his series and the San Francisco Fed. The chart's framing is Tedeschi's, so the note says "Chart adapted from" his post.
+- 2026-09-26: No acronyms or formulas on the chart. Notes define each component in plain words. See `STYLE.md`.
+- 2026-09-26: Added the four-component version. Four-quarter averages, 2026 Q2: labor productivity 2.16, utilization 1.51, computer and software capital deepening 0.66, other deepening and labor composition 0.34, utilization-adjusted TFP -0.34. Computer and software deepening has risen every quarter since 2025 Q2 (0.47).
 - 2026-09-26: Components are four-quarter trailing means of the quarterly annualized log changes. A black point shows labor productivity growth itself, since stacked bars with negative segments make the total hard to read.

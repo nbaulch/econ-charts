@@ -62,7 +62,8 @@ These are the analyses I've been considering. Treat them as starting points. Ver
 ## Repo layout
 
 ```
-R/                      fetch_<agency>_<dataset>() functions, one file per agency
+R/                      fetch_<agency>_<dataset>() functions, one file per agency, and chart_style.R
+fonts/                  bundled chart font
 charts/<chart-name>/
   spec.md               sources, series IDs, transformations, vintages, breaks, decision log
   build.R               fetch, transform, plot, top to bottom
@@ -76,7 +77,7 @@ cache/                  large raw downloads (not committed)
 - Use `tidyusmacro` (CRAN) for BLS, BEA NIPA, and FRED. Write `fetch_*` functions only for sources it doesn't cover.
 - No topic folders until the site exists. A topic is a page that lists charts in order.
 - No `legacy/`, `_backup`, `_v2`, or `_old` files. Git is the history.
-- Every chart caption names the source and the series identifiers.
+- Every chart names its source and data release in the notes. Series identifiers and formulas go in the spec, not on the chart.
 
 ## Code style
 
@@ -120,10 +121,11 @@ Propose designs when we get there, but don't build these before the first chart 
 
 Plain, measured, declarative. No em dashes as punctuation for effect, no stacked lists of three for rhythm, no marketing language. Chart titles should be accurate before they're catchy.
 
+Charts follow `STYLE.md`. In particular, no acronyms on a chart except ones every reader knows, such as GDP and AI, and notes define terms in plain words rather than with equations.
+
 ## Open questions
 
 - Hosting and stack
 - How to handle data vintages and revisions
-- Whether and how to put charts in a shared visual style
 
 Ask me about these when they become relevant rather than deciding them silently.

@@ -36,7 +36,7 @@ read_sffed_tfp(tfp_path) |>
     dtfp_util = dtfp_util + (1 - alpha) * (dLQ - dLQ_earlier),
     dLQ = dLQ_earlier
   ) |>
-  labor_productivity_contributions() |>
+  labor_productivity_contributions(read_sffed_capital(tfp_path)) |>
   inner_join(published, by = c("date", "series")) |>
   mutate(difference = four_quarter_mean - published) |>
   print(n = Inf)
