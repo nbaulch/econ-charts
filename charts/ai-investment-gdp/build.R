@@ -120,10 +120,7 @@ write_chart_notes(
   path = file.path(chart_dir, "output", "ai-investment-gdp-notes.md")
 )
 
-source_line <- str_glue(
-  "Source: Bureau of Economic Analysis, data through {quarter_label}. ",
-  "Method from Soto, Thieu, and Allen, FEDS Notes, July 2026."
-)
+source_line <- "Source: Bureau of Economic Analysis. Method from Soto, Thieu, and Allen, FEDS Notes, July 2026."
 
 recent <- averages |>
   mutate(data_centers_and_power = data_centers + power)
