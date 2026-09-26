@@ -71,7 +71,7 @@ productivity_chart <- ggplot(bars, aes(date, four_quarter_mean)) +
   scale_y_continuous(breaks = scales::breaks_width(1)) +
   guides(fill = guide_legend(nrow = 1, order = 1)) +
   labs(
-    title = "Recent productivity growth comes from busier firms and more computers",
+    title = "Recent productivity growth comes from higher utilization and computer investment",
     subtitle = "Contributions to growth in U.S. business sector labor productivity, four-quarter average, percentage points",
     caption = notes |> str_wrap(width = 140) |> str_c(collapse = "\n")
   ) +
