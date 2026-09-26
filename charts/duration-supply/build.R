@@ -159,14 +159,15 @@ recent_issuers <- hyperscaler_bonds |>
 
 write_chart_lead(
   str_glue(
-    "Treasury is not adding more long-term debt for private investors to absorb than it was a year ago; big tech ",
-    "borrowing is the new source. In the 12 months to {latest_label}, Treasury securities added ",
-    "${billions(latest[['treasury']])} billion in 10-year equivalents to private holdings, compared with ",
-    "${billions(year_earlier_treasury)} billion a year earlier and a peak of ",
+    "Big tech companies have become a significant new source of long-term debt for investors to absorb, while ",
+    "Treasury's contribution has not grown. Measured in 10-year equivalents\u2014the amount of 10-year notes that ",
+    "would carry the same risk from changes in interest rates\u2014Treasury added ",
+    "${billions(latest[['treasury']])} billion to private holdings in the 12 months to {latest_label}. That compares ",
+    "with ${billions(year_earlier_treasury)} billion a year earlier and a peak of ",
     "${billions(recent_treasury_peak$change_12_months)} billion in {format(recent_treasury_peak$date, '%B %Y')}. ",
     "Bonds sold by {recent_issuers} added ${billions(latest[['hyperscalers']])} billion, ",
-    "{round(100 * latest[['hyperscalers']] / latest[['treasury']])} percent as much. That understates big tech's ",
-    "borrowing, since it leaves out private placements such as the financing for Meta's Hyperion data center."
+    "{round(100 * latest[['hyperscalers']] / latest[['treasury']])} percent as much as Treasury. That leaves out ",
+    "private placements, such as the financing for Meta's Hyperion data center, so it understates big tech's borrowing."
   ),
   file.path(chart_dir, "output", "duration-supply-lead.md")
 )
@@ -200,7 +201,7 @@ duration_chart <- ggplot(areas, aes(date, change_12_months, fill = issuer)) +
   scale_y_continuous(labels = scales::label_comma(), breaks = scales::breaks_width(500)) +
   theme_chart()
 
-title <- "Big tech bond sales now add more than a quarter as much interest rate risk as Treasury"
+title <- "Big tech now adds more than a quarter as much long-term debt as Treasury"
 subtitle <- "Change over 12 months in debt held by private investors, billions of dollars in 10-year equivalents"
 source_line <- str_glue(
   "Sources: Treasury; Federal Reserve Bank of New York; Securities and Exchange Commission. Data through {latest_label}."

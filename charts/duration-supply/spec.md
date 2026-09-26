@@ -74,3 +74,4 @@ Valuation choice: priced at each month's own yields, our Treasury series swings 
 - 2026-09-26: Value every month on the latest yield curve, so the series reflects what was issued rather than yield swings.
 - 2026-09-26: Dollar bonds only, since the question is the U.S. market.
 - 2026-09-26: Title: "Big tech bond sales now add more than a quarter as much interest rate risk as Treasury." The ratio is 29 percent in August 2026; revisit on refresh.
+- 2026-09-26: Title: "Big tech now adds more than a quarter as much long-term debt as Treasury," dropping "interest rate risk," which general readers don't know. The text defines 10-year equivalents in plain words. The ratio is 29 percent in August 2026; revisit on refresh.
