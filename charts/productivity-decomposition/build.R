@@ -55,7 +55,6 @@ latest <- contributions |>
   select(series, four_quarter_mean) |>
   tibble::deframe()
 
-latest_quarter <- str_glue("{year(max(contributions$date))} Q{quarter(max(contributions$date))}")
 points <- \(x) format(abs(round(x, 1)), nsmall = 1)
 
 peak_efficiency <- contributions |>
@@ -64,14 +63,13 @@ peak_efficiency <- contributions |>
 
 write_chart_lead(
   str_glue(
-    "Productivity growth remains solid, but it comes from businesses using their workers and equipment more ",
-    "intensively and from investment in computers, not from efficiency gains. Labor productivity grew ",
-    "{points(latest[['labor_productivity']])} percent over the four quarters through {latest_quarter}. Higher ",
-    "utilization added {points(latest[['utilization']])} points and computers and software ",
-    "{points(latest[['it_capital_deepening']])}, while total factor productivity, the best gauge of efficiency, ",
-    "{if (latest[['tfp_util_adjusted']] < 0) 'subtracted' else 'added'} {points(latest[['tfp_util_adjusted']])}. It had ",
-    "added as much as {points(peak_efficiency$four_quarter_mean)} points in ",
-    "{year(peak_efficiency$date)}."
+    "Productivity growth remains solid, but it now comes from businesses working their existing staff and ",
+    "equipment harder and from investment in computers, not from efficiency gains. Labor productivity grew ",
+    "{points(latest[['labor_productivity']])} percent over the past four quarters. Higher utilization added ",
+    "{points(latest[['utilization']])} percentage points and computers and software ",
+    "{points(latest[['it_capital_deepening']])}. Total factor productivity, the best gauge of efficiency, ",
+    "{if (latest[['tfp_util_adjusted']] < 0) 'subtracted' else 'added'} {points(latest[['tfp_util_adjusted']])} point, ",
+    "after adding as much as {points(peak_efficiency$four_quarter_mean)} points in {year(peak_efficiency$date)}."
   ),
   file.path(chart_dir, "output", "productivity-decomposition-lead.md")
 )
@@ -88,10 +86,7 @@ write_chart_notes(
   path = file.path(chart_dir, "output", "productivity-decomposition-notes.md")
 )
 
-source_line <- str_glue(
-  "Source: John Fernald, Federal Reserve Bank of San Francisco, release of {format(release_date, '%B %-d, %Y')}. ",
-  "Adapted from Ernie Tedeschi, Stripe Economics, July 2026."
-)
+source_line <- "Source: Federal Reserve Bank of San Francisco (Fernald). Adapted from Ernie Tedeschi, Stripe Economics, July 2026."
 
 recent <- filter(contributions, date >= ymd("2022-01-01"))
 
@@ -118,7 +113,7 @@ productivity_chart <- ggplot(bars, aes(date, four_quarter_mean)) +
   guides(shape = guide_legend(order = 2)) +
   theme_chart()
 
-title <- "Recent productivity growth comes from higher utilization and computer investment"
+title <- "Productivity growth has shifted from efficiency gains to working existing resources harder"
 subtitle <- "Contributions to growth in U.S. business sector labor productivity, four-quarter average, percentage points"
 
 # A wide version for desktops and a narrow one for phones, with text wrapped to fit each.
