@@ -43,6 +43,19 @@ domestic_use_weights <- function(nipa) {
     select(date, export_weight, import_weight)
 }
 
+# Deflates computer trade with the price of business investment in computers
+# rather than trade prices, so that import prices rising faster than
+# investment prices don't show up as lower real imports.
+deflate_trade_with_investment_price <- function(nipa) {
+  nipa |>
+    mutate(
+      investment_price = computers_nominal / computers_real,
+      computer_imports_real = computer_imports_nominal / investment_price,
+      computer_exports_real = computer_exports_nominal / investment_price
+    ) |>
+    select(-investment_price)
+}
+
 # `trade_weights` has a date and the export and import weights that scale
 # computer trade.
 ai_investment_contributions <- function(nipa, trade_weights = capital_goods_weights(nipa)) {

@@ -53,20 +53,11 @@ bls_prices |>
   filter(date >= ymd("2025-03-01")) |>
   print(width = Inf)
 
-# Deflating computer trade with the investment price keeps a rise in import
-# prices that outpaces investment prices from showing up as lower real imports.
-nipa_with_investment_prices <- nipa |>
-  mutate(
-    investment_price = computers_nominal / computers_real,
-    computer_imports_real = computer_imports_nominal / investment_price,
-    computer_exports_real = computer_exports_nominal / investment_price
-  )
-
 latest_quarter <- max(nipa$date)
 
 list(
   "Trade price (BEA)" = nipa,
-  "Investment price" = nipa_with_investment_prices
+  "Investment price" = deflate_trade_with_investment_price(nipa)
 ) |>
   map(ai_investment_contributions) |>
   list_rbind(names_to = "trade_deflator") |>

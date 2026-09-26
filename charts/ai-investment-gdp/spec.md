@@ -1,6 +1,6 @@
 # AI-related investment's contribution to GDP growth
 
-Status: built in R from BEA data fetched on 2026-09-26, through 2026 Q2. Reproduces the published figure exactly. Title is a draft for review.
+Status: built in R from BEA data fetched on 2026-09-26, through 2026 Q2. Reproduces the published figure exactly under the FEDS method. Title is a draft for review.
 
 ## Question
 
@@ -130,7 +130,6 @@ Findings, annualized quarterly price growth:
 
 As of 2026-09-26. Not yet decided or done.
 
-- **Title and the price gap.** The four-quarter offset is 31% under the FEDS method, 37% with the BEA trade weight, and 48% when computer trade is deflated with the investment price (see Import price check). The positive 2026 Q2 trade bar comes from import prices rising faster than investment prices, not from fewer imports, and 2026 Q3 will likely show the same. Options: keep the title and add a note on the 2026 Q2 price gap; or change the title to a range, such as "a third to a half". Undecided.
 - **Semiconductors.** Census end-use semiconductor imports doubled between 2025 Q3 and 2026 Q2, from $67 billion to $138 billion at an annual rate. The FEDS method excludes them; ING includes them.
 - **Colors.** Orange means data centers and power here and utilization on the productivity chart, on the same page.
 
@@ -149,3 +148,5 @@ As of 2026-09-26. Not yet decided or done.
 - 2026-09-26: Built a weight from BEA's domestic spending on computers. It gives a 37% offset against the FEDS weight's 31%. The product mix weight is ruled out by the domestic content check.
 - 2026-09-26: Keep the FEDS weight on the chart, for exact replication. A note gives the offset under the BEA weight, computed from the data so it updates on refresh. Revisit if the two move apart.
 - 2026-09-26: Checked the 2026 Q2 jump in computer import prices against BLS. It is real and concentrated in parts; it outpaced BEA's investment price, which is what turns 2026 Q2 computer trade positive.
+- 2026-09-26: Title: "Computer imports offset a third to a half of the AI buildout's boost to growth." Over the four quarters through 2026 Q2 the offset is 31% under the FEDS method, 37% with the BEA trade weight, and 48% with computer trade at the investment price; all three are in the notes and computed from the data. Replaces the earlier "about a third."
+- 2026-09-26: Note that 2026 Q2 computer trade added to growth because import prices rose about twice as fast as investment prices. This sentence is written for 2026 Q2 and must be revisited on the next refresh.
