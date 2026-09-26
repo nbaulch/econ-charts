@@ -37,6 +37,10 @@ All from BEA's NIPA flat files (`https://apps.bea.gov/national/Release/TXT/`), r
 | Exports of consumer goods, except food and automotive | A642RC | | 4.2.5B line 42 |
 | Imports of capital goods, except automotive | A650RC | | 4.2.5B line 114 |
 | Imports of consumer goods, except food and automotive | A652RC | | 4.2.5B line 134 |
+| Consumer spending on personal computers, tablets, and peripherals | DCPPRC | | 2.4.5U line 49 |
+| Final sales of computers | BB01RC | | 1.2.5 line 17 |
+
+The last two are used only in `trade_weights.R`, to compare weights.
 
 ## Transformations
 
@@ -89,12 +93,15 @@ Import weights and the offset, averaged over the four quarters through 2026 Q2. 
 |---|---|---|---|---|
 | Capital goods share (FEDS Note, current chart) | 0.73 | 0.63 | 0.45 | 31% |
 | Capital goods share of imports, on both sides | 0.63 | 0.63 | 0.44 | 33% |
+| Business share of domestic spending on computers (BEA) | 0.69 | 0.69 | 0.41 | 37% |
 | Product mix from Census HS detail | 0.97 | 0.95 | 0.32 | 52% |
 | No weight | 1 | 1 | 0.30 | 55% |
 
+The BEA weight is business investment in computers as a share of domestic spending on computers by businesses, consumers, and government, lagged a quarter and applied to exports and imports alike. That spreads net imports across domestic uses in proportion to their size, the assumption BEA uses in its input-output tables. Government spending on computers isn't published, so it is the residual in final sales of computers (consumer + business + government + exports - imports). The residual rose from $13 billion a year in 2019 and $17 billion in 2024 Q1 to $46 billion in 2026 Q2. That rise is unverified; if it were $18 billion, the weight in 2026 Q2 would be 0.75 rather than 0.72. The business share rose from about 0.60 before 2025 to 0.72 in 2026 as server purchases grew.
+
 The product mix weight counts servers, storage, other units, and parts fully as capital goods and gives laptops and desktops the FEDS weight, since households buy them too. Because laptops and desktops are now about a tenth of computer trade, it lands close to no weight. The level of the import weight drives the gap; weighting exports more heavily than imports accounts for only about 2 points of it.
 
-Domestic content check. A weight is too high if the net computer imports it counts exceed business investment in computers. Counted net imports as a share of that investment, 2025 Q3 to 2026 Q2: FEDS weight 0.45 to 0.72, product mix 0.79 to 1.06, no weight 0.87 to 1.10. The product mix weight fails in 2026.
+Domestic content check. A weight is too high if the net computer imports it counts exceed business investment in computers. Counted net imports as a share of that investment, 2025 Q3 to 2026 Q2: FEDS weight 0.45 to 0.72, BEA weight 0.57 to 0.79, product mix 0.79 to 1.06, no weight 0.87 to 1.10. The product mix weight and no weight fail in 2026. The BEA weight passes by construction, since it is built from final sales, so the check rules out the high weights but cannot choose between the FEDS and BEA weights.
 
 Round trips through Mexico. Exports of parts to Mexico rose from $6 billion to $11 billion a year in 2022 and 2023 to $35 billion in 2026 H1. Server exports to Mexico went from $2 billion (annual rate) in 2025 Q2 to $15 billion in Q3, while server imports from Mexico reached $143 billion in 2026 Q2. The 2025 Q2 rise in exports was mostly servers to other destinations, including Europe and Singapore; Q3's was mostly Mexico. Netting exports against imports handles round trips correctly as long as both sides get the same weight.
 
@@ -102,7 +109,7 @@ Round trips through Mexico. Exports of parts to Mexico rose from $6 billion to $
 
 As of 2026-09-26. Not yet decided or done.
 
-- **Which weight to use.** The FEDS weight is too low: servers, storage, and parts are about nine tenths of computer imports and go to business. The product mix weight is too high: by 2026 it counts net computer imports at 102 to 106 percent of business investment in computers, leaving no domestic content, while BEA's final sales of computers (BB01RC), the domestic content of all computer spending, is still about $120 billion a year. It misses that imported computers also go to households, government, and inventories. Next: build a weight from BEA's own uses of computers (business investment, consumer spending on computers DCPPRC, government, exports) and keep whichever candidate passes the domestic content check. The offset is likely between a third and a half; the title should not say "a third" until this is settled.
+- **Which weight to use.** The product mix weight and no weight fail the domestic content check. The FEDS and BEA weights both pass and give offsets of 31% and 37% over the four quarters through 2026 Q2, so the title's "about a third" holds under either. The BEA weight is specific to computers and uses the same weight on exports and imports. Its proportionality assumption probably understates the offset somewhat, since servers bought by businesses are more likely imported whole than computers bought by others. No independent check separates the two. Options: keep the FEDS weight and add a note that a computer-specific weight from BEA data gives 37%; or switch to the BEA weight and say the method is adapted. Undecided.
 - **2026 Q2 import price.** BEA's implied price of computer imports jumped about 12% in one quarter, and real imports fell 23% annualized while nominal imports rose. Check this before publishing a quarter where computer trade adds to growth.
 - **Semiconductors.** Census end-use semiconductor imports doubled between 2025 Q3 and 2026 Q2, from $67 billion to $138 billion at an annual rate. The FEDS method excludes them; ING includes them.
 - **Colors.** Orange means data centers and power here and utilization on the productivity chart, on the same page.
@@ -119,3 +126,4 @@ As of 2026-09-26. Not yet decided or done.
 - 2026-09-26: Show quarterly contributions, as the note does. Put the four-quarter averages behind the title in a note, computed from the data so they update on refresh.
 - 2026-09-26: Title: "Computer imports offset about a third of the AI buildout's boost to growth." Over the four quarters through 2026 Q2, 0.66 point gross and 0.45 net, an offset of 31%.
 - 2026-09-26: Pulled Census HS detail for computer trade and compared weights. The chart keeps the FEDS weight until the weight is decided.
+- 2026-09-26: Built a weight from BEA's domestic spending on computers. It gives a 37% offset against the FEDS weight's 31%. The product mix weight is ruled out by the domestic content check.

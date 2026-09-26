@@ -12,7 +12,9 @@ source("charts/ai-investment-gdp/contributions.R")
 chart_dir <- "charts/ai-investment-gdp"
 
 # NIPA series codes. Investment is from tables 5.3.5, 5.4.5, and 5.5.5 and their
-# chained-dollar versions; trade is from tables 4.2.5B and 4.2.6B.
+# chained-dollar versions; trade is from tables 4.2.5B and 4.2.6B. Consumer
+# spending on computers (2.4.5U) and final sales of computers (1.2.5) are for
+# comparing trade weights.
 nipa_series <- c(
   gdp_nominal = "A191RC",
   gdp_real = "A191RX",
@@ -31,7 +33,9 @@ nipa_series <- c(
   capital_goods_exports = "A640RC",
   consumer_goods_exports = "A642RC",
   capital_goods_imports = "A650RC",
-  consumer_goods_imports = "A652RC"
+  consumer_goods_imports = "A652RC",
+  consumer_computers = "DCPPRC",
+  computer_final_sales = "BB01RC"
 )
 
 nipa <- fetch_bea_nipa(nipa_series)

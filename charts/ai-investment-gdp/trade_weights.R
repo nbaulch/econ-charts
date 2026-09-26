@@ -66,11 +66,31 @@ product_weights <- capital_goods_weights(nipa) |>
     import_weight = 1 - lag(personal_share_imports) * (1 - import_weight)
   )
 
+# Business investment's share of domestic spending on computers, applied to net
+# imports. Government spending on computers isn't published, so it is the
+# residual in BEA's final sales of computers, the domestic content of all
+# computer spending: final sales = consumer + business + government + exports -
+# imports. This spreads net imports across domestic uses in proportion to their
+# size, the same assumption BEA uses in its input-output tables.
+domestic_use_weights <- function(nipa) {
+  nipa |>
+    arrange(date) |>
+    mutate(
+      government_computers = computer_final_sales - consumer_computers - computers_nominal -
+        computer_exports_nominal + computer_imports_nominal,
+      business_share = computers_nominal / (computers_nominal + consumer_computers + government_computers),
+      export_weight = lag(business_share),
+      import_weight = lag(business_share)
+    ) |>
+    select(date, export_weight, import_weight)
+}
+
 trade_weights <- list(
   "Capital goods share (FEDS Note)" = capital_goods_weights(nipa),
   # Isolates the effect of weighting exports more heavily than imports.
   "Capital goods share of imports, both sides" = capital_goods_weights(nipa) |>
     mutate(export_weight = import_weight),
+  "Business share of domestic spending (BEA)" = domestic_use_weights(nipa),
   "Product mix (Census)" = product_weights,
   "No weight" = transmute(nipa, date, export_weight = 1, import_weight = 1)
 )
@@ -103,6 +123,7 @@ contributions_by_weight |>
 # A weight is too high if the net computer imports it counts exceed business
 # investment in computers, which would leave investment with no domestic
 # content. BEA's final sales of computers put domestic content well above zero.
+# The BEA weight passes by construction, since it is built from final sales.
 trade_weights |>
   list_rbind(names_to = "weight") |>
   inner_join(nipa, by = "date") |>
