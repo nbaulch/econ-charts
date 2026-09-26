@@ -11,23 +11,31 @@ The house style follows Datawrapper's published guidance, adapted for static cha
 
 ## Text
 
-The hierarchy has four levels, and nothing else competes with them.
+The image has four levels of text, and nothing else competes with them. Definitions and the full source sit under the chart as page text (see Notes).
 
 | Level | Use | Style |
 |-------|-----|-------|
 | Title | The finding, in a plain sentence | Bold, largest, darkest grey |
 | Subtitle | What is measured, and its units | Regular, dark grey |
 | Labels and legend | Series names, axis values | Regular, smaller |
-| Notes and source | Definitions, source, credit | Smallest, lightest grey, with extra line spacing |
+| Source line | Short source and credit, inside the image | Smallest, lightest grey |
 
 - **Titles state the finding in everyday language** ("comes mostly from working existing equipment and workers harder"), not the dataset name. Accurate before catchy. The technical description belongs in the subtitle.
 - **No acronyms in anything a reader sees**: titles, labels, legends, notes. Spell out total factor productivity, not TFP. The exceptions are ones any reader knows, such as GDP and AI.
 - **Units go in the subtitle** and in any label that shows a value. No axis titles when the subtitle already gives the units.
 - **Legend labels are short**, two or three words. Anything a short label leaves out goes in the notes.
-- **Notes define terms a general reader may not know.** One line per term, written as "Label: definition," in the same order as the legend. Keep each definition short enough to fit on one line. No equations. The spec holds the formulas.
-- **A blank line separates the definitions from the source line.**
-- **The source line names the data and its release**, then credits the original analysis when the chart builds on someone else's work.
+- **The source line in the image is short**: the data's provider and release, and the original analysis by author and outlet. An image saved or shared on its own still says where it came from.
 - Sentence case everywhere. No rotated axis labels. Drop trailing zeros from numbers.
+
+## Notes
+
+Notes are page text under each chart, not part of the image. Text drawn into an image shrinks with it, to about 11 pixels on a phone, and can't be zoomed cleanly, copied, clicked, or read aloud. Datawrapper handles notes the same way.
+
+- `build.R` writes them with `write_chart_notes()` to `output/<chart>-notes.md`, and the topic page includes that file under the chart. Numbers in notes come from the data, so they update on refresh.
+- **Definitions first**, one paragraph per term, written as "**Label:** definition," in the same order as the legend. No equations. The spec holds the formulas.
+- **Then any sentence the reader needs to interpret the chart**, kept to one or two. Analysis belongs in the spec.
+- **The full source line comes last**: the data and its release, then credit to the original analysis, with links.
+- Styled in `styles.css` as `.chart-notes`: body-text grey, slightly smaller than body text, terms in bold.
 
 ## Color
 
@@ -50,7 +58,7 @@ Rules:
 - **The same thing keeps the same color** across charts. In the productivity charts, total factor productivity is always blue and utilization always orange.
 - **Use as few colors as the point needs.** Put what matters in color and the rest in grey. More than six colors means a different chart or grouping into "other."
 - **Order the legend like the chart**: top to bottom for stacked bars. Label directly on the chart when it fits.
-- Greys for non-data elements: title `#222220`, text `#4a4a47`, notes and axis labels `#75746f`, zero line `#3a3a38`, gridlines `#e6e5e1`.
+- Greys for non-data elements: title `#222220`, text `#4a4a47`, source line and axis labels `#75746f`, zero line `#3a3a38`, gridlines `#e6e5e1`.
 - Sequential and diverging scales are not defined yet. Add them when the first chart needs one.
 
 ## Data download
@@ -66,9 +74,9 @@ Roboto, Datawrapper's default. It has lining, tabular figures, so numbers align.
 - Horizontal gridlines only, in light grey. No axis lines or tick marks.
 - A darker zero line when values go negative.
 - Legend at the top left, above the plot.
-- Title, subtitle, legend, and notes align with the left edge of the image, not the plot panel.
+- Title, subtitle, legend, and source line align with the left edge of the image, not the plot panel.
 - White background. Saved as PNG with `ragg` at 200 dpi.
-- Every chart is saved twice: a wide version, 10 inches across, for desktops, and a narrow version, 4.2 inches across and named `*-narrow.png`, which the site shows on screens up to 600 pixels wide. `chart_labels()` wraps the title, subtitle, and notes to fit each width. The narrow version stacks its legend in one column.
+- Every chart is saved twice: a wide version, 10 inches across, for desktops, and a narrow version, 4.2 inches across and named `*-narrow.png`, which the site shows on screens up to 600 pixels wide. `chart_labels()` wraps the title, subtitle, and source line to fit each width. The narrow version stacks its legend in one column.
 
 ## Sources
 

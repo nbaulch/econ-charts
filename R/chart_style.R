@@ -63,17 +63,23 @@ theme_chart <- function(base_size = 12) {
     )
 }
 
-# Wraps the title, subtitle, and notes to fit a chart `width` inches wide. The
-# characters per inch match the text sizes in theme_chart().
-chart_labels <- function(title, subtitle, notes, width) {
+# Wraps the title, subtitle, and short source line to fit a chart `width`
+# inches wide. The characters per inch match the text sizes in theme_chart().
+# Definitions and the full source go on the page instead; see write_chart_notes().
+chart_labels <- function(title, subtitle, source, width) {
   text_width <- width - 0.4
   labs(
     title = stringr::str_wrap(title, floor(text_width * 8.5)),
     subtitle = stringr::str_wrap(subtitle, floor(text_width * 12)),
-    caption = notes |>
-      stringr::str_wrap(floor(text_width * 14.5)) |>
-      stringr::str_c(collapse = "\n")
+    caption = stringr::str_wrap(source, floor(text_width * 14.5))
   )
+}
+
+# Notes shown as text under the chart on the site, where they stay readable at
+# any screen size. `notes` is a vector of Markdown paragraphs; the topic page
+# includes the file.
+write_chart_notes <- function(notes, path) {
+  writeLines(c("::: {.chart-notes}", "", stringr::str_c(notes, collapse = "\n\n"), "", ":::"), path)
 }
 
 save_chart <- function(plot, path, width, height) {

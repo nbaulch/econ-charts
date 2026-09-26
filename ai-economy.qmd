@@ -15,6 +15,8 @@ What AI is and is not doing to the U.S. economy right now.
 ```
 :::
 
+{{< include charts/ai-investment-gdp/output/ai-investment-gdp-notes.md >}}
+
 [Download the data (CSV)](charts/ai-investment-gdp/output/ai-investment-gdp.csv){.chart-download}
 
 ## Adoption
@@ -28,6 +30,8 @@ What AI is and is not doing to the U.S. economy right now.
 ```
 :::
 
+{{< include charts/ai-adoption/output/ai-adoption-notes.md >}}
+
 [Download the data (CSV)](charts/ai-adoption/output/ai-adoption.csv){.chart-download}
 
 ## Productivity
@@ -40,5 +44,7 @@ What AI is and is not doing to the U.S. economy right now.
 </picture>
 ```
 :::
+
+{{< include charts/productivity-decomposition/output/productivity-decomposition-notes.md >}}
 
 [Download the data (CSV)](charts/productivity-decomposition/output/productivity-decomposition.csv){.chart-download}

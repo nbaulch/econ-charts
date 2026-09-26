@@ -51,13 +51,21 @@ contributions |>
   write_csv(file.path(chart_dir, "output", "productivity-decomposition.csv"))
 
 notes <- c(
-  str_glue("{components$label}: {components$definition}"),
-  "",
+  str_glue("**{components$label}:** {components$definition}"),
   str_glue(
-    "Source: John Fernald, Quarterly Utilization-Adjusted Series on Total Factor Productivity, ",
+    "Source: John Fernald, [Quarterly Utilization-Adjusted Series on Total Factor Productivity]",
+    "(https://www.frbsf.org/research-and-insights/data-and-indicators/total-factor-productivity-tfp/), ",
     "Federal Reserve Bank of San Francisco, release of {format(release_date, '%B %-d, %Y')}. ",
-    "Chart adapted from Ernie Tedeschi, \"AI and Productivity,\" Stripe Economics, July 2026."
+    "Chart adapted from Ernie Tedeschi, [\"AI and Productivity\"](https://www.stripeeconomics.com/p/ai-and-productivity), ",
+    "Stripe Economics, July 2026."
   )
+)
+
+write_chart_notes(notes, file.path(chart_dir, "output", "productivity-decomposition-notes.md"))
+
+source_line <- str_glue(
+  "Source: John Fernald, Federal Reserve Bank of San Francisco, release of {format(release_date, '%B %-d, %Y')}. ",
+  "Adapted from Ernie Tedeschi, Stripe Economics, July 2026."
 )
 
 recent <- filter(contributions, date >= ymd("2022-01-01"))
@@ -91,19 +99,19 @@ subtitle <- "Contributions to growth in U.S. business sector labor productivity,
 # A wide version for desktops and a narrow one for phones, with text wrapped to fit each.
 save_chart(
   productivity_chart +
-    chart_labels(title, subtitle, notes, width = 10) +
+    chart_labels(title, subtitle, source_line, width = 10) +
     guides(fill = guide_legend(nrow = 1, order = 1)),
   file.path(chart_dir, "output", "productivity-decomposition.png"),
   width = 10,
-  height = 7
+  height = 5.4
 )
 
 save_chart(
   productivity_chart +
-    chart_labels(title, subtitle, notes, width = 4.2) +
+    chart_labels(title, subtitle, source_line, width = 4.2) +
     guides(fill = guide_legend(ncol = 1, order = 1)) +
     theme(legend.box = "vertical", legend.spacing.y = unit(2, "pt")),
   file.path(chart_dir, "output", "productivity-decomposition-narrow.png"),
   width = 4.2,
-  height = 9.6
+  height = 7.2
 )

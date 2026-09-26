@@ -87,19 +87,27 @@ measures <- tribble(
 )
 
 notes <- c(
-  str_glue("{measures$label}: {measures$definition}"),
-  "",
+  str_glue("**{measures$label}:** {measures$definition}"),
   str_glue(
     "In {format(latest_firms$date, '%B %Y')}, {share_of_size_class('G')} percent of firms with 250 or more ",
     "employees used AI, compared with {share_of_size_class('A')} percent of firms with fewer than 5."
   ),
   str_glue(
-    "Source: Census Bureau, Business Trends and Outlook Survey, through {format(latest_firms$date, '%B %-d, %Y')}; ",
-    "Alexander Bick, Adam Blandin, and David Deming, Real-Time Population Survey, through ",
+    "Sources: Census Bureau, [Business Trends and Outlook Survey](https://www.census.gov/hfp/btos/), through ",
+    "{format(latest_firms$date, '%B %-d, %Y')}; Alexander Bick, Adam Blandin, and David Deming, Real-Time Population ",
+    "Survey, from the [Generative AI Adoption Tracker](https://www.genaiadoptiontracker.com/), through ",
     "{format(latest_workers$date, '%B %Y')}; Federal Reserve Bank of Atlanta, Survey of Business Uncertainty. ",
-    "Chart builds on Jeffrey S. Allen, \"Monitoring AI Adoption in the U.S. Economy,\" FEDS Notes, ",
-    "Federal Reserve Board, April 2026."
+    "Chart builds on Jeffrey S. Allen, [\"Monitoring AI Adoption in the U.S. Economy\"]",
+    "(https://www.federalreserve.gov/econres/notes/feds-notes/monitoring-ai-adoption-in-the-u-s-economy-20260403.html), ",
+    "FEDS Notes, Federal Reserve Board, April 2026."
   )
+)
+
+write_chart_notes(notes, file.path(chart_dir, "output", "ai-adoption-notes.md"))
+
+source_line <- str_c(
+  "Sources: Census Bureau; Real-Time Population Survey; Federal Reserve Bank of Atlanta. ",
+  "Builds on Allen, FEDS Notes, April 2026."
 )
 
 adoption_chart <- ggplot(mapping = aes(date)) +
@@ -135,17 +143,17 @@ title <- "Measured AI use depends on who is counted and what is asked"
 subtitle <- "Share using AI, percent"
 
 save_chart(
-  adoption_chart + chart_labels(title, subtitle, notes, width = 10),
+  adoption_chart + chart_labels(title, subtitle, source_line, width = 10),
   file.path(chart_dir, "output", "ai-adoption.png"),
   width = 10,
-  height = 7
+  height = 5.4
 )
 
 save_chart(
   adoption_chart +
-    chart_labels(title, subtitle, notes, width = 4.2) +
+    chart_labels(title, subtitle, source_line, width = 4.2) +
     guides(colour = guide_legend(ncol = 1)),
   file.path(chart_dir, "output", "ai-adoption-narrow.png"),
   width = 4.2,
-  height = 10
+  height = 7.2
 )

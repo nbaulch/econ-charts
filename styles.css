@@ -39,3 +39,19 @@ a {
 .chart-download {
   font-size: 0.9rem;
 }
+
+/* Notes and sources are page text rather than part of the chart image, so they
+   stay readable at any screen size. Same darker grey as body text, slightly smaller. */
+.chart-notes {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-top: 0.75rem;
+}
+
+.chart-notes p {
+  margin-bottom: 0.5rem;
+}
+
+.chart-notes strong {
+  color: #222220;
+}

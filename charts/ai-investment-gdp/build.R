@@ -92,27 +92,36 @@ past_year_investment_price <- nipa |>
   ai_investment_contributions() |>
   semi_join(past_year, by = "date")
 
+quarter_label <- str_glue("{year(latest_quarter)} Q{quarter(latest_quarter)}")
+
 notes <- c(
-  str_glue("{components$label}: {components$definition}"),
-  "",
+  str_glue("**{components$label}:** {components$definition}"),
   str_glue(
-    "Over the four quarters through {year(latest_quarter)} Q{quarter(latest_quarter)}, AI-related investment added ",
-    "{round(mean(past_year$gross), 2)} point a year to growth before computer trade and {round(mean(past_year$net), 2)} after, ",
-    "so trade offset {offset_share(past_year)} percent. Weighting computer trade by businesses' share of U.S. spending on ",
-    "computers, instead of the capital goods share of all goods trade, puts the offset at ",
-    "{offset_share(past_year_computer_weight)} percent. Measuring computer trade at the price of business investment ",
-    "in computers puts it at {offset_share(past_year_investment_price)} percent."
+    "Over the four quarters through {quarter_label}, AI-related investment added ",
+    "{round(mean(past_year$gross), 2)} point a year to growth before computer trade and ",
+    "{round(mean(past_year$net), 2)} after, so trade offset {offset_share(past_year)} percent. Counting computer trade ",
+    "by businesses' share of U.S. spending on computers puts the offset at {offset_share(past_year_computer_weight)} ",
+    "percent, and valuing it at the prices of business investment in computers puts it at ",
+    "{offset_share(past_year_investment_price)} percent."
   ),
   # Specific to 2026 Q2; see the import price check in the spec. Revisit on refresh.
-  str_glue(
+  str_c(
     "In 2026 Q2, computer trade added to growth even though spending on imported computers rose, because import ",
     "prices rose about twice as fast as prices of business investment in computers."
   ),
   str_glue(
-    "Source: Bureau of Economic Analysis, National Income and Product Accounts, data through ",
-    "{year(latest_quarter)} Q{quarter(latest_quarter)}. Method from Paul E. Soto, Mason Thieu, and Jeffrey S. Allen, ",
-    "\"The AI Buildout and the Economy,\" FEDS Notes, Federal Reserve Board, July 2026."
+    "Source: Bureau of Economic Analysis, National Income and Product Accounts, data through {quarter_label}. ",
+    "Method from Paul E. Soto, Mason Thieu, and Jeffrey S. Allen, [\"The AI Buildout and the Economy\"]",
+    "(https://www.federalreserve.gov/econres/notes/feds-notes/the-ai-buildout-and-the-economy-publicly-available-data-to-assess-ais-impact-20260717.html), ",
+    "FEDS Notes, Federal Reserve Board, July 2026."
   )
+)
+
+write_chart_notes(notes, file.path(chart_dir, "output", "ai-investment-gdp-notes.md"))
+
+source_line <- str_glue(
+  "Source: Bureau of Economic Analysis, data through {quarter_label}. ",
+  "Method from Soto, Thieu, and Allen, FEDS Notes, July 2026."
 )
 
 recent <- contributions |>
@@ -148,19 +157,19 @@ subtitle <- "Contributions of AI-related investment to annualized real GDP growt
 
 save_chart(
   investment_chart +
-    chart_labels(title, subtitle, notes, width = 10) +
+    chart_labels(title, subtitle, source_line, width = 10) +
     guides(fill = guide_legend(nrow = 1, order = 1)),
   file.path(chart_dir, "output", "ai-investment-gdp.png"),
   width = 10,
-  height = 7
+  height = 5.4
 )
 
 save_chart(
   investment_chart +
-    chart_labels(title, subtitle, notes, width = 4.2) +
+    chart_labels(title, subtitle, source_line, width = 4.2) +
     guides(fill = guide_legend(ncol = 1, order = 1)) +
     theme(legend.box = "vertical", legend.spacing.y = unit(2, "pt")),
   file.path(chart_dir, "output", "ai-investment-gdp-narrow.png"),
   width = 4.2,
-  height = 11.4
+  height = 7.2
 )
