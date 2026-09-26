@@ -165,3 +165,4 @@ As of 2026-09-26. Not yet decided or done.
 - 2026-09-26: Looked at semiconductor trade. The doubling since 2025 Q3 is mostly solid-state storage, which likely belongs with computers. The chart is unchanged.
 - 2026-09-26: Checked how BEA treats chips and solid-state drives. They are not in equipment investment, so netting all semiconductor trade would overstate the offset. The proposal to deviate from the FEDS Note by adding semiconductors is on hold.
 - 2026-09-26: The text above the chart opens with the general point, that AI investment has lifted growth over the past two years but headline figures overstate it because of imports. Check that wording on each refresh.
+- 2026-09-26: The text names the four components rather than calling the total "AI investment", since they also carry spending unrelated to AI: the same components added about 0.3 point a year to growth in 2022 and 2023. The chart subtitle drops "AI-related" for the same reason.
