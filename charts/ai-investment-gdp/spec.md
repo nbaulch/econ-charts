@@ -40,7 +40,7 @@ All from BEA's NIPA flat files (`https://apps.bea.gov/national/Release/TXT/`), r
 | Consumer spending on personal computers, tablets, and peripherals | DCPPRC | | 2.4.5U line 49 |
 | Final sales of computers | BB01RC | | 1.2.5 line 17 |
 
-The last two are used only in `trade_weights.R`, to compare weights.
+The last two build the trade weight based on domestic spending on computers, used in the chart notes and in `trade_weights.R`.
 
 ## Transformations
 
@@ -109,7 +109,6 @@ Round trips through Mexico. Exports of parts to Mexico rose from $6 billion to $
 
 As of 2026-09-26. Not yet decided or done.
 
-- **Which weight to use.** The product mix weight and no weight fail the domestic content check. The FEDS and BEA weights both pass and give offsets of 31% and 37% over the four quarters through 2026 Q2, so the title's "about a third" holds under either. The BEA weight is specific to computers and uses the same weight on exports and imports. Its proportionality assumption probably understates the offset somewhat, since servers bought by businesses are more likely imported whole than computers bought by others. No independent check separates the two. Options: keep the FEDS weight and add a note that a computer-specific weight from BEA data gives 37%; or switch to the BEA weight and say the method is adapted. Undecided.
 - **2026 Q2 import price.** BEA's implied price of computer imports jumped about 12% in one quarter, and real imports fell 23% annualized while nominal imports rose. Check this before publishing a quarter where computer trade adds to growth.
 - **Semiconductors.** Census end-use semiconductor imports doubled between 2025 Q3 and 2026 Q2, from $67 billion to $138 billion at an annual rate. The FEDS method excludes them; ING includes them.
 - **Colors.** Orange means data centers and power here and utilization on the productivity chart, on the same page.
@@ -127,3 +126,4 @@ As of 2026-09-26. Not yet decided or done.
 - 2026-09-26: Title: "Computer imports offset about a third of the AI buildout's boost to growth." Over the four quarters through 2026 Q2, 0.66 point gross and 0.45 net, an offset of 31%.
 - 2026-09-26: Pulled Census HS detail for computer trade and compared weights. The chart keeps the FEDS weight until the weight is decided.
 - 2026-09-26: Built a weight from BEA's domestic spending on computers. It gives a 37% offset against the FEDS weight's 31%. The product mix weight is ruled out by the domestic content check.
+- 2026-09-26: Keep the FEDS weight on the chart, for exact replication. A note gives the offset under the BEA weight, computed from the data so it updates on refresh. Revisit if the two move apart.

@@ -14,7 +14,7 @@ chart_dir <- "charts/ai-investment-gdp"
 # NIPA series codes. Investment is from tables 5.3.5, 5.4.5, and 5.5.5 and their
 # chained-dollar versions; trade is from tables 4.2.5B and 4.2.6B. Consumer
 # spending on computers (2.4.5U) and final sales of computers (1.2.5) are for
-# comparing trade weights.
+# a second trade weight, reported in the notes.
 nipa_series <- c(
   gdp_nominal = "A191RC",
   gdp_real = "A191RX",
@@ -76,13 +76,21 @@ components <- tribble(
 
 latest_quarter <- max(contributions$date)
 past_year <- slice_tail(contributions, n = 4)
+offset_share <- \(past_year) round(100 * (1 - mean(past_year$net) / mean(past_year$gross)))
+
+# The FEDS weight uses goods trade overall; this one is specific to computers.
+past_year_computer_weight <- ai_investment_contributions(nipa, domestic_use_weights(nipa)) |>
+  semi_join(past_year, by = "date")
 
 notes <- c(
   str_glue("{components$label}: {components$definition}"),
   "",
   str_glue(
     "Over the four quarters through {year(latest_quarter)} Q{quarter(latest_quarter)}, AI-related investment added ",
-    "{round(mean(past_year$gross), 2)} point a year to growth before computer trade and {round(mean(past_year$net), 2)} after."
+    "{round(mean(past_year$gross), 2)} point a year to growth before computer trade and {round(mean(past_year$net), 2)} after, ",
+    "so trade offset {offset_share(past_year)} percent. Weighting computer trade by businesses' share of U.S. spending on ",
+    "computers, instead of the capital goods share of all goods trade, puts the offset at ",
+    "{offset_share(past_year_computer_weight)} percent."
   ),
   str_glue(
     "Source: Bureau of Economic Analysis, National Income and Product Accounts, data through ",
@@ -138,5 +146,5 @@ save_chart(
     theme(legend.box = "vertical", legend.spacing.y = unit(2, "pt")),
   file.path(chart_dir, "output", "ai-investment-gdp-narrow.png"),
   width = 4.2,
-  height = 9.6
+  height = 10.3
 )

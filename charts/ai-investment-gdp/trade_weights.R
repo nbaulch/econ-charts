@@ -66,25 +66,6 @@ product_weights <- capital_goods_weights(nipa) |>
     import_weight = 1 - lag(personal_share_imports) * (1 - import_weight)
   )
 
-# Business investment's share of domestic spending on computers, applied to net
-# imports. Government spending on computers isn't published, so it is the
-# residual in BEA's final sales of computers, the domestic content of all
-# computer spending: final sales = consumer + business + government + exports -
-# imports. This spreads net imports across domestic uses in proportion to their
-# size, the same assumption BEA uses in its input-output tables.
-domestic_use_weights <- function(nipa) {
-  nipa |>
-    arrange(date) |>
-    mutate(
-      government_computers = computer_final_sales - consumer_computers - computers_nominal -
-        computer_exports_nominal + computer_imports_nominal,
-      business_share = computers_nominal / (computers_nominal + consumer_computers + government_computers),
-      export_weight = lag(business_share),
-      import_weight = lag(business_share)
-    ) |>
-    select(date, export_weight, import_weight)
-}
-
 trade_weights <- list(
   "Capital goods share (FEDS Note)" = capital_goods_weights(nipa),
   # Isolates the effect of weighting exports more heavily than imports.
