@@ -1,6 +1,6 @@
 # AI-related investment's contribution to GDP growth
 
-Status: built in R from BEA data fetched on 2026-09-26, through 2026 Q2. Reproduces the published figure exactly under the FEDS method. Title is a draft for review.
+Status: built in R from BEA data fetched on 2026-09-26, through 2026 Q2. Reproduces the published figure exactly under the FEDS method. Two charts: the contribution by component (`ai-investment-gdp`) and the contribution before and after netting imported computers (`ai-investment-imports`). Titles are drafts for review.
 
 ## Question
 
@@ -56,7 +56,10 @@ For computer trade, the lagged share is multiplied by the capital goods share of
 
 Net contribution = software + computers + data centers + power + net exports of computers.
 
-The chart combines data centers and power into one bar. The CSV keeps them separate.
+Both charts plot four-quarter averages of these quarterly contributions.
+
+- Component chart: software, computers, and data centers and power (combined into one bar; the CSV keeps them separate). Net trade in computers is left to the second chart.
+- Imports chart: the gross total, the net total under the FEDS method, and a band from the lowest to the highest net total across the FEDS method, the BEA domestic-use trade weight, and computer trade deflated with the investment price.
 
 ## Vintages
 
@@ -166,3 +169,4 @@ As of 2026-09-26. Not yet decided or done.
 - 2026-09-26: Checked how BEA treats chips and solid-state drives. They are not in equipment investment, so netting all semiconductor trade would overstate the offset. The proposal to deviate from the FEDS Note by adding semiconductors is on hold.
 - 2026-09-26: The text above the chart opens with the general point, that AI investment has lifted growth over the past two years but headline figures overstate it because of imports. Check that wording on each refresh.
 - 2026-09-26: The text names the four components rather than calling the total "AI investment", since they also carry spending unrelated to AI: the same components added about 0.3 point a year to growth in 2022 and 2023. The chart subtitle drops "AI-related" for the same reason.
+- 2026-09-26: Split into two charts, one per point: the buildout is adding to growth, and imports make the headline overstate it. Both use four-quarter averages, which match the text, instead of quarterly bars, which swing too much to read the trend. This replaces the earlier decision to show quarterly contributions as the note does; `reproduce.R` still checks the quarterly figures. Titles: "Investment in the AI buildout has more than doubled its contribution to growth" (0.66 point over the four quarters through 2026 Q2 against 0.29 through 2023 Q4) and "Net of imported computers, the boost is 30 to 50 percent smaller" (computed from the data). Check the first title's "more than doubled" on each refresh.
