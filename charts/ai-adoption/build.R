@@ -64,12 +64,6 @@ firm_adoption |>
   ) |>
   write_csv(file.path(chart_dir, "output", "ai-adoption.csv"), na = "")
 
-adoption_by_size <- btos_ai_use |>
-  filter(!is.na(employment_size), period == max(period)) |>
-  select(employment_size, estimate)
-
-share_of_size_class <- \(size_class) round(adoption_by_size$estimate[adoption_by_size$employment_size == size_class])
-
 latest_firms <- slice_max(firm_adoption, date)
 latest_workers <- slice_max(worker_adoption, date)
 
@@ -91,13 +85,12 @@ wording_break <- firm_adoption |>
 
 write_chart_lead(
   str_glue(
-    "AI use is spreading, but how widespread it looks depends on who is counted and what is asked. About ",
-    "{round(latest_firms$estimate)} percent of firms used AI in {format(latest_firms$date, '%B %Y')}, against ",
-    "{round(latest_workers$workers)} percent of workers in {format(latest_workers$date, '%B %Y')}, and one survey ",
-    "puts {jobs_at_adopting_firms$jobs} percent of jobs at firms that use it. Large firms lead: ",
-    "{share_of_size_class('G')} percent of firms with 250 or more employees use it, against ",
-    "{share_of_size_class('A')} percent of those with fewer than five. Wording matters too: when the Census Bureau ",
-    "broadened its question in November 2025, the firm share jumped from {round(wording_break[['old_question']])} to ",
+    "AI use is spreading, but how widespread it looks depends on who is counted. About ",
+    "{round(latest_firms$estimate)} percent of firms use AI, while {round(latest_workers$workers)} percent of workers ",
+    "use generative AI for their jobs. The gap is mostly about size: most firms are small, and large firms, which ",
+    "employ far more workers, are much more likely to use AI. One survey puts {jobs_at_adopting_firms$jobs} percent ",
+    "of jobs at firms that use it. How the question is asked matters too: when the Census Bureau broadened its ",
+    "question in November 2025, the firm share jumped from {round(wording_break[['old_question']])} to ",
     "{round(wording_break[['new_question']])} percent."
   ),
   file.path(chart_dir, "output", "ai-adoption-lead.md")
@@ -117,7 +110,7 @@ write_chart_notes(
 )
 
 source_line <- str_c(
-  "Sources: Census Bureau; Real-Time Population Survey; Federal Reserve Bank of Atlanta. ",
+  "Sources: Census Bureau; Real-Time Population Survey; Atlanta Fed. ",
   "Builds on Allen, FEDS Notes, April 2026."
 )
 
@@ -150,7 +143,7 @@ adoption_chart <- ggplot(mapping = aes(date)) +
   scale_y_continuous(limits = c(0, 85), breaks = seq(0, 80, 20), expand = expansion(mult = c(0, 0.02))) +
   theme_chart()
 
-title <- "Measured AI use depends on who is counted and what is asked"
+title <- "AI use looks thin across firms but widespread across workers"
 subtitle <- "Share using AI, percent"
 
 save_chart(
