@@ -166,11 +166,12 @@ subtitle <- "Contributions of AI-related investment to annualized real GDP growt
 
 save_chart(
   investment_chart +
-    chart_labels(title, subtitle, source_line, width = 10) +
-    guides(fill = guide_legend(nrow = 1, order = 1)),
+    chart_labels(title, subtitle, source_line, width = 8) +
+    guides(fill = guide_legend(nrow = 1, order = 1)) +
+    theme(legend.box = "vertical", legend.spacing.y = unit(2, "pt")),
   file.path(chart_dir, "output", "ai-investment-gdp.png"),
-  width = 10,
-  height = 5.4
+  width = 8,
+  height = 5
 )
 
 save_chart(

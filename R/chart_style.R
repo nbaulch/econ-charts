@@ -54,11 +54,13 @@ theme_chart <- function(base_size = 12) {
       legend.position = "top",
       legend.location = "plot",
       legend.justification = "left",
+      legend.box.just = "left",
       legend.title = element_blank(),
       legend.text = element_text(size = rel(0.9)),
       legend.key.size = unit(0.9, "lines"),
       legend.margin = margin(b = 4),
-      plot.margin = margin(18, 18, 12, 18),
+      # No side margins, so the title and source line up with the page text around the image.
+      plot.margin = margin(18, 4, 12, 0),
       plot.background = element_rect(fill = "white", colour = NA)
     )
 }

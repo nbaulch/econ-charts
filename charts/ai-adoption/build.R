@@ -156,10 +156,10 @@ title <- "Measured AI use depends on who is counted and what is asked"
 subtitle <- "Share using AI, percent"
 
 save_chart(
-  adoption_chart + chart_labels(title, subtitle, source_line, width = 10),
+  adoption_chart + chart_labels(title, subtitle, source_line, width = 8),
   file.path(chart_dir, "output", "ai-adoption.png"),
-  width = 10,
-  height = 5.4
+  width = 8,
+  height = 5
 )
 
 save_chart(

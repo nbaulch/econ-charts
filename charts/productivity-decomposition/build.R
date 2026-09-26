@@ -115,11 +115,12 @@ subtitle <- "Contributions to growth in U.S. business sector labor productivity,
 # A wide version for desktops and a narrow one for phones, with text wrapped to fit each.
 save_chart(
   productivity_chart +
-    chart_labels(title, subtitle, source_line, width = 10) +
-    guides(fill = guide_legend(nrow = 1, order = 1)),
+    chart_labels(title, subtitle, source_line, width = 8) +
+    guides(fill = guide_legend(nrow = 1, order = 1)) +
+    theme(legend.box = "vertical", legend.spacing.y = unit(2, "pt")),
   file.path(chart_dir, "output", "productivity-decomposition.png"),
-  width = 10,
-  height = 5.4
+  width = 8,
+  height = 5
 )
 
 save_chart(

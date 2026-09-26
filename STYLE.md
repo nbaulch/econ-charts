@@ -73,9 +73,9 @@ Roboto, Datawrapper's default. It has lining, tabular figures, so numbers align.
 - Horizontal gridlines only, in light grey. No axis lines or tick marks.
 - A darker zero line when values go negative.
 - Legend at the top left, above the plot.
-- Title, subtitle, legend, and source line align with the left edge of the image, not the plot panel.
+- Title, subtitle, legend, and source line align with the left edge of the image, not the plot panel. The image has no side margin, and the page shows it at the width of the text column, so the chart's title lines up with the text above and below it. At about 800 pixels, an 8-inch image keeps its text at the size it was drawn.
 - White background. Saved as PNG with `ragg` at 200 dpi.
-- Every chart is saved twice: a wide version, 10 inches across, for desktops, and a narrow version, 4.2 inches across and named `*-narrow.png`, which the site shows on screens up to 600 pixels wide. `chart_labels()` wraps the title, subtitle, and source line to fit each width. The narrow version stacks its legend in one column.
+- Every chart is saved twice: a wide version, 8 inches across, for desktops, and a narrow version, 4.2 inches across and named `*-narrow.png`, which the site shows on screens up to 600 pixels wide. `chart_labels()` wraps the title, subtitle, and source line to fit each width. The narrow version stacks its legend in one column.
 
 ## Sources
 
