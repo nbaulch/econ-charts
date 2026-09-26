@@ -69,6 +69,16 @@ Work in progress, to test the capital goods weight on computer trade.
 - Detail below end-use, such as HS codes that separate servers from laptops, and trade by country, is not seasonally adjusted. Seasonal patterns mostly cancel in shares, so the plan is to take the composition from unadjusted HS data and apply it to BEA's adjusted totals, rather than adding unadjusted HS values to adjusted ones.
 - The Census trade API now requires a free key. It is read from the `CENSUS_API_KEY` environment variable and never committed.
 
+## Open items
+
+As of 2026-09-26. Not yet decided or done.
+
+- **The import weight understates the offset.** The FEDS capital goods weight scales computer imports by 0.51 to 0.69, although imported servers go almost entirely into business investment. It also weights exports more heavily, about 0.73, which tilts net trade toward positive. Over the four quarters through 2026 Q2, the offset is 0.21 point, or 31%, with the weight, and 0.36 point, or 55%, with no weight. Leading option: state the range in the title or a note, then replace the weight with one built from Census HS detail.
+- **Census HS detail.** With `CENSUS_API_KEY`, pull imports and exports by HS code and by country for HS 8471 and 8473.30: servers and processing units, laptops, and parts. Use the shares to (a) build a better import weight and (b) check whether the 2025 Q2 and Q3 export surge is parts sent to Mexico and returned as servers.
+- **2026 Q2 import price.** BEA's implied price of computer imports jumped about 12% in one quarter, and real imports fell 23% annualized while nominal imports rose. Check this before publishing a quarter where computer trade adds to growth.
+- **Semiconductors.** Census end-use semiconductor imports doubled between 2025 Q3 and 2026 Q2, from $67 billion to $138 billion at an annual rate. The FEDS method excludes them; ING includes them.
+- **Colors.** Orange means data centers and power here and utilization on the productivity chart, on the same page.
+
 ## Known breaks and caveats
 
 - There is no AI line in the national accounts. Software, computers, and power facilities include non-AI spending. Power covers all electric and other power structures.
