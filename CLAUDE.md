@@ -20,7 +20,6 @@ This is a working hypothesis, not a conclusion. If refreshed data stops supporti
 - Adoption is real but thin, and concentrated in large firms. Firm-level, employment-weighted, and worker-level surveys give very different numbers, mostly because of who they count.
 - Labor market effects so far show up as fewer young workers entering AI-exposed occupations, not as layoffs.
 - The recent productivity acceleration is mostly firms using existing capital and labor harder, plus investment in computers and software, not AI-driven efficiency gains. Utilization-adjusted TFP grew strongly in 2023 and 2024 and has fallen over the past year.
-- Electricity is the physical constraint, and its effects are regional rather than national.
 
 ## Chart candidates
 
@@ -35,8 +34,7 @@ These are the analyses I've been considering. Treat them as starting points. Ver
 - **Employment of young workers by occupational AI exposure**, from CPS microdata.
   - Related work: Dallas Fed, January 2026.
   - Lower priority because the Stanford and ADP Canaries dashboard already updates monthly.
-- **Electricity demand growth and state-level retail prices** in data center states versus the rest.
-  - Data: EIA.
+- **Electricity demand and prices by state.** Built and dropped in September 2026, because the link to AI is indirect and the investment chart already covers data centers and power. Findings, from EIA Form 861M: six states (Texas, Virginia, Ohio, Georgia, Arizona, Oregon) accounted for about three quarters of the growth in commercial electricity use from 2019 to mid-2026. Household prices rose no faster in states where demand grew fastest, matching Lawrence Berkeley National Laboratory and Brattle (2025). Data centers do raise costs through PJM's capacity market, which a state comparison can't show.
 - **Labor productivity versus utilization-adjusted TFP**, showing the utilization contribution. This is the first chart, in `charts/productivity-decomposition/`.
   - Related work: Ernie Tedeschi, Stripe Economics, July 2026.
   - Data: BLS productivity, SF Fed (Fernald) TFP.
