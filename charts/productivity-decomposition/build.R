@@ -63,11 +63,13 @@ peak_efficiency <- contributions |>
 
 write_chart_lead(
   str_glue(
-    "Productivity growth remains solid, but it now comes from businesses working their existing staff and ",
-    "equipment harder and from investment in computers, not from efficiency gains. Labor productivity grew ",
-    "{points(latest[['labor_productivity']])} percent over the past four quarters. Higher utilization added ",
-    "{points(latest[['utilization']])} percentage points and computers and software ",
-    "{points(latest[['it_capital_deepening']])}. Total factor productivity, the best gauge of efficiency, ",
+    "So far, AI appears to be lifting productivity through the buildout rather than by making businesses more ",
+    "efficient. Labor productivity grew {points(latest[['labor_productivity']])} percent over the past four quarters. ",
+    "Higher utilization\u2014working existing staff and equipment harder\u2014added {points(latest[['utilization']])} ",
+    "percentage points, and ",
+    "investment in computers and software {points(latest[['it_capital_deepening']])}. Tedeschi argues that much of the ",
+    "higher utilization reflects firms pushing servers, factories, and other capacity they already have to meet ",
+    "demand for AI. Total factor productivity, where efficiency gains from using AI would show up, ",
     "{if (latest[['tfp_util_adjusted']] < 0) 'subtracted' else 'added'} {points(latest[['tfp_util_adjusted']])} point, ",
     "after adding as much as {points(peak_efficiency$four_quarter_mean)} points in {year(peak_efficiency$date)}."
   ),
@@ -113,7 +115,7 @@ productivity_chart <- ggplot(bars, aes(date, four_quarter_mean)) +
   guides(shape = guide_legend(order = 2)) +
   theme_chart()
 
-title <- "Productivity growth has shifted from efficiency gains to working existing resources harder"
+title <- "Productivity is growing, but not yet from AI efficiency gains"
 subtitle <- "Contributions to growth in U.S. business sector labor productivity, four-quarter average, percentage points"
 
 # A wide version for desktops and a narrow one for phones, with text wrapped to fit each.
