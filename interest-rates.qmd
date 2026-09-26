@@ -6,16 +6,29 @@ What is driving long-term U.S. interest rates.
 
 ## The 10-year yield
 
-{{< include charts/term-premium/output/term-premium-lead.md >}}
+{{< include charts/yield-decomposition/output/yield-decomposition-lead.md >}}
 
 ```{=html}
 <picture>
-  <source media="(max-width: 600px)" srcset="charts/term-premium/output/term-premium-narrow.png">
-  <img src="charts/term-premium/output/term-premium.png" class="chart" alt="Stacked bar chart of the monthly change since December 2023 in the 10-year Treasury yield, split into expected real short-term rates, real term premium, expected inflation, and inflation risk premium, from the Fed Board model. By August 2026 the yield was about 0.7 point higher, mostly from the real term premium and inflation risk premium, with expected inflation adding about 0.2 point and expected real short-term rates little changed.">
+  <source media="(max-width: 600px)" srcset="charts/yield-decomposition/output/yield-decomposition-narrow.png">
+  <img src="charts/yield-decomposition/output/yield-decomposition.png" class="chart" alt="Stacked bar chart of the monthly change since December 2021 in the 10-year Treasury yield, split into expected real short-term rates, real term premium, expected inflation, and inflation risk premium, from the Fed Board model. The yield rose about 3 points, mostly from expected rates in 2022 and 2023 and increasingly from the term premium since 2024.">
 </picture>
 ```
 
-{{< include charts/term-premium/output/term-premium-notes.md >}}
+{{< include charts/yield-decomposition/output/yield-decomposition-notes.md >}}
+
+## This year's rise
+
+{{< include charts/yield-rise-by-model/output/yield-rise-by-model-lead.md >}}
+
+```{=html}
+<picture>
+  <source media="(max-width: 600px)" srcset="charts/yield-rise-by-model/output/yield-rise-by-model-narrow.png">
+  <img src="charts/yield-rise-by-model/output/yield-rise-by-model.png" class="chart" alt="Two stacked bar charts of the weekly change in the 10-year Treasury yield since the week of February 23, 2026, split into expected short-term rates and term premium, one for the Fed Board model and one for the New York Fed model. The yield rose about 0.7 point by August 31. Expected rates account for about 0.46 point in the Fed Board model and 0.59 in the New York Fed model; the term premium accounts for 0.28 and 0.15.">
+</picture>
+```
+
+{{< include charts/yield-rise-by-model/output/yield-rise-by-model-notes.md >}}
 
 ## Who is supplying long-term debt
 

@@ -1,10 +1,10 @@
-# The 10-year Treasury yield split into expected rates and risk premiums
+# The 10-year Treasury yield since 2021, split into expected rates and risk premiums
 
 Status: built in R from the Fed Board's D'Amico, Kim, and Wei (DKW) estimates through August 31, 2026 (fetched September 26, 2026). Original chart in the style of decompositions by Ernie Tedeschi and Moody's Analytics. Title is a draft for review.
 
 ## Question
 
-Has the 10-year yield risen because investors expect higher short-term rates, or because they demand more compensation for holding long bonds? And is the rise in real rates or in inflation?
+Why is the 10-year yield higher than before the Fed began raising rates, and how has the reason changed? This is the context chart; `charts/yield-rise-by-model/` covers this year's rise.
 
 ## Related work and debate
 
@@ -30,9 +30,9 @@ Commentary, September 2026, for context:
 ## Transformations
 
 - The four parts sum to the fitted 10-year zero-coupon yield. The TIPS liquidity premium, also in the file, is part of inflation compensation measured from inflation-protected securities, not of the nominal yield, and is not used.
-- Monthly averages of daily values, then the change from the December 2023 average. December 2023 is the last month before the term premium's rise, matching the storyline's "higher than before 2024."
+- Monthly averages of daily values, then the change from the December 2021 average, the last month before the Fed began raising rates.
 - Term premium in the text = real term premium plus inflation risk premium. Expected rates = expected real short-term rates plus expected inflation.
-- The CSV has monthly levels since 1983 and changes since December 2023.
+- The CSV has monthly levels since 1983 and changes since December 2021.
 
 ## Vintages
 
@@ -64,3 +64,4 @@ Commentary, September 2026, for context:
 - 2026-09-26: Start the interest rates topic with a term premium chart.
 - 2026-09-26: Replace the two-model bar chart (ACM against Kim-Wright, change over one and two years) with a monthly decomposition of the change since December 2023 from DKW, following how Tedeschi and Moody's chart it. Time series of levels and of 12-month changes were tried and dropped as hard to read. DKW is the one public model that also splits real rates from inflation, which the storyline asks about.
 - 2026-09-26: Title: "The 10-year yield's rise since 2023 has come mostly from the term premium." Check on each refresh that the term premium is still the largest part.
+- 2026-09-26: Measure from December 2021 so the chart gives context back to the start of the hiking cycle, and add a second chart, `charts/yield-rise-by-model/`, for this year's rise with both models. Renamed from `charts/term-premium/`. Title: "The 10-year yield rose first on expected rates, then on the term premium." Change since December 2021 through August 2026: yield +3.25, expected real short-term rates +1.55, real term premium +0.81, expected inflation +0.74, inflation risk premium +0.14. The text says the term premium accounted for "most of the further rise" since 2023 (0.56 of 0.72); check on each refresh.

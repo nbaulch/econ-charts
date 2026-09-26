@@ -8,7 +8,7 @@ library(ggplot2)
 source("R/fetch_frb.R")
 source("R/chart_style.R")
 
-chart_dir <- "charts/term-premium"
+chart_dir <- "charts/yield-decomposition"
 
 # The model splits the fitted 10-year zero-coupon yield into four parts that add
 # up to it. The TIPS liquidity premium belongs to inflation compensation, not
@@ -31,8 +31,8 @@ write_csv(
 )
 
 # Daily estimates are noisy, so the chart uses monthly averages, measured from
-# December 2023, the last month before the term premium's rise.
-base_month <- ymd("2023-12-01")
+# December 2021, the last month before the Fed began raising rates.
+base_month <- ymd("2021-12-01")
 
 monthly <- dkw |>
   mutate(date = floor_date(date, "month")) |>
@@ -43,9 +43,9 @@ changes <- monthly |>
   mutate(across(-date, \(x) x - x[date == base_month]))
 
 monthly |>
-  left_join(changes, by = "date", suffix = c("", "_change_since_december_2023")) |>
+  left_join(changes, by = "date", suffix = c("", "_change_since_december_2021")) |>
   mutate(across(-date, \(x) round(x, 3))) |>
-  write_csv(file.path(chart_dir, "output", "term-premium.csv"), na = "")
+  write_csv(file.path(chart_dir, "output", "yield-decomposition.csv"), na = "")
 
 parts <- tribble(
   ~part, ~label, ~colour, ~definition,
@@ -60,28 +60,17 @@ parts <- tribble(
 )
 
 latest <- slice_max(changes, date)
-year_earlier <- monthly |>
-  filter(date == latest$date %m-% months(12))
-past_year <- slice_max(monthly, date) |>
-  mutate(across(-date, \(x) x - year_earlier[[cur_column()]]))
-
-latest_month <- format(latest$date, "%B %Y")
-points <- \(x) format(round(x, 2), nsmall = 2)
 
 write_chart_lead(
   str_glue(
-    "The 10-year Treasury yield has risen since the end of 2023 mainly because investors want more compensation ",
-    "for the risk of holding long-term bonds, rather than because they expect higher interest rates. In the Fed ",
-    "Board's ",
-    "model, the yield averaged {points(latest$yield)} percentage point more in {latest_month} than in December ",
-    "2023. The term premium\u2014the extra return investors require to lock up money for 10 years instead of rolling ",
-    "over short-term bills\u2014accounted for {points(latest$real_term_premium + latest$inflation_risk_premium)} point ",
-    "of that, and expected inflation {points(latest$expected_inflation)}, while expected real short-term rates ",
-    "were little changed. Over the past year, the yield rose {points(past_year$yield)} point: ",
-    "{points(past_year$real_rate + past_year$expected_inflation)} from higher expected rates and ",
-    "{points(past_year$real_term_premium + past_year$inflation_risk_premium)} from the term premium."
+    "The 10-year Treasury yield has risen about {round(latest$yield)} percentage points since the end of 2021, ",
+    "first because investors expected higher interest rates and more recently because they want more compensation ",
+    "for holding long-term bonds. In the Fed Board's model, the rise through 2023 came mostly from higher expected ",
+    "short-term rates as the Fed raised rates to bring down inflation. Since then, the term premium\u2014the extra ",
+    "return investors require to lock up money for 10 years instead of rolling over short-term bills\u2014has ",
+    "accounted for most of the further rise."
   ),
-  file.path(chart_dir, "output", "term-premium-lead.md")
+  file.path(chart_dir, "output", "yield-decomposition-lead.md")
 )
 
 write_chart_notes(
@@ -95,8 +84,8 @@ write_chart_notes(
     "(https://www.federalreserve.gov/econres/notes/feds-notes/tips-from-tips-update-and-discussions-20190521.html), ",
     "FEDS Notes, updated through {format(max(dkw$date), '%B %-d, %Y')}."
   ),
-  csv_path = file.path(chart_dir, "output", "term-premium.csv"),
-  path = file.path(chart_dir, "output", "term-premium-notes.md")
+  csv_path = file.path(chart_dir, "output", "yield-decomposition.csv"),
+  path = file.path(chart_dir, "output", "yield-decomposition-notes.md")
 )
 
 bars <- changes |>
@@ -111,17 +100,17 @@ term_premium_chart <- ggplot(bars, aes(date, change)) +
   scale_fill_manual(values = setNames(parts$colour, parts$part), labels = setNames(parts$label, parts$part)) +
   scale_linetype_manual(values = "solid") +
   scale_x_date(date_breaks = "1 year", date_labels = "%Y") +
-  scale_y_continuous(breaks = scales::breaks_width(0.2)) +
+  scale_y_continuous(breaks = scales::breaks_width(0.5)) +
   guides(fill = guide_legend(order = 1, nrow = 2), linetype = guide_legend(order = 2)) +
   theme_chart()
 
-title <- "The 10-year yield's rise since 2023 has come mostly from the term premium"
-subtitle <- "Change since December 2023 in the 10-year Treasury yield and its parts, monthly average, percentage points"
+title <- "The 10-year yield rose first on expected rates, then on the term premium"
+subtitle <- "Change since December 2021 in the 10-year Treasury yield and its parts, monthly average, percentage points"
 source_line <- "Source: Federal Reserve Board (D'Amico, Kim, and Wei model)."
 
 save_chart(
   term_premium_chart + chart_labels(title, subtitle, source_line, width = 8),
-  file.path(chart_dir, "output", "term-premium.png"),
+  file.path(chart_dir, "output", "yield-decomposition.png"),
   width = 8,
   height = 5
 )
@@ -131,7 +120,7 @@ save_chart(
     chart_labels(title, subtitle, source_line, width = 4.2) +
     guides(fill = guide_legend(ncol = 1, order = 1)) +
     theme(legend.box = "vertical", legend.spacing.y = unit(2, "pt")),
-  file.path(chart_dir, "output", "term-premium-narrow.png"),
+  file.path(chart_dir, "output", "yield-decomposition-narrow.png"),
   width = 4.2,
   height = 7.2
 )

@@ -28,7 +28,7 @@ A working hypothesis, drafted September 2026 for review.
 - Most of the past year's rise in long-term Treasury yields reflects higher expected policy rates in a strong economy, and the rise is in real yields, not inflation compensation.
 - The term premium is higher than before 2024, but whether it rose further in the past year depends on the model, and a decomposition can't say whether fiscal policy, Treasury supply, or AI-related borrowing is behind it.
 
-Charts: `charts/term-premium/` and `charts/duration-supply/` (built). Candidate: the 10-year yield split into inflation-protected yield and breakeven inflation, with the 2-year yield.
+Charts: `charts/yield-decomposition/`, `charts/yield-rise-by-model/`, and `charts/duration-supply/` (built). Candidate: the 10-year yield split into inflation-protected yield and breakeven inflation, with the 2-year yield.
 
 ## Chart candidates
 
