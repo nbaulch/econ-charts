@@ -105,11 +105,32 @@ Domestic content check. A weight is too high if the net computer imports it coun
 
 Round trips through Mexico. Exports of parts to Mexico rose from $6 billion to $11 billion a year in 2022 and 2023 to $35 billion in 2026 H1. Server exports to Mexico went from $2 billion (annual rate) in 2025 Q2 to $15 billion in Q3, while server imports from Mexico reached $143 billion in 2026 Q2. The 2025 Q2 rise in exports was mostly servers to other destinations, including Europe and Singapore; Q3's was mostly Mexico. Netting exports against imports handles round trips correctly as long as both sides get the same weight.
 
+## Import price check
+
+`import_prices.R` compares BEA's implied price of computer trade with BLS price indexes, read from FRED and saved as `data/fred_bls_prices_<fetch date>.csv`: import prices for computers, peripherals, and parts (IR213COM), for parts alone (IR21301), and for semiconductors (IR21320), and producer prices for electronic computers (PCU334111334111) and storage devices (PCU334112334112). BLS published no import prices for October 2025, during the government shutdown, so 2025 Q4 averages November and December.
+
+Findings, annualized quarterly price growth:
+
+| | 2025 Q4 | 2026 Q1 | 2026 Q2 |
+|---|---|---|---|
+| BEA, computer imports | 5% | 23% | 59% |
+| BLS import prices, computers, peripherals, and parts | 5% | 17% | 47% |
+| BLS import prices, parts only | 10% | 35% | 112% |
+| BLS producer prices, storage devices | 19% | 48% | 100% |
+| BLS producer prices, electronic computers | -1% | 0% | 1% |
+| BEA, business investment in computers | 0% | 15% | 29% |
+| BEA, computer exports | -4% | 11% | 14% |
+
+- The jump in BEA's import price is real in the source data. BLS import prices show it, concentrated in parts, and producer prices for storage devices doubled over the same period. That is consistent with the rise in memory prices, though these indexes don't isolate memory. It continues into 2026 Q3: in July and August, import prices for parts averaged 10% above their 2026 Q2 average.
+- BEA's investment price for computers rose half as fast as its import price. Real imports therefore fell while nominal imports rose, and the gap between the two price indexes, not fewer imports, is what turns computer trade positive in 2026 Q2.
+- Deflating computer trade with the investment price instead changes 2026 Q2 net trade from +0.24 to -0.04 point, the net total from 0.52 to 0.24, and the four-quarter offset from 31% to 48%. Earlier quarters barely move, because the two prices grew at similar rates.
+- Which price is right is not clear. BEA's import price follows BLS import prices for the goods actually imported. But much of what is imported ends up in business investment, and producer prices for electronic computers have barely moved, so either domestic makers absorbed the cost or the investment price understates it.
+
 ## Open items
 
 As of 2026-09-26. Not yet decided or done.
 
-- **2026 Q2 import price.** BEA's implied price of computer imports jumped about 12% in one quarter, and real imports fell 23% annualized while nominal imports rose. Check this before publishing a quarter where computer trade adds to growth.
+- **Title and the price gap.** The four-quarter offset is 31% under the FEDS method, 37% with the BEA trade weight, and 48% when computer trade is deflated with the investment price (see Import price check). The positive 2026 Q2 trade bar comes from import prices rising faster than investment prices, not from fewer imports, and 2026 Q3 will likely show the same. Options: keep the title and add a note on the 2026 Q2 price gap; or change the title to a range, such as "a third to a half". Undecided.
 - **Semiconductors.** Census end-use semiconductor imports doubled between 2025 Q3 and 2026 Q2, from $67 billion to $138 billion at an annual rate. The FEDS method excludes them; ING includes them.
 - **Colors.** Orange means data centers and power here and utilization on the productivity chart, on the same page.
 
@@ -127,3 +148,4 @@ As of 2026-09-26. Not yet decided or done.
 - 2026-09-26: Pulled Census HS detail for computer trade and compared weights. The chart keeps the FEDS weight until the weight is decided.
 - 2026-09-26: Built a weight from BEA's domestic spending on computers. It gives a 37% offset against the FEDS weight's 31%. The product mix weight is ruled out by the domestic content check.
 - 2026-09-26: Keep the FEDS weight on the chart, for exact replication. A note gives the offset under the BEA weight, computed from the data so it updates on refresh. Revisit if the two move apart.
+- 2026-09-26: Checked the 2026 Q2 jump in computer import prices against BLS. It is real and concentrated in parts; it outpaced BEA's investment price, which is what turns 2026 Q2 computer trade positive.
