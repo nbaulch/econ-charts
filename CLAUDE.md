@@ -59,6 +59,24 @@ These are the analyses I've been considering. Treat them as starting points. Ver
 - Nothing publishes without my review.
 - I prefer to work in R.
 
+## Repo layout
+
+```
+R/                      fetch_<agency>_<dataset>() functions, one file per agency
+charts/<chart-name>/
+  spec.md               sources, series IDs, transformations, vintages, breaks, decision log
+  build.R               fetch, transform, plot, top to bottom
+  data/                 small dated snapshots of fetched data (committed)
+  output/               chart image (rebuilt, not committed) and plotted values as CSV (committed)
+cache/                  large raw downloads (not committed)
+```
+
+- Organize by chart. Code moves to `R/` only when a second chart needs it.
+- Use `tidyusmacro` (CRAN) for BLS, BEA NIPA, and FRED. Write `fetch_*` functions only for sources it doesn't cover.
+- No topic folders until the site exists. A topic is a page that lists charts in order.
+- No `legacy/`, `_backup`, `_v2`, or `_old` files. Git is the history.
+- Every chart caption names the source and the series identifiers.
+
 ## Code style
 
 The standard is a repo Hadley Wickham would be proud of: well thought out, functional, organized, and easy to read. Over-engineered code is a failure, not a safe default.

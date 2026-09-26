@@ -1,0 +1,11 @@
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# Large raw downloads, rebuilt from the fetch functions
+cache/
+
+# Chart images are rebuilt by each chart's build.R
+charts/*/output/*.png
+charts/*/output/*.svg
