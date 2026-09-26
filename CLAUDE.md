@@ -66,6 +66,7 @@ R/                      fetch_<agency>_<dataset>() functions, one file per agenc
 charts/<chart-name>/
   spec.md               sources, series IDs, transformations, vintages, breaks, decision log
   build.R               fetch, transform, plot, top to bottom
+  reproduce.R           check against the original analysis, for charts that maintain someone else's work
   data/                 small dated snapshots of fetched data (committed)
   output/               chart image (rebuilt, not committed) and plotted values as CSV (committed)
 cache/                  large raw downloads (not committed)
@@ -93,7 +94,19 @@ The standard is a repo Hadley Wickham would be proud of: well thought out, funct
 
 ## Environment notes
 
-- R is not preinstalled in the cloud container, but `apt-get install -y --no-install-recommends r-base-core` works (R 4.3.x as of September 2026). The container is ephemeral, so this has to be repeated each session unless it goes into the environment's setup script.
+- Run scripts from the project root, for example `Rscript charts/productivity-decomposition/build.R`. Paths are relative to it.
+- R packages are pinned in `renv.lock`. Run `renv::restore()` at the start of a session, and `renv::snapshot()` after adding a package.
+- The cloud container is ephemeral and has no R. This sets it up, and belongs in the environment's setup script:
+
+  ```sh
+  apt-get install -y --no-install-recommends r-base-core \
+    libfreetype6 libpng16-16t64 libtiff6 libjpeg-turbo8 libwebp7 libwebpmux3 \
+    libharfbuzz0b libfribidi0 fonts-dejavu-core
+  export RENV_CONFIG_REPOS_OVERRIDE="https://p3m.dev/cran/__linux__/noble/latest"
+  Rscript -e 'renv::restore(prompt = FALSE)'   # from the repo root
+  ```
+
+  The graphics libraries are for `ragg`, which writes the chart PNGs. The repository override installs prebuilt Linux binaries from Posit instead of compiling from source, which cuts install time from many minutes to seconds. The lockfile itself points at plain CRAN, so it works on a Mac or Windows machine unchanged.
 - Keep data pulls scripted and reproducible. Don't commit hand-edited data.
 
 ## AI features I'm interested in, not yet decided

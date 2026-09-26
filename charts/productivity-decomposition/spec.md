@@ -1,6 +1,6 @@
 # Contributions to U.S. labor productivity growth
 
-Status: draft. Sources and identities confirmed against the September 3, 2026 release of the Fernald data. Not yet reproduced in R.
+Status: built in R from the September 3, 2026 release of the Fernald data. Title and styling are drafts for review.
 
 ## Question
 
@@ -58,12 +58,13 @@ Fernald does not publish past vintages. Each fetch should save a dated snapshot,
 
 ## Reproduction status
 
-The current release does not reproduce the published chart exactly, which is expected given the revisions above.
+`reproduce.R` compares our four-quarter components with the readings above, using the earlier labor composition series.
 
-- Using the earlier labor composition series, the 2023 Q4 bars match the readings to within 0.05 point and 2022 Q1 to within about 0.15.
-- 2025 Q4 is within about 0.1 point. 2026 Q1 differs by 0.2 points on TFP and utilization: 0.31 and 1.30 against about 0.1 and 1.4. That is most likely routine revision between the July and September releases.
+- 2022 Q1 matches to within 0.16 point and 2023 Q4 to within 0.06.
+- 2025 Q4 matches to within 0.1.
+- 2026 Q1 differs by 0.21 on TFP (0.31 against about 0.1) and by 0.10 on utilization. The most likely cause is routine revision between Tedeschi's July vintage and the September release.
 
-The July vintage is not public. The fix is to ask Fernald's team for the release Tedeschi used, or to accept the match as close enough.
+The July vintage is not public. An exact match would require asking Fernald's team for it.
 
 ## Known breaks and caveats
 
@@ -76,3 +77,4 @@ Record decisions here with a date and the reason.
 
 - 2026-09-26: Chose this chart over the industry AI adoption scatter. The question is macro: is productivity growth coming from TFP or from utilization. The scatter answers a narrower cross-sectional question.
 - 2026-09-26: Fernald release of 2026-09-03 inspected. Data run through 2026 Q2. Component identities verified.
+- 2026-09-26: Components are four-quarter trailing means of the quarterly annualized log changes. A black point shows labor productivity growth itself, since stacked bars with negative segments make the total hard to read.
