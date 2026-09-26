@@ -64,7 +64,8 @@ These are the analyses I've been considering. Treat them as starting points. Ver
 The standard is a repo Hadley Wickham would be proud of: well thought out, functional, organized, and easy to read. Over-engineered code is a failure, not a safe default.
 
 - Follow the [tidyverse style guide](https://style.tidyverse.org/). Use tidyverse packages and idioms (dplyr, tidyr, purrr, readr, ggplot2) unless there's a clear reason not to.
-- Name objects and functions so a reader can tell what they hold or do without a comment: `snake_case`, nouns for data, verbs for functions (`fetch_btos()`, `adoption_by_industry`).
+- Name objects and functions so a reader can tell what they hold or do without a comment: `snake_case`, nouns for data, verbs for functions (`fetch_ai_adoption()`, `adoption_by_industry`).
+- Name things for what they contain, not for the agency or survey they came from. Survey acronyms like BTOS or RTPS belong in the chart spec and source notes, not in names. Acronyms a general economics reader knows on sight (`gdp`, `cpi`, `tfp`) are fine.
 - Write small, pure functions that take data and return data. Build steps with pipes, not intermediate `df1`, `df2`, `tmp`.
 - Keep code tight. No speculative abstraction, config layers, wrapper functions around a single call, or defensive checks for cases that can't happen. Add structure only when a second real use shows up.
 - Comment why, not what. No boilerplate headers, no comments restating the code.
