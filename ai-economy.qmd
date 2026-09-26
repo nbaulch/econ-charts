@@ -17,6 +17,19 @@ What AI is and is not doing to the U.S. economy right now.
 
 [Download the data (CSV)](charts/ai-investment-gdp/output/ai-investment-gdp.csv){.chart-download}
 
+## Adoption
+
+::: {.column-page}
+```{=html}
+<picture>
+  <source media="(max-width: 600px)" srcset="charts/ai-adoption/output/ai-adoption-narrow.png">
+  <img src="charts/ai-adoption/output/ai-adoption.png" class="chart" alt="Line chart of the share of U.S. firms, workers, and jobs using AI from 2023 to 2026. About a quarter of firms used AI in September 2026 after Census widened its question in November 2025, which lifted the firm share from 10 to 17 percent. About 45 percent of workers used generative AI for their job in May 2026, and one survey put 78 percent of jobs at firms using AI in November 2025.">
+</picture>
+```
+:::
+
+[Download the data (CSV)](charts/ai-adoption/output/ai-adoption.csv){.chart-download}
+
 ## Productivity
 
 ::: {.column-page}

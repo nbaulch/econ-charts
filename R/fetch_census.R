@@ -48,3 +48,44 @@ fetch_census_trade_hs <- function(flow, hs_code, from) {
       value = as.numeric(.data[[value]])
     )
 }
+
+# One sheet of a Business Trends and Outlook Survey download, such as
+# "National.xlsx", in long form: one row per question, answer, and survey
+# period, with estimates in percent. Suppressed estimates, shown as ".", are NA.
+# https://www.census.gov/hfp/btos/data_downloads
+fetch_census_btos <- function(file, sheet) {
+  download <- tempfile(fileext = ".xlsx")
+  download.file(
+    str_glue("https://www.census.gov/hfp/btos/downloads/{URLencode(file)}"),
+    download,
+    mode = "wb",
+    quiet = TRUE
+  )
+
+  read_excel(download, sheet = sheet, col_types = "text") |>
+    rename_with(\(name) str_to_lower(str_replace_all(name, " ", "_"))) |>
+    filter(str_detect(question_id, "^\\d+$")) |>
+    pivot_longer(matches("^\\d{6}$"), names_to = "period", values_to = "estimate") |>
+    mutate(estimate = suppressWarnings(parse_number(estimate)))
+}
+
+# Survey periods of the Business Trends and Outlook Survey, with the two-week
+# reference period each asks about and its publication date.
+fetch_census_btos_periods <- function() {
+  download <- tempfile(fileext = ".xlsx")
+  download.file(
+    "https://www.census.gov/hfp/btos/downloads/National.xlsx",
+    download,
+    mode = "wb",
+    quiet = TRUE
+  )
+
+  read_excel(download, sheet = "Collection and Reference Dates", .name_repair = "unique_quiet") |>
+    filter(!is.na(Smpdt)) |>
+    transmute(
+      period = as.character(Smpdt),
+      reference_start = as_date(`Reference Period Start`),
+      reference_end = as_date(`Ref End`),
+      published = as_date(`Publication Date`)
+    )
+}

@@ -1,0 +1,151 @@
+library(dplyr)
+library(tidyr)
+library(readr)
+library(readxl)
+library(stringr)
+library(lubridate)
+library(ggplot2)
+
+source("R/fetch_census.R")
+source("R/fetch_rps.R")
+source("R/chart_style.R")
+
+chart_dir <- "charts/ai-adoption"
+
+# Question 7 asks whether the business used AI in the last two weeks. Census
+# widened it in November 2025 and publishes the old wording in a separate file.
+btos_periods <- fetch_census_btos_periods()
+
+btos_ai_use <- bind_rows(
+  old_question = fetch_census_btos("AI Core Questions.xlsx", "National Estimates"),
+  new_question = fetch_census_btos("National.xlsx", "Response Estimates"),
+  new_question = fetch_census_btos("Employment Size Class.xlsx", "Response Estimates"),
+  .id = "wording"
+) |>
+  filter(question_id == "7", answer == "Yes", !is.na(estimate)) |>
+  select(wording, employment_size = empsize, period, estimate)
+
+btos_release <- btos_periods |>
+  filter(period == max(btos_ai_use$period)) |>
+  pull(published)
+
+write_csv(btos_ai_use, file.path(chart_dir, "data", str_glue("census_btos_ai_{btos_release}.csv")))
+
+genai_use <- fetch_rps_genai()
+
+# The tracker doesn't date its releases, so the snapshot is named by the fetch date.
+write_csv(genai_use, file.path(chart_dir, "data", str_glue("rps_genai_{today()}.csv")))
+
+# Each survey period is dated by the end of the two weeks it asks about.
+firm_adoption <- btos_ai_use |>
+  filter(is.na(employment_size)) |>
+  inner_join(btos_periods, by = "period") |>
+  select(date = reference_end, wording, estimate)
+
+worker_adoption <- genai_use |>
+  filter(sample == "Employed", use == "For Work", frequency == "Share Using GenAI", statistic == "Mean") |>
+  select(date, workers = value)
+
+# The Atlanta Fed survey's AI questions were fielded once, in November 2025, and
+# its microdata aren't public. The value is as reported by Allen (2026).
+jobs_at_adopting_firms <- tibble(date = ymd("2025-11-15"), jobs = 78)
+
+firm_adoption |>
+  pivot_wider(names_from = wording, values_from = estimate, names_prefix = "firms_") |>
+  full_join(worker_adoption, by = "date") |>
+  full_join(jobs_at_adopting_firms, by = "date") |>
+  arrange(date) |>
+  transmute(
+    date,
+    firms_old_question = firms_old_question,
+    firms = firms_new_question,
+    workers,
+    jobs_at_firms_using_ai = jobs
+  ) |>
+  write_csv(file.path(chart_dir, "output", "ai-adoption.csv"), na = "")
+
+adoption_by_size <- btos_ai_use |>
+  filter(!is.na(employment_size), period == max(period)) |>
+  select(employment_size, estimate)
+
+share_of_size_class <- \(size_class) round(adoption_by_size$estimate[adoption_by_size$employment_size == size_class])
+
+latest_firms <- slice_max(firm_adoption, date)
+latest_workers <- slice_max(worker_adoption, date)
+
+measures <- tribble(
+  ~series, ~label, ~colour, ~definition,
+  "firms", "Firms", chart_colors[["blue"]],
+  str_c(
+    "Share of businesses that used AI in the previous two weeks. Until October 2025 the question asked about AI ",
+    "in producing goods or services; since November 2025 it asks about AI in any business function."
+  ),
+  "workers", "Workers", chart_colors[["orange"]],
+  "Share of employed adults who use generative AI for their job.",
+  "jobs", "Jobs at firms using AI", chart_colors[["teal"]],
+  "Share of employment at firms that use AI, from one survey of business executives in November 2025."
+)
+
+notes <- c(
+  str_glue("{measures$label}: {measures$definition}"),
+  "",
+  str_glue(
+    "In {format(latest_firms$date, '%B %Y')}, {share_of_size_class('G')} percent of firms with 250 or more ",
+    "employees used AI, compared with {share_of_size_class('A')} percent of firms with fewer than 5."
+  ),
+  str_glue(
+    "Source: Census Bureau, Business Trends and Outlook Survey, through {format(latest_firms$date, '%B %-d, %Y')}; ",
+    "Alexander Bick, Adam Blandin, and David Deming, Real-Time Population Survey, through ",
+    "{format(latest_workers$date, '%B %Y')}; Federal Reserve Bank of Atlanta, Survey of Business Uncertainty. ",
+    "Chart builds on Jeffrey S. Allen, \"Monitoring AI Adoption in the U.S. Economy,\" FEDS Notes, ",
+    "Federal Reserve Board, April 2026."
+  )
+)
+
+adoption_chart <- ggplot(mapping = aes(date)) +
+  geom_line(
+    data = firm_adoption,
+    aes(y = estimate, colour = "firms", group = wording),
+    linewidth = 0.9
+  ) +
+  geom_line(data = worker_adoption, aes(y = workers, colour = "workers"), linewidth = 0.9) +
+  geom_point(data = worker_adoption, aes(y = workers, colour = "workers"), size = 1.8) +
+  geom_point(data = jobs_at_adopting_firms, aes(y = jobs, colour = "jobs"), size = 3) +
+  annotate(
+    "text",
+    x = ymd("2025-11-01"),
+    y = 4,
+    label = "Question\nwidened",
+    hjust = 0.5,
+    size = 3.2,
+    lineheight = 0.9,
+    colour = chart_greys[["muted"]],
+    family = "Roboto Chart"
+  ) +
+  scale_colour_manual(
+    values = setNames(measures$colour, measures$series),
+    labels = setNames(measures$label, measures$series),
+    breaks = measures$series
+  ) +
+  scale_x_date(date_breaks = "1 year", date_labels = "%Y") +
+  scale_y_continuous(limits = c(0, 85), breaks = seq(0, 80, 20), expand = expansion(mult = c(0, 0.02))) +
+  theme_chart()
+
+title <- "Measured AI use depends on who is counted and what is asked"
+subtitle <- "Share using AI, percent"
+
+save_chart(
+  adoption_chart + chart_labels(title, subtitle, notes, width = 10),
+  file.path(chart_dir, "output", "ai-adoption.png"),
+  width = 10,
+  height = 7
+)
+
+save_chart(
+  adoption_chart +
+    chart_labels(title, subtitle, notes, width = 4.2) +
+    guides(colour = guide_legend(ncol = 1)),
+  file.path(chart_dir, "output", "ai-adoption-narrow.png"),
+  width = 4.2,
+  height = 10
+)
