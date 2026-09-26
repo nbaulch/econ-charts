@@ -71,7 +71,7 @@ charts/<chart-name>/
   build.R               fetch, transform, plot, top to bottom
   reproduce.R           check against the original analysis, for charts that maintain someone else's work
   data/                 small dated snapshots of fetched data (committed)
-  output/               chart image and CSV of the plotted series, both committed and both published
+  output/               chart images (wide and narrow) and CSV of the plotted series, all committed and published
 cache/                  large raw downloads (not committed)
 ```
 

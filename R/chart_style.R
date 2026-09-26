@@ -63,6 +63,19 @@ theme_chart <- function(base_size = 12) {
     )
 }
 
-save_chart <- function(plot, path, width = 8, height = 6) {
+# Wraps the title, subtitle, and notes to fit a chart `width` inches wide. The
+# characters per inch match the text sizes in theme_chart().
+chart_labels <- function(title, subtitle, notes, width) {
+  text_width <- width - 0.4
+  labs(
+    title = stringr::str_wrap(title, floor(text_width * 8.5)),
+    subtitle = stringr::str_wrap(subtitle, floor(text_width * 12)),
+    caption = notes |>
+      stringr::str_wrap(floor(text_width * 14.5)) |>
+      stringr::str_c(collapse = "\n")
+  )
+}
+
+save_chart <- function(plot, path, width, height) {
   ggsave(path, plot, device = ragg::agg_png, width = width, height = height, dpi = 200)
 }
