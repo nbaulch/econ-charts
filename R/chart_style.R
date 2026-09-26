@@ -75,11 +75,29 @@ chart_labels <- function(title, subtitle, source, width) {
   )
 }
 
-# Notes shown as text under the chart on the site, where they stay readable at
-# any screen size. `notes` is a vector of Markdown paragraphs; the topic page
-# includes the file.
-write_chart_notes <- function(notes, path) {
-  writeLines(c("::: {.chart-notes}", "", stringr::str_c(notes, collapse = "\n\n"), "", ":::"), path)
+# Text on the site around each chart, written as Markdown files that the topic
+# page includes, so numbers in it update when the chart is rebuilt. The lead
+# goes above the chart and says what to notice. The notes go below it:
+# definitions and caveats, then a lighter source line with the data download.
+write_chart_lead <- function(lead, path) {
+  writeLines(stringr::str_c(lead, collapse = "\n\n"), path)
+}
+
+write_chart_notes <- function(notes, source, csv_path, path) {
+  writeLines(
+    c(
+      "::: {.chart-notes}",
+      "",
+      stringr::str_c(notes, collapse = "\n\n"),
+      "",
+      "::: {.chart-source}",
+      stringr::str_glue("{source} [Download the data (CSV)]({csv_path})"),
+      ":::",
+      "",
+      ":::"
+    ),
+    path
+  )
 }
 
 save_chart <- function(plot, path, width, height) {

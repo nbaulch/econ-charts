@@ -50,18 +50,34 @@ contributions |>
   mutate(across(-date, \(x) round(x, 3))) |>
   write_csv(file.path(chart_dir, "output", "productivity-decomposition.csv"))
 
-notes <- c(
-  str_glue("**{components$label}:** {components$definition}"),
-  str_glue(
+latest <- contributions |>
+  filter(date == max(date)) |>
+  select(series, four_quarter_mean) |>
+  tibble::deframe()
+
+latest_quarter <- str_glue("{year(max(contributions$date))} Q{quarter(max(contributions$date))}")
+points <- \(x) str_glue("{if (x < 0) 'subtracted' else 'added'} {format(abs(round(x, 1)), nsmall = 1)} points")
+
+lead <- str_glue(
+  "Over the four quarters through {latest_quarter}, labor productivity grew {round(latest[['labor_productivity']], 1)} ",
+  "percent at an annual rate. Higher utilization {points(latest[['utilization']])}, computers and software ",
+  "{points(latest[['it_capital_deepening']])}, and total factor productivity {points(latest[['tfp_util_adjusted']])}."
+)
+
+write_chart_lead(lead, file.path(chart_dir, "output", "productivity-decomposition-lead.md"))
+
+write_chart_notes(
+  notes = str_glue("**{components$label}:** {components$definition}"),
+  source = str_glue(
     "Source: John Fernald, [Quarterly Utilization-Adjusted Series on Total Factor Productivity]",
     "(https://www.frbsf.org/research-and-insights/data-and-indicators/total-factor-productivity-tfp/), ",
     "Federal Reserve Bank of San Francisco, release of {format(release_date, '%B %-d, %Y')}. ",
     "Chart adapted from Ernie Tedeschi, [\"AI and Productivity\"](https://www.stripeeconomics.com/p/ai-and-productivity), ",
     "Stripe Economics, July 2026."
-  )
+  ),
+  csv_path = file.path(chart_dir, "output", "productivity-decomposition.csv"),
+  path = file.path(chart_dir, "output", "productivity-decomposition-notes.md")
 )
-
-write_chart_notes(notes, file.path(chart_dir, "output", "productivity-decomposition-notes.md"))
 
 source_line <- str_glue(
   "Source: John Fernald, Federal Reserve Bank of San Francisco, release of {format(release_date, '%B %-d, %Y')}. ",

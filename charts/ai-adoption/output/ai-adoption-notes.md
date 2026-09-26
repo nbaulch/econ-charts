@@ -6,8 +6,8 @@
 
 **Jobs at firms using AI:** Share of employment at firms that use AI, from one survey of business executives in November 2025.
 
-In September 2026, 44 percent of firms with 250 or more employees used AI, compared with 24 percent of firms with fewer than 5.
-
-Sources: Census Bureau, [Business Trends and Outlook Survey](https://www.census.gov/hfp/btos/), through September 6, 2026; Alexander Bick, Adam Blandin, and David Deming, Real-Time Population Survey, from the [Generative AI Adoption Tracker](https://www.genaiadoptiontracker.com/), through May 2026; Federal Reserve Bank of Atlanta, Survey of Business Uncertainty. Chart builds on Jeffrey S. Allen, ["Monitoring AI Adoption in the U.S. Economy"](https://www.federalreserve.gov/econres/notes/feds-notes/monitoring-ai-adoption-in-the-u-s-economy-20260403.html), FEDS Notes, Federal Reserve Board, April 2026.
+::: {.chart-source}
+Sources: Census Bureau, [Business Trends and Outlook Survey](https://www.census.gov/hfp/btos/), through September 6, 2026; Alexander Bick, Adam Blandin, and David Deming, Real-Time Population Survey, from the [Generative AI Adoption Tracker](https://www.genaiadoptiontracker.com/), through May 2026; Federal Reserve Bank of Atlanta, Survey of Business Uncertainty. Chart builds on Jeffrey S. Allen, ["Monitoring AI Adoption in the U.S. Economy"](https://www.federalreserve.gov/econres/notes/feds-notes/monitoring-ai-adoption-in-the-u-s-economy-20260403.html), FEDS Notes, Federal Reserve Board, April 2026. [Download the data (CSV)](charts/ai-adoption/output/ai-adoption.csv)
+:::
 
 :::

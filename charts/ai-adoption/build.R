@@ -86,13 +86,26 @@ measures <- tribble(
   "Share of employment at firms that use AI, from one survey of business executives in November 2025."
 )
 
-notes <- c(
-  str_glue("**{measures$label}:** {measures$definition}"),
-  str_glue(
-    "In {format(latest_firms$date, '%B %Y')}, {share_of_size_class('G')} percent of firms with 250 or more ",
-    "employees used AI, compared with {share_of_size_class('A')} percent of firms with fewer than 5."
-  ),
-  str_glue(
+# The last old-question period and the first new-question one, either side of the break.
+wording_break <- firm_adoption |>
+  filter(date == max(date[wording == "old_question"]) | date == min(date[wording == "new_question"])) |>
+  select(wording, estimate) |>
+  tibble::deframe()
+
+lead <- str_glue(
+  "When Census widened its question in November 2025, the share of firms using AI rose from ",
+  "{round(wording_break[['old_question']])} to {round(wording_break[['new_question']])} percent. By ",
+  "{format(latest_firms$date, '%B %Y')} it was {round(latest_firms$estimate)} percent, and ",
+  "{share_of_size_class('G')} percent among firms with 250 or more employees. In ",
+  "{format(latest_workers$date, '%B %Y')}, {round(latest_workers$workers)} percent of workers used generative AI ",
+  "for their job."
+)
+
+write_chart_lead(lead, file.path(chart_dir, "output", "ai-adoption-lead.md"))
+
+write_chart_notes(
+  notes = str_glue("**{measures$label}:** {measures$definition}"),
+  source = str_glue(
     "Sources: Census Bureau, [Business Trends and Outlook Survey](https://www.census.gov/hfp/btos/), through ",
     "{format(latest_firms$date, '%B %-d, %Y')}; Alexander Bick, Adam Blandin, and David Deming, Real-Time Population ",
     "Survey, from the [Generative AI Adoption Tracker](https://www.genaiadoptiontracker.com/), through ",
@@ -100,10 +113,10 @@ notes <- c(
     "Chart builds on Jeffrey S. Allen, [\"Monitoring AI Adoption in the U.S. Economy\"]",
     "(https://www.federalreserve.gov/econres/notes/feds-notes/monitoring-ai-adoption-in-the-u-s-economy-20260403.html), ",
     "FEDS Notes, Federal Reserve Board, April 2026."
-  )
+  ),
+  csv_path = file.path(chart_dir, "output", "ai-adoption.csv"),
+  path = file.path(chart_dir, "output", "ai-adoption-notes.md")
 )
-
-write_chart_notes(notes, file.path(chart_dir, "output", "ai-adoption-notes.md"))
 
 source_line <- str_c(
   "Sources: Census Bureau; Real-Time Population Survey; Federal Reserve Bank of Atlanta. ",

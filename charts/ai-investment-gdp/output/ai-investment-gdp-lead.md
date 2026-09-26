@@ -1,0 +1,1 @@
+Over the four quarters through 2026 Q2, AI-related investment added 0.66 point a year to growth before computer trade and 0.45 after, so imported computers offset 31 percent of the boost. Other reasonable ways of counting computer trade put the offset as high as 48 percent.

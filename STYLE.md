@@ -11,7 +11,7 @@ The house style follows Datawrapper's published guidance, adapted for static cha
 
 ## Text
 
-The image has four levels of text, and nothing else competes with them. Definitions and the full source sit under the chart as page text (see Notes).
+The image has four levels of text, and nothing else competes with them. Everything else sits on the page as text (see Text around the chart).
 
 | Level | Use | Style |
 |-------|-----|-------|
@@ -27,15 +27,14 @@ The image has four levels of text, and nothing else competes with them. Definiti
 - **The source line in the image is short**: the data's provider and release, and the original analysis by author and outlet. An image saved or shared on its own still says where it came from.
 - Sentence case everywhere. No rotated axis labels. Drop trailing zeros from numbers.
 
-## Notes
+## Text around the chart
 
-Notes are page text under each chart, not part of the image. Text drawn into an image shrinks with it, to about 11 pixels on a phone, and can't be zoomed cleanly, copied, clicked, or read aloud. Datawrapper handles notes the same way.
+Each chart's section on the page runs: heading, lead text, chart, notes, source. Text on the page stays readable at any screen size, unlike text drawn into an image, which shrinks to about 11 pixels on a phone and can't be zoomed cleanly, copied, clicked, or read aloud. Datawrapper handles notes the same way.
 
-- `build.R` writes them with `write_chart_notes()` to `output/<chart>-notes.md`, and the topic page includes that file under the chart. Numbers in notes come from the data, so they update on refresh.
-- **Definitions first**, one paragraph per term, written as "**Label:** definition," in the same order as the legend. No equations. The spec holds the formulas.
-- **Then any sentence the reader needs to interpret the chart**, kept to one or two. Analysis belongs in the spec.
-- **The full source line comes last**: the data and its release, then credit to the original analysis, with links.
-- Styled in `styles.css` as `.chart-notes`: body-text grey, slightly smaller than body text, terms in bold.
+- **Lead, above the chart**: one or two sentences on what to notice. The first is written by hand in the topic page and holds no numbers that go stale. The second comes from `write_chart_lead()` in `build.R`, so its numbers update on refresh. The story still comes mainly from the charts and titles; the lead never grows into paragraphs.
+- **Notes, below the chart**: definitions first, one paragraph per term, written as "**Label:** definition," in the same order as the legend. Then any caveat a reader needs to read a specific part of the chart. No equations; the spec holds the formulas.
+- **Source, last**: the data and its release, credit to the original analysis with links, and the data download. Smaller and lighter than the notes, because readers look for it only when they need it.
+- `write_chart_notes()` writes the notes and source to `output/<chart>-notes.md`; the topic page includes the lead and notes files. Styles are `.chart-notes` and `.chart-source` in `styles.css`.
 
 ## Color
 

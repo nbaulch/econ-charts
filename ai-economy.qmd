@@ -6,6 +6,11 @@ What AI is and is not doing to the U.S. economy right now.
 
 ## Investment
 
+<!-- Draft: rewrite before publishing. -->
+Much of the equipment behind the AI buildout is imported, so its boost to U.S. output is smaller than the investment spending suggests.
+
+{{< include charts/ai-investment-gdp/output/ai-investment-gdp-lead.md >}}
+
 ::: {.column-page}
 ```{=html}
 <picture>
@@ -17,9 +22,12 @@ What AI is and is not doing to the U.S. economy right now.
 
 {{< include charts/ai-investment-gdp/output/ai-investment-gdp-notes.md >}}
 
-[Download the data (CSV)](charts/ai-investment-gdp/output/ai-investment-gdp.csv){.chart-download}
-
 ## Adoption
+
+<!-- Draft: rewrite before publishing. -->
+Surveys disagree about how widely AI is used. Part of the gap is who they count, firms or workers, and part is what they ask.
+
+{{< include charts/ai-adoption/output/ai-adoption-lead.md >}}
 
 ::: {.column-page}
 ```{=html}
@@ -32,9 +40,12 @@ What AI is and is not doing to the U.S. economy right now.
 
 {{< include charts/ai-adoption/output/ai-adoption-notes.md >}}
 
-[Download the data (CSV)](charts/ai-adoption/output/ai-adoption.csv){.chart-download}
-
 ## Productivity
+
+<!-- Draft: rewrite before publishing. -->
+Productivity growth has been strong, but most of it comes from businesses working their existing staff and equipment harder and from investment in computers and software, not from efficiency gains.
+
+{{< include charts/productivity-decomposition/output/productivity-decomposition-lead.md >}}
 
 ::: {.column-page}
 ```{=html}
@@ -46,5 +57,3 @@ What AI is and is not doing to the U.S. economy right now.
 :::
 
 {{< include charts/productivity-decomposition/output/productivity-decomposition-notes.md >}}
-
-[Download the data (CSV)](charts/productivity-decomposition/output/productivity-decomposition.csv){.chart-download}
