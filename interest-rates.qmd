@@ -11,7 +11,7 @@ What is driving long-term U.S. interest rates.
 ```{=html}
 <picture>
   <source media="(max-width: 600px)" srcset="charts/term-premium/output/term-premium-narrow.png">
-  <img src="charts/term-premium/output/term-premium.png" class="chart" alt="Stacked bar chart of the change in the 10-year Treasury yield, split into expected short-term rates and term premium, under the New York Fed and Fed Board models. Over the past year, the New York Fed model attributes nearly all of the roughly 0.8 point rise to expected short-term rates, while the Fed Board model attributes more than half to the term premium. Over the past two years, both models attribute most of the roughly 1.25 point rise to the term premium.">
+  <img src="charts/term-premium/output/term-premium.png" class="chart" alt="Stacked bar chart of the monthly change since December 2023 in the 10-year Treasury yield, split into expected real short-term rates, real term premium, expected inflation, and inflation risk premium, from the Fed Board model. By August 2026 the yield was about 0.7 point higher, mostly from the real term premium and inflation risk premium, with expected inflation adding about 0.2 point and expected real short-term rates little changed.">
 </picture>
 ```
 

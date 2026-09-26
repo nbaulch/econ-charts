@@ -1,13 +1,17 @@
 ::: {.chart-notes}
 
-**Expected short-term rates:** The average short-term rate investors are estimated to expect over 10 years.
+**Expected real short-term rates:** The average short-term interest rate, net of inflation, that investors expect over 10 years.
 
-**Term premium:** The extra yield investors require to hold a 10-year note instead of short-term bills.
+**Real term premium:** The extra return investors require for the risk that real interest rates change while they hold the bond.
 
-**New York Fed and Fed Board models:** Adrian, Crump, and Moench; and Kim and Wright.
+**Expected inflation:** Average inflation investors expect over 10 years.
+
+**Inflation risk premium:** The extra return investors require for the risk that inflation turns out different from what they expect. With the real term premium, it makes up the term premium.
+
+**10-year yield:** The model's estimate of the yield on a 10-year Treasury that pays no coupons.
 
 ::: {.chart-source}
-Sources: Federal Reserve Bank of New York, [term premia](https://www.newyorkfed.org/research/data_indicators/term-premia-tabs); Federal Reserve Board, from FRED; Federal Reserve Bank of Philadelphia, Survey of Professional Forecasters. Through September 18, 2026. [Download the data (CSV)](charts/term-premium/output/term-premium.csv)
+Source: Federal Reserve Board, D'Amico, Kim, and Wei model, ["Tips from TIPS: Update and Discussions"](https://www.federalreserve.gov/econres/notes/feds-notes/tips-from-tips-update-and-discussions-20190521.html), FEDS Notes, updated through August 31, 2026. [Download the data (CSV)](charts/term-premium/output/term-premium.csv)
 :::
 
 :::

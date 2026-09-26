@@ -1,14 +1,16 @@
-# The 10-year Treasury yield split by two term premium models
+# The 10-year Treasury yield split into expected rates and risk premiums
 
-Status: built in R from the ACM and Kim-Wright estimates through September 18, 2026 (fetched September 26, 2026). Original chart. Title is a draft for review.
+Status: built in R from the Fed Board's D'Amico, Kim, and Wei (DKW) estimates through August 31, 2026 (fetched September 26, 2026). Original chart in the style of decompositions by Ernie Tedeschi and Moody's Analytics. Title is a draft for review.
 
 ## Question
 
-Did long-term yields rise over the past year because investors expect higher short-term rates, or because they demand more compensation for holding long bonds? And how much does the answer depend on the model?
+Has the 10-year yield risen because investors expect higher short-term rates, or because they demand more compensation for holding long bonds? And is the rise in real rates or in inflation?
 
 ## Related work and debate
 
-The models' authors are credited on the chart: Tobias Adrian, Richard Crump, and Emanuel Moench (New York Fed), and Don Kim and Jonathan Wright (Fed Board). The chart doesn't maintain anyone's analysis, so there is no `reproduce.R`; the model outputs are used as published.
+The model's authors are credited on the chart. The chart doesn't maintain anyone's analysis, so there is no `reproduce.R`; the model output is used as published.
+
+Charts in the same style: Ernie Tedeschi, decomposition of the 30-year yield since December 31, 2025 from an ACM-type model with four parts (real policy rate, real term premium, expected inflation, inflation risk premium), on X, August 2026; Moody's Analytics (Mark Zandi), decomposition of the 10-year yield since the start of the Iran war, from Federal Reserve data, on X, July 2026.
 
 Commentary, September 2026, for context:
 
@@ -23,44 +25,42 @@ Commentary, September 2026, for context:
 
 | Data | Provider | Fetch | Series |
 |---|---|---|---|
-| ACM 10-year fitted yield, term premium, risk-neutral yield, daily | New York Fed | `fetch_nyfed_acm()` | `ACMTermPremium.xls`, sheet "ACM Daily": `ACMY10`, `ACMTP10`, `ACMRNY10` |
-| Kim-Wright 10-year fitted yield and term premium, daily | Fed Board, from FRED | `tidyusmacro::getFRED()` | `THREEFY10`, `THREEFYTP10` |
-| 10-year Treasury yield, constant maturity | Fed Board H.15, from FRED | `tidyusmacro::getFRED()` | `DGS10` |
-| Forecasters' average 3-month bill rate over the next 10 years, median | Philadelphia Fed, Survey of Professional Forecasters | `fetch_philfed_spf_median("BILL10")` | `median_bill10_level.xlsx` |
+| 10-year yield decomposition, daily | Fed Board staff, DKW model, updated monthly | `fetch_frb_dkw()` | `DKW_updates.csv`: `nominal.yield.fitted.10`, `exp.real.short.rate.10`, `real.term.prem.10`, `exp.inflation.10`, `inflation.risk.prem.10` |
 
 ## Transformations
 
-- Expected short-term rates = fitted yield minus term premium, for each model. For ACM this equals the published risk-neutral yield.
-- Changes are from the latest date both models share to the same calendar date one and two years earlier, using the last observation on or before each date. Kim-Wright is posted on FRED about a week after ACM, so the latest shared date lags ACM.
-- The bars for each model sum to the change in its fitted 10-year yield. The lead text quotes the market yield (`DGS10`) for the level.
-- The survey is asked about the next 10 years only in first-quarter surveys, so it gives one reading a year. It is quoted in the notes to explain the models' disagreement, not plotted.
+- The four parts sum to the fitted 10-year zero-coupon yield. The TIPS liquidity premium, also in the file, is part of inflation compensation measured from inflation-protected securities, not of the nominal yield, and is not used.
+- Monthly averages of daily values, then the change from the December 2023 average. December 2023 is the last month before the term premium's rise, matching the storyline's "higher than before 2024."
+- Term premium in the text = real term premium plus inflation risk premium. Expected rates = expected real short-term rates plus expected inflation.
+- The CSV has monthly levels since 1983 and changes since December 2023.
 
 ## Vintages
 
-- `data/term_premium_models_<fetch date>.csv`: both models' daily fitted yield, expected short rates, and term premium since 1990. The models are re-estimated as data arrive, so past values can change between vintages; the git diff of the snapshot shows by how much.
-- `data/philfed_spf_bill10_<fetch date>.csv`: the survey medians.
+- `data/frb_dkw_10_year_<last date>.csv`: daily 10-year parts since 2015, named by the file's last observation, since it has no release date. The model is re-estimated from time to time (the current file uses data through November 12, 2025), which revises history; the git diff of the snapshot shows by how much.
+- Updates come about the fourth business day of each month, so the chart runs through the end of the previous month.
 
-## Findings, September 18, 2026
+## Findings, August 2026 (monthly averages)
 
-| | ACM | Kim-Wright |
+| Change in | Since December 2023 | Past year |
 |---|---|---|
-| Change in fitted yield, past year | +0.82 | +0.85 |
-| of which expected short rates | +0.80 | +0.35 |
-| of which term premium | +0.02 | +0.50 |
-| Change in term premium, past two years | +0.83 | +0.87 |
+| Fitted 10-year yield | +0.72 | +0.45 |
+| Expected real short-term rates | -0.02 | +0.13 |
+| Real term premium | +0.44 | +0.18 |
+| Expected inflation | +0.18 | +0.09 |
+| Inflation risk premium | +0.12 | +0.05 |
 
-- The market 10-year yield rose from 4.11 to 5.01 percent over the year. The 2-year rose more, to 4.76 percent on September 18, with markets pricing Fed hikes.
-- The rise was all in real yields: the 10-year inflation-protected yield rose about 1 point while 10-year breakeven inflation was little changed. That is model-free and is the natural second chart for this page.
-- Forecasters lowered their expected 10-year average bill rate from 3.2 to 3.0 percent between early 2025 and early 2026, while market yields rose. A model anchored to forecasters therefore puts the rise in the term premium; a model that reads expectations from the yield curve puts it in expected rates.
+- Since December 2023 the term premium accounts for about three quarters of the rise. Expected real short-term rates fell through 2025 and have since come back to about where they started.
+- Over the past year, expected rates and the term premium each added about 0.22 point.
+- Other models split the past year differently. The New York Fed's ACM model puts nearly all of it in expected rates; Kim-Wright puts about 0.5 point in the term premium (September 18, 2026). Model-free, the 10-year inflation-protected yield rose about 1 point over the year while breakeven inflation was little changed, a smaller inflation share than DKW gives.
 
 ## Known breaks and caveats
 
-- Both decompositions are model estimates, not observations. Other models (for example D'Amico, Kim, and Wei, which uses inflation-protected yields) give other splits.
+- The decomposition is a model estimate, not an observation, and uses survey forecasts of inflation and bill rates.
+- The fitted zero-coupon yield differs from the market 10-year note yield by a few basis points, and monthly averages differ from end-of-period values.
 - A decomposition separates expectations from compensation. It doesn't identify why either moved. Fiscal risk, Treasury supply, AI-related corporate borrowing, and foreign demand would all show up in the term premium together.
-- Past-year numbers move a lot with the end date because yields are volatile. The chart is recomputed on each build.
 
 ## Decision log
 
-- 2026-09-26: Start the interest rates topic with this chart, since the disagreement between the models is the source of the confident but conflicting claims.
-- 2026-09-26: Stacked bars of the change over one and two years, one bar per model. The two-year panel shows where the models agree.
-- 2026-09-26: Title: "Two Fed models disagree on why long-term yields rose this year."
+- 2026-09-26: Start the interest rates topic with a term premium chart.
+- 2026-09-26: Replace the two-model bar chart (ACM against Kim-Wright, change over one and two years) with a monthly decomposition of the change since December 2023 from DKW, following how Tedeschi and Moody's chart it. Time series of levels and of 12-month changes were tried and dropped as hard to read. DKW is the one public model that also splits real rates from inflation, which the storyline asks about.
+- 2026-09-26: Title: "The 10-year yield's rise since 2023 has come mostly from the term premium." Check on each refresh that the term premium is still the largest part.
