@@ -21,6 +21,15 @@ This is a working hypothesis, not a conclusion. If refreshed data stops supporti
 - Labor market effects so far show up as fewer young workers entering AI-exposed occupations, not as layoffs.
 - The recent productivity acceleration is mostly firms using existing capital and labor harder, plus investment in computers and software, not AI-driven efficiency gains. Utilization-adjusted TFP grew strongly in 2023 and 2024 and has fallen over the past year.
 
+## Second topic: interest rates
+
+A working hypothesis, drafted September 2026 for review.
+
+- Most of the past year's rise in long-term Treasury yields reflects higher expected policy rates in a strong economy, and the rise is in real yields, not inflation compensation.
+- The term premium is higher than before 2024, but whether it rose further in the past year depends on the model, and a decomposition can't say whether fiscal policy, Treasury supply, or AI-related borrowing is behind it.
+
+Charts: `charts/term-premium/` (built). Next: the 10-year yield split into inflation-protected yield and breakeven inflation, with the 2-year yield.
+
 ## Chart candidates
 
 These are the analyses I've been considering. Treat them as starting points. Verify sources, figures, and URLs yourself before relying on them.

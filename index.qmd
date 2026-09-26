@@ -7,3 +7,4 @@ Curated charts on the U.S. economy, built from public data and kept up to date a
 ## Topics
 
 - [The AI economy](ai-economy.qmd): what AI is and is not doing to the U.S. economy right now.
+- [Interest rates](interest-rates.qmd): what is driving long-term U.S. interest rates.
