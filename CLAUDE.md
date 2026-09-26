@@ -37,10 +37,10 @@ These are the analyses I've been considering. Treat them as starting points. Ver
   - Lower priority because the Stanford and ADP Canaries dashboard already updates monthly.
 - **Electricity demand growth and state-level retail prices** in data center states versus the rest.
   - Data: EIA.
-- **Labor productivity versus utilization-adjusted TFP**, showing the utilization contribution.
+- **Labor productivity versus utilization-adjusted TFP**, showing the utilization contribution. This is the first chart, in `charts/productivity-decomposition/`.
   - Related work: Ernie Tedeschi, Stripe Economics, July 2026.
   - Data: BLS productivity, SF Fed (Fernald) TFP.
-- **Industry AI adoption versus labor productivity growth**, before and after removing 2016 to 2019 trends. This is the strongest first candidate.
+- **Industry AI adoption versus labor productivity growth**, before and after removing 2016 to 2019 trends. Set aside: it answers a narrower cross-sectional question.
   - Related work: same Tedeschi post.
   - Data: BTOS, Chicago Fed industry productivity.
 
