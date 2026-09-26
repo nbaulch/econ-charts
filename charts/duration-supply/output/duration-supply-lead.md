@@ -1,0 +1,1 @@
+In the 12 months to August 2026, Treasury securities added $980 billion in 10-year equivalents to what private investors hold, compared with $1,004 billion a year earlier. Dollar bonds sold by the five largest cloud and AI companies added $284 billion, 29 percent as much as Treasury.
