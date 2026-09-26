@@ -40,7 +40,8 @@ nipa_series <- c(
   semiconductor_exports_nominal = "LA001105",
   semiconductor_exports_real = "LB001105",
   semiconductor_imports_nominal = "LA001145",
-  semiconductor_imports_real = "LB001145"
+  semiconductor_imports_real = "LB001145",
+  gdp_growth = "A191RL"
 )
 
 nipa <- fetch_bea_nipa(nipa_series)
@@ -52,7 +53,15 @@ write_csv(nipa, file.path(chart_dir, "data", str_glue("bea_nipa_{today()}.csv"))
 contributions <- ai_investment_contributions(nipa) |>
   filter(!is.na(net))
 
-contributions |>
+# Quarterly contributions swing widely, so the chart averages over four quarters,
+# as the text does.
+four_quarter_average <- \(x) (x + lag(x) + lag(x, 2) + lag(x, 3)) / 4
+
+averages <- contributions |>
+  mutate(across(software:net, four_quarter_average)) |>
+  filter(date >= ymd("2022-03-01"))
+
+averages |>
   transmute(
     quarter_end = date,
     software,
@@ -60,8 +69,8 @@ contributions |>
     data_centers,
     power,
     computer_net_exports,
-    ai_investment_gross = gross,
-    ai_investment_net_of_computer_trade = net
+    total = gross,
+    total_net_of_computer_trade = net
   ) |>
   mutate(across(-quarter_end, \(x) round(x, 3))) |>
   write_csv(file.path(chart_dir, "output", "ai-investment-gdp.csv"))
@@ -70,71 +79,50 @@ contributions |>
 components <- tribble(
   ~series, ~label, ~colour, ~definition,
   "data_centers_and_power", "Data centers and power", chart_colors[["orange"]],
-  "Construction of data centers and of electric power and other power facilities.",
+  "Construction of data centers and power plants.",
   "software", "Software", chart_colors[["purple"]],
-  "Business investment in software, both purchased and developed in house.",
+  "Business spending on software.",
   "computers", "Computers", chart_colors[["teal"]],
-  "Business investment in computers and peripheral equipment.",
+  "Business spending on computers and related equipment.",
   "computer_net_exports", "Net trade in computers", chart_colors[["red"]],
-  "Exports minus imports of computers and parts, counting only the capital goods share of trade."
+  "Computer exports minus imports, counting the share that goes to business."
 )
 
 latest_quarter <- max(contributions$date)
 past_year <- slice_tail(contributions, n = 4)
-offset_share <- \(past_year) round(100 * (1 - mean(past_year$net) / mean(past_year$gross)))
-
-# The FEDS weight uses goods trade overall; this one is specific to computers.
-past_year_computer_weight <- ai_investment_contributions(nipa, domestic_use_weights(nipa)) |>
-  semi_join(past_year, by = "date")
-
-past_year_investment_price <- nipa |>
-  deflate_trade_with_investment_price() |>
-  ai_investment_contributions() |>
-  semi_join(past_year, by = "date")
 
 quarter_label <- str_glue("{year(latest_quarter)} Q{quarter(latest_quarter)}")
 
-lead <- str_glue(
-  "Over the four quarters through {quarter_label}, AI-related investment added ",
-  "{round(mean(past_year$gross), 2)} point a year to growth before computer trade and ",
-  "{round(mean(past_year$net), 2)} after, so imported computers offset {offset_share(past_year)} percent of the boost. ",
-  "Other reasonable ways of counting computer trade put the offset as high as ",
-  "{max(offset_share(past_year_computer_weight), offset_share(past_year_investment_price))} percent."
+before_the_boom <- filter(averages, date == ymd("2023-12-01"))
+
+# The four components carry the AI buildout but aren't all AI, so the text names
+# them rather than calling the total AI investment.
+write_chart_lead(
+  str_glue(
+    "Investment in software, computers, data centers, and power\u2014the spending that carries the AI buildout\u2014has ",
+    "lifted real GDP growth since early 2025, but by less than headline figures suggest because many of the ",
+    "computers are imported. Net of those imports, it added about {round(mean(past_year$net), 2)} percentage point ",
+    "to real GDP growth over the past four quarters. In 2023, before the buildout, it added about ",
+    "{round(before_the_boom$gross, 1)} point with or without imports."
+  ),
+  file.path(chart_dir, "output", "ai-investment-gdp-lead.md")
 )
 
-write_chart_lead(lead, file.path(chart_dir, "output", "ai-investment-gdp-lead.md"))
-
 write_chart_notes(
-  notes = c(
-    str_glue("**{components$label}:** {components$definition}"),
-    str_glue(
-      "Counting computer trade by businesses' share of U.S. spending on computers, rather than the capital goods ",
-      "share of all goods trade, puts the offset at {offset_share(past_year_computer_weight)} percent. Valuing it at ",
-      "the prices of business investment in computers puts it at {offset_share(past_year_investment_price)} percent."
-    ),
-    # Specific to 2026 Q2; see the import price check in the spec. Revisit on refresh.
-    str_c(
-      "In 2026 Q2, computer trade added to growth even though spending on imported computers rose, because import ",
-      "prices rose about twice as fast as prices of business investment in computers."
-    )
-  ),
+  notes = str_glue("**{components$label}:** {components$definition}"),
   source = str_glue(
-    "Source: Bureau of Economic Analysis, National Income and Product Accounts, data through {quarter_label}. ",
-    "Method from Paul E. Soto, Mason Thieu, and Jeffrey S. Allen, [\"The AI Buildout and the Economy\"]",
+    "Source: Bureau of Economic Analysis, through {quarter_label}. Method from Soto, Thieu, and Allen, ",
+    "[\"The AI Buildout and the Economy\"]",
     "(https://www.federalreserve.gov/econres/notes/feds-notes/the-ai-buildout-and-the-economy-publicly-available-data-to-assess-ais-impact-20260717.html), ",
-    "FEDS Notes, Federal Reserve Board, July 2026."
+    "FEDS Notes, July 2026."
   ),
   csv_path = file.path(chart_dir, "output", "ai-investment-gdp.csv"),
   path = file.path(chart_dir, "output", "ai-investment-gdp-notes.md")
 )
 
-source_line <- str_glue(
-  "Source: Bureau of Economic Analysis, data through {quarter_label}. ",
-  "Method from Soto, Thieu, and Allen, FEDS Notes, July 2026."
-)
+source_line <- "Source: Bureau of Economic Analysis. Method from Soto, Thieu, and Allen, FEDS Notes, July 2026."
 
-recent <- contributions |>
-  filter(date >= ymd("2022-01-01")) |>
+recent <- averages |>
   mutate(data_centers_and_power = data_centers + power)
 
 bars <- recent |>
@@ -157,12 +145,12 @@ investment_chart <- ggplot(bars, aes(date, contribution)) +
   ) +
   scale_shape_manual(values = 16) +
   scale_x_date(date_breaks = "1 year", date_labels = "%Y") +
-  scale_y_continuous(breaks = scales::breaks_width(0.5)) +
+  scale_y_continuous(breaks = scales::breaks_width(0.25)) +
   guides(shape = guide_legend(order = 2)) +
   theme_chart()
 
-title <- "Computer imports offset a third to a half of the AI buildout's boost to growth"
-subtitle <- "Contributions of AI-related investment to annualized real GDP growth, percentage points"
+title <- "The AI buildout is adding to growth, but less than the headline figures suggest"
+subtitle <- "Contribution to real GDP growth, average over four quarters, percentage points"
 
 save_chart(
   investment_chart +

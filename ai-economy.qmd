@@ -6,14 +6,12 @@ What AI is and is not doing to the U.S. economy right now.
 
 ## Investment
 
-Much of the equipment behind the AI buildout is imported. Imports subtract from GDP, so the buildout adds less to U.S. growth than the spending alone suggests.
-
 {{< include charts/ai-investment-gdp/output/ai-investment-gdp-lead.md >}}
 
 ```{=html}
 <picture>
   <source media="(max-width: 600px)" srcset="charts/ai-investment-gdp/output/ai-investment-gdp-narrow.png">
-  <img src="charts/ai-investment-gdp/output/ai-investment-gdp.png" class="chart" alt="Stacked bar chart of quarterly contributions of AI-related investment to U.S. real GDP growth from 2022 to 2026: software, computers, data centers and power, and net trade in computers. Investment contributions rose sharply in 2025, while net imports of computers subtracted up to 0.6 point in some quarters.">
+  <img src="charts/ai-investment-gdp/output/ai-investment-gdp.png" class="chart" alt="Stacked bar chart of the contribution of investment in software, computers, data centers, and power to U.S. real GDP growth, averaged over four quarters, from 2022 to 2026, with net trade in computers below zero and dots for the total net of that trade. The total rose from about 0.3 point before 2025 to 0.66 point in the four quarters through 2026 Q2, while net imports of computers subtracted about 0.2 point.">
 </picture>
 ```
 
@@ -21,22 +19,18 @@ Much of the equipment behind the AI buildout is imported. Imports subtract from 
 
 ## Adoption
 
-Surveys of firms and of workers give very different answers on how widely AI is used. The gap comes partly from whom each survey counts and partly from how it words the question.
-
 {{< include charts/ai-adoption/output/ai-adoption-lead.md >}}
 
 ```{=html}
 <picture>
   <source media="(max-width: 600px)" srcset="charts/ai-adoption/output/ai-adoption-narrow.png">
-  <img src="charts/ai-adoption/output/ai-adoption.png" class="chart" alt="Line chart of the share of U.S. firms, workers, and jobs using AI from 2023 to 2026. About a quarter of firms used AI in September 2026 after Census widened its question in November 2025, which lifted the firm share from 10 to 17 percent. About 45 percent of workers used generative AI for their job in May 2026, and one survey put 78 percent of jobs at firms using AI in November 2025.">
+  <img src="charts/ai-adoption/output/ai-adoption.png" class="chart" alt="Line chart of the share of U.S. firms using AI by number of employees, from late 2025 to September 2026, averaged over three surveys. Use rose in every size group; about 41 percent of firms with 250 or more employees used AI, against 29 percent of those with 50 to 249 and 23 percent of those with fewer than 50.">
 </picture>
 ```
 
 {{< include charts/ai-adoption/output/ai-adoption-notes.md >}}
 
 ## Productivity
-
-Labor productivity has grown solidly over the past year, but not because businesses became more efficient. Most of the growth came from working existing staff and equipment harder and from investment in computers and software.
 
 {{< include charts/productivity-decomposition/output/productivity-decomposition-lead.md >}}
 

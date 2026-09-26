@@ -5,6 +5,7 @@ project:
   render:
     - index.qmd
     - ai-economy.qmd
+    - interest-rates.qmd
   resources:
     - fonts/*.ttf
     - charts/*/output/*.csv
@@ -19,6 +20,8 @@ website:
     left:
       - href: ai-economy.qmd
         text: The AI economy
+      - href: interest-rates.qmd
+        text: Interest rates
 
 format:
   html:

@@ -1,6 +1,6 @@
-# AI adoption by firms, workers, and jobs
+# AI adoption by firm size
 
-Status: built in R from the Business Trends and Outlook Survey published September 24, 2026 (survey through September 6, 2026) and the Generative AI Adoption Tracker fetched September 26, 2026 (survey through May 2026). `reproduce.R` matches every number checked from the original. Title is a draft for review.
+Status: built in R from the Business Trends and Outlook Survey published September 24, 2026 (survey through September 6, 2026), weighted with Statistics of U.S. Businesses firm counts for 2022. The worker figure in the text is from the Generative AI Adoption Tracker fetched September 26, 2026 (survey through May 2026). `reproduce.R` matches every number checked from the original. Title is a draft for review.
 
 ## Question
 
@@ -26,7 +26,8 @@ Related work:
 | Firms by employment size | same | `fetch_census_btos("Employment Size Class.xlsx", "Response Estimates")` | Question 7, answer "Yes", size classes A (1 to 4 employees) to G (250 or more) |
 | Survey dates | same | `fetch_census_btos_periods()` | "Collection and Reference Dates" sheet of `National.xlsx` |
 | Workers | Real-Time Population Survey (Bick, Blandin, and Deming), from the Generative AI Adoption Tracker | `fetch_rps_genai()` | `GenAI_All.csv`: sample "Employed", use "For Work", "Share Using GenAI", mean |
-| Jobs at firms using AI | Atlanta Fed, Survey of Business Uncertainty | none | 78 percent, November 2025, as reported by Allen |
+| Firm counts by size, for weights | Census, Statistics of U.S. Businesses, 2022 | `fetch_census_susb(2022)` | U.S., all industries, detailed enterprise sizes |
+| Jobs at firms using AI (no longer shown) | Atlanta Fed, Survey of Business Uncertainty | none | 78 percent, November 2025, as reported by Allen |
 
 BTOS downloads: `https://www.census.gov/hfp/btos/downloads/<file>`. The data page (https://www.census.gov/hfp/btos/data_downloads) builds its links in JavaScript, so the file names were read from its script.
 
@@ -42,11 +43,14 @@ Tracker downloads: `https://www.genaiadoptiontracker.com/GenAI_All.csv`. The sit
 
 - Each BTOS period is dated by the end of the two-week reference period it asks about. RPS survey months are dated on the first of the month.
 - Old and new BTOS questions are separate series with a gap between them: no AI estimates are published for periods 202521 to 202523 (October and November 2025, which include the federal shutdown).
-- The chart note on firm size uses the latest period's size classes A and G, rounded to whole percent.
-- Estimates are plotted as published, without smoothing. BTOS estimates are not seasonally adjusted.
+- The chart groups the seven BTOS size classes into fewer than 50 employees (A to D), 50 to 249 (E and F), and 250 or more (G). Each group is the average of its classes weighted by the number of firms in each, from SUSB. SUSB's 200 to 299 class straddles the 250 cutoff and is split evenly between F and G.
+- Each plotted point is the average of the latest three survey periods (six weeks), because single size classes, especially G, swing by several points from survey to survey. BTOS estimates are not seasonally adjusted.
+- Size-class estimates are published only for the new question, so the chart starts in November 2025 and has no wording break.
+- The text quotes the all-firm share (new question, latest period, unsmoothed) and the worker share (RPS), which are not on the chart.
 
 ## Vintages
 
+- SUSB snapshot: `data/census_susb_firms_2022.csv`, firm counts by BTOS size class. The full table is cached in `cache/census_susb/`.
 - BTOS snapshot: `data/census_btos_ai_<publication date>.csv`, the AI question rows only (national old and new wording and size classes), named by the publication date of the latest survey period. The full downloads are over a megabyte each.
 - RPS snapshot: `data/rps_genai_<fetch date>.csv`, the whole `GenAI_All.csv` in long form. The tracker gives no release date.
 - The SBU value is quoted, not fetched. The Atlanta Fed publishes no data file for these questions. This is an exception to the rule against hand-entered data, approved on 2026-09-26.
@@ -66,3 +70,5 @@ Tracker downloads: `https://www.genaiadoptiontracker.com/GenAI_All.csv`. The sit
 
 - 2026-09-26: Show firms (BTOS, both wordings), workers (RPS), and jobs at firms using AI (SBU, one point quoted from Allen). The employment-weighted BTOS line from CLAUDE.md is not built: it would be our own construction and cannot come close to the SBU figure.
 - 2026-09-26: Title: "Measured AI use depends on who is counted and what is asked." It names wording as well as the unit counted, following Bick and coauthors.
+- 2026-09-26: Title: "AI use looks thin across firms but widespread across workers." The text leads with who is counted and says the gap is mostly about firm size, without quoting size-class figures, which aren't on the chart. Evidence as of the September 2026 survey period: firms with 1 to 4 employees 24 percent, 5 to 49 employees 21 to 25 percent, 100 to 249 employees 34 percent, 250 or more 44 percent. Check on each refresh that the largest firms still lead by a wide margin. The size-class estimates are saved in the BTOS snapshot in `data/`.
+- 2026-09-26: Replace the chart with firm AI use by firm size over time. Readers found the single Atlanta Fed point confusing, and a job-weighted line built from BTOS size classes and SUSB employment (about 37 percent in September 2026, a lower bound because the 250-plus class is open-ended) was hard to read next to the other lines. Firm size shows two parts of the storyline directly: use is rising at firms of every size, and large firms lead. The text doesn't claim firm size explains the gap between firm and worker surveys, since Bick and coauthors attribute most of it to question wording. Title: "AI use is rising at firms of all sizes, led by large firms."
