@@ -152,7 +152,7 @@ investment_chart <- ggplot(bars, aes(date, contribution)) +
   guides(shape = guide_legend(order = 2)) +
   theme_chart()
 
-title <- "Computer imports offset about a third of the AI buildout's boost to growth"
+title <- "The AI buildout is adding to growth, but less than the headline figures suggest"
 subtitle <- "Contribution to real GDP growth, average over four quarters, percentage points"
 
 save_chart(
