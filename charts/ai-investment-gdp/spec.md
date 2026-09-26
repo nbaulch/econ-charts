@@ -56,7 +56,7 @@ For computer trade, the lagged share is multiplied by the capital goods share of
 
 Net contribution = software + computers + data centers + power + net exports of computers.
 
-The chart plots four-quarter averages of these quarterly contributions and combines data centers and power into one bar. The CSV has the averages, with data centers and power separate. A range line on each net total runs from the lowest to the highest net total across the FEDS method, the BEA domestic-use trade weight, and computer trade deflated with the investment price; the CSV has both ends.
+The chart plots four-quarter averages of these quarterly contributions and combines data centers and power into one bar. The CSV has the averages, with data centers and power separate.
 
 ## Vintages
 
@@ -167,4 +167,4 @@ As of 2026-09-26. Not yet decided or done.
 - 2026-09-26: The text above the chart opens with the general point, that AI investment has lifted growth over the past two years but headline figures overstate it because of imports. Check that wording on each refresh.
 - 2026-09-26: The text names the four components rather than calling the total "AI investment", since they also carry spending unrelated to AI: the same components added about 0.3 point a year to growth in 2022 and 2023. The chart subtitle drops "AI-related" for the same reason.
 - 2026-09-26: Plot four-quarter averages instead of quarterly contributions, as the text does, since quarterly bars swing too much to show the trend. Replaces the earlier decision to show quarterly contributions as the note does; `reproduce.R` still checks the quarterly figures. Tried splitting into two charts (gross by component, then gross against net); dropped because the first would stand alone on the headline figure the chart argues is overstated.
-- 2026-09-26: Show the range across the three import assumptions on the chart, so the low end quoted in the text and behind the title (0.34 point, an offset of about half) is visible. The text gives the net contribution as that range rather than quoting the gross total, which the bars show.
+- 2026-09-26: Chart and text use the FEDS method only; title back to "about a third." The alternatives (BEA domestic-use weight in `trade_weights.R`, investment-price deflation in `import_prices.R`) give 0.34 to 0.41 point net over the four quarters through 2026 Q2, against 0.45. The gap is about a tenth of a point, doesn't change the story, and comes mostly from 2026 Q2, when import prices rose faster than investment prices. Rerun both on each refresh; if the gap stays wide, show the range on the chart again.
