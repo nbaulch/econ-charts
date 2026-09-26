@@ -48,6 +48,7 @@ These are the analyses I've been considering. Treat them as starting points. Ver
 
 - Start with one chart and get it right before building a framework around it.
 - When maintaining someone else's analysis, reproduce their published numbers for their original period before extending it. If you can't match them, stop and tell me what differs.
+- Getting the story right matters more than matching the original, but replication is what makes a chart defensible, so deviate only with confidence. A deviation needs a reason grounded in data, not preference, and a consistency check against an independent source that the new method passes. Report how much it moves the result, keep `reproduce.R` matching the original under their method, record the deviation in the spec's decision log, and say on the chart that the method is adapted.
 - Each chart should have a written spec: sources, series identifiers, transformations, vintage handling, and known breaks. The spec is what makes refreshes reliable and reviewable.
 - Refreshes should report what changed: new data, revisions, methodology breaks, and results that moved enough to matter. I review before anything is published.
 - Credit and link the original analysis on every chart built from someone else's work.
