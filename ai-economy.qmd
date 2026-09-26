@@ -1,0 +1,13 @@
+---
+title: "The AI economy"
+---
+
+What AI is and is not doing to the U.S. economy right now.
+
+## Productivity
+
+::: {.column-page}
+![](charts/productivity-decomposition/output/productivity-decomposition.png){fig-alt="Stacked bar chart of contributions to U.S. business sector labor productivity growth from 2022 to 2026. Since 2025, most growth comes from higher utilization and from computer and software capital, while total factor productivity contributes little and turns negative in the latest quarter."}
+:::
+
+[Download the data (CSV)](charts/productivity-decomposition/output/productivity-decomposition.csv){.chart-download}

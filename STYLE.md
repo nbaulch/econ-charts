@@ -53,6 +53,10 @@ Rules:
 - Greys for non-data elements: title `#222220`, text `#4a4a47`, notes and axis labels `#75746f`, zero line `#3a3a38`, gridlines `#e6e5e1`.
 - Sequential and diverging scales are not defined yet. Add them when the first chart needs one.
 
+## Data download
+
+Every chart has a CSV of what it plots, linked under the chart on the site as "Download the data (CSV)". One row per period, one column per series, plain snake_case column names, and the full history rather than only the plotted window. Values keep three decimals.
+
 ## Typography
 
 Roboto, Datawrapper's default. It has lining, tabular figures, so numbers align. The regular and bold weights are bundled in `fonts/` under the Apache 2.0 license and registered as "Roboto Chart". Charts render the same on any machine without installing anything, and the name can't clash with an installed Roboto. Bold is for the title only.

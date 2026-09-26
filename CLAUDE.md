@@ -62,22 +62,33 @@ These are the analyses I've been considering. Treat them as starting points. Ver
 ## Repo layout
 
 ```
+_quarto.yml, *.qmd      the site: config and one page per topic, plus index.qmd
+styles.css              site styling, matched to STYLE.md
 R/                      fetch_<agency>_<dataset>() functions, one file per agency, and chart_style.R
-fonts/                  bundled chart font
+fonts/                  bundled chart font, used by charts and the site
 charts/<chart-name>/
   spec.md               sources, series IDs, transformations, vintages, breaks, decision log
   build.R               fetch, transform, plot, top to bottom
   reproduce.R           check against the original analysis, for charts that maintain someone else's work
   data/                 small dated snapshots of fetched data (committed)
-  output/               chart image (rebuilt, not committed) and plotted values as CSV (committed)
+  output/               chart image and CSV of the plotted series, both committed and both published
 cache/                  large raw downloads (not committed)
 ```
 
 - Organize by chart. Code moves to `R/` only when a second chart needs it.
 - Use `tidyusmacro` (CRAN) for BLS, BEA NIPA, and FRED. Write `fetch_*` functions only for sources it doesn't cover.
-- No topic folders until the site exists. A topic is a page that lists charts in order.
+- A topic is one `.qmd` page that shows its charts in order. Add it to `render` and the navbar in `_quarto.yml`.
+- Every chart on the site has a link to download its CSV.
 - No `legacy/`, `_backup`, `_v2`, or `_old` files. Git is the history.
 - Every chart names its source and data release in the notes. Series identifiers and formulas go in the spec, not on the chart.
+
+## Publishing
+
+The site is https://nbaulch.github.io/econ-charts/, built with Quarto and hosted on GitHub Pages.
+
+- `main` is protected. Every change goes through a pull request that I review and merge.
+- Merging to `main` runs `.github/workflows/publish.yml`, which renders the pages and publishes them. It does not run R. Charts are rebuilt in a session and committed.
+- To preview locally, run `quarto render` and open `_site/index.html`.
 
 ## Code style
 
@@ -107,6 +118,8 @@ The standard is a repo Hadley Wickham would be proud of: well thought out, funct
   Rscript -e 'renv::restore(prompt = FALSE)'   # from the repo root
   ```
 
+  For site previews, also install Quarto from the `.deb` on quarto.org (version 1.10.18, matching the publish workflow).
+
   The graphics libraries are for `ragg`, which writes the chart PNGs. The repository override installs prebuilt Linux binaries from Posit instead of compiling from source, which cuts install time from many minutes to seconds. The lockfile itself points at plain CRAN, so it works on a Mac or Windows machine unchanged.
 - Keep data pulls scripted and reproducible. Don't commit hand-edited data.
 
@@ -125,7 +138,6 @@ Charts follow `STYLE.md`. In particular, no acronyms on a chart except ones ever
 
 ## Open questions
 
-- Hosting and stack
 - How to handle data vintages and revisions
 
 Ask me about these when they become relevant rather than deciding them silently.
