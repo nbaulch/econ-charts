@@ -14,7 +14,8 @@ chart_dir <- "charts/ai-investment-gdp"
 # NIPA series codes. Investment is from tables 5.3.5, 5.4.5, and 5.5.5 and their
 # chained-dollar versions; trade is from tables 4.2.5B and 4.2.6B. Consumer
 # spending on computers (2.4.5U) and final sales of computers (1.2.5) are for
-# a second trade weight, reported in the notes.
+# a second trade weight, reported in the notes. Semiconductor trade is for
+# `semiconductors.R`.
 nipa_series <- c(
   gdp_nominal = "A191RC",
   gdp_real = "A191RX",
@@ -35,7 +36,11 @@ nipa_series <- c(
   capital_goods_imports = "A650RC",
   consumer_goods_imports = "A652RC",
   consumer_computers = "DCPPRC",
-  computer_final_sales = "BB01RC"
+  computer_final_sales = "BB01RC",
+  semiconductor_exports_nominal = "LA001105",
+  semiconductor_exports_real = "LB001105",
+  semiconductor_imports_nominal = "LA001145",
+  semiconductor_imports_real = "LB001145"
 )
 
 nipa <- fetch_bea_nipa(nipa_series)

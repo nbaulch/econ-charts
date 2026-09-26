@@ -28,6 +28,12 @@ fetch_census_trade_hs <- function(flow, hs_code, from) {
   )
   httr::stop_for_status(response)
 
+  # No content means no trade under that code in the period, as for codes
+  # retired in an HS revision.
+  if (httr::status_code(response) == 204) {
+    return(NULL)
+  }
+
   rows <- jsonlite::fromJSON(httr::content(response, as = "text", encoding = "UTF-8"))
 
   rows[-1, ] |>

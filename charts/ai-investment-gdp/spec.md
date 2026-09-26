@@ -39,8 +39,10 @@ All from BEA's NIPA flat files (`https://apps.bea.gov/national/Release/TXT/`), r
 | Imports of consumer goods, except food and automotive | A652RC | | 4.2.5B line 134 |
 | Consumer spending on personal computers, tablets, and peripherals | DCPPRC | | 2.4.5U line 49 |
 | Final sales of computers | BB01RC | | 1.2.5 line 17 |
+| Exports of semiconductors and related devices | LA001105 | LB001105 | 4.2.5B line 33, 4.2.6B |
+| Imports of semiconductors and related devices | LA001145 | LB001145 | 4.2.5B line 125, 4.2.6B |
 
-The last two build the trade weight based on domestic spending on computers, used in the chart notes and in `trade_weights.R`.
+Consumer spending on computers and final sales of computers build the trade weight based on domestic spending on computers, used in the chart notes and in `trade_weights.R`. Semiconductor trade is used only in `semiconductors.R`.
 
 ## Transformations
 
@@ -126,11 +128,21 @@ Findings, annualized quarterly price growth:
 - Deflating computer trade with the investment price instead changes 2026 Q2 net trade from +0.24 to -0.04 point, the net total from 0.52 to 0.24, and the four-quarter offset from 31% to 48%. Earlier quarters barely move, because the two prices grew at similar rates.
 - Which price is right is not clear. BEA's import price follows BLS import prices for the goods actually imported. But much of what is imported ends up in business investment, and producer prices for electronic computers have barely moved, so either domestic makers absorbed the cost or the investment price understates it.
 
+## Semiconductors
+
+`semiconductors.R` saves Census HS detail as `data/census_semiconductor_trade_<fetch date>.csv` (HS 8541, 8542, and 8523.51 by month, not seasonally adjusted) and adds BEA's net semiconductor trade to the chart's net total, both with the FEDS weights and with no weight.
+
+- BEA's semiconductor line matches Census end-use 21320, which includes solid-state storage drives (HS 8523.51) as well as chips. HS 8541, 8542, and 8523.51 together are 87 to 93 percent of end-use 21320 imports; the concordance itself has not been checked.
+- BEA's semiconductor imports doubled from $66 billion (annual rate) in 2025 Q3 to $141 billion in 2026 Q2, and real imports rose about as much. Most of the rise is solid-state storage, from $16 billion to $70 billion; memory chips rose from $2 billion to $9 billion; processors, which include GPUs, from $30 billion to $37 billion. Solid-state storage imports come mostly from South Korea, Vietnam, Malaysia, and Taiwan.
+- Solid-state drives that businesses buy for servers are probably counted in business investment in computers and peripheral equipment, which would mean the FEDS method counts them in the gross contribution but leaves their imports out of the offset. BEA's treatment of separately purchased drives has not been checked.
+- Adding net semiconductor trade raises the four-quarter offset through 2026 Q2 from 31% to 47% with the FEDS weights and to 55% with no weight. In 2026 Q2 alone, semiconductor trade subtracts 0.28 point with the FEDS weights, more than offsetting computer trade's +0.24. Part of the import surge that computer trade no longer shows appears here instead.
+- Not every imported chip is AI-related: semiconductors also go into cars, phones, and other manufacturing, and the rise before 2026 was small. The case for netting is strongest for solid-state storage and weakest for other chips.
+
 ## Open items
 
 As of 2026-09-26. Not yet decided or done.
 
-- **Semiconductors.** Census end-use semiconductor imports doubled between 2025 Q3 and 2026 Q2, from $67 billion to $138 billion at an annual rate. The FEDS method excludes them; ING includes them.
+- **Semiconductors on the chart.** Adding net semiconductor trade puts the offset at 47% with the FEDS weights, inside the title's range, or 55% with no weight. Options: leave the chart as is and keep this in the spec; add a sentence to the notes; or net out solid-state storage only, which needs a way to separate it from chips in BEA's real data. Undecided.
 - **Colors.** Orange means data centers and power here and utilization on the productivity chart, on the same page.
 
 ## Known breaks and caveats
@@ -150,3 +162,4 @@ As of 2026-09-26. Not yet decided or done.
 - 2026-09-26: Checked the 2026 Q2 jump in computer import prices against BLS. It is real and concentrated in parts; it outpaced BEA's investment price, which is what turns 2026 Q2 computer trade positive.
 - 2026-09-26: Title: "Computer imports offset a third to a half of the AI buildout's boost to growth." Over the four quarters through 2026 Q2 the offset is 31% under the FEDS method, 37% with the BEA trade weight, and 48% with computer trade at the investment price; all three are in the notes and computed from the data. Replaces the earlier "about a third."
 - 2026-09-26: Note that 2026 Q2 computer trade added to growth because import prices rose about twice as fast as investment prices. This sentence is written for 2026 Q2 and must be revisited on the next refresh.
+- 2026-09-26: Looked at semiconductor trade. The doubling since 2025 Q3 is mostly solid-state storage, which likely belongs with computers. The chart is unchanged.
