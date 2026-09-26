@@ -15,7 +15,9 @@ What is driving long-term U.S. interest rates.
 </picture>
 ```
 
-{{< include charts/yield-decomposition/output/yield-decomposition-notes.md >}}
+::: {.chart-source}
+[Sources, definitions, and data](sources.qmd#yield-decomposition)
+:::
 
 ## This year's rise
 
@@ -28,7 +30,9 @@ What is driving long-term U.S. interest rates.
 </picture>
 ```
 
-{{< include charts/yield-rise-by-model/output/yield-rise-by-model-notes.md >}}
+::: {.chart-source}
+[Sources, definitions, and data](sources.qmd#yield-rise-by-model)
+:::
 
 ## Who is supplying long-term debt
 
@@ -41,4 +45,6 @@ What is driving long-term U.S. interest rates.
 </picture>
 ```
 
-{{< include charts/duration-supply/output/duration-supply-notes.md >}}
+::: {.chart-source}
+[Sources, definitions, and data](sources.qmd#duration-supply)
+:::

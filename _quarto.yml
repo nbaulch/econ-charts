@@ -6,6 +6,7 @@ project:
     - index.qmd
     - ai-economy.qmd
     - interest-rates.qmd
+    - sources.qmd
   resources:
     - fonts/*.ttf
     - charts/*/output/*.csv

@@ -86,7 +86,7 @@ cache/                  large raw downloads (not committed)
 - Organize by chart. Code moves to `R/` only when a second chart needs it.
 - Use `tidyusmacro` (CRAN) for BLS, BEA NIPA, and FRED. Write `fetch_*` functions only for sources it doesn't cover.
 - A topic is one `.qmd` page that shows its charts in order. Add it to `render` and the navbar in `_quarto.yml`.
-- Every chart on the site has a link to download its CSV.
+- Every chart on the site has a link to download its CSV. Under each chart, one link goes to its entry on `sources.qmd`, which holds the definitions, sources, release dates, credit links, and CSV download.
 - No `legacy/`, `_backup`, `_v2`, or `_old` files. Git is the history.
 - Every chart names its source and data release in the notes. Series identifiers and formulas go in the spec, not on the chart.
 
