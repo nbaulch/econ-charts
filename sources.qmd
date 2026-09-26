@@ -1,0 +1,33 @@
+---
+title: "Sources and data"
+---
+
+Sources, release dates, and definitions for each chart, with its data to download.
+
+## The AI economy
+
+### Investment {#ai-investment-gdp}
+
+{{< include charts/ai-investment-gdp/output/ai-investment-gdp-notes.md >}}
+
+### Adoption {#ai-adoption}
+
+{{< include charts/ai-adoption/output/ai-adoption-notes.md >}}
+
+### Productivity {#productivity-decomposition}
+
+{{< include charts/productivity-decomposition/output/productivity-decomposition-notes.md >}}
+
+## Interest rates
+
+### The 10-year yield {#yield-decomposition}
+
+{{< include charts/yield-decomposition/output/yield-decomposition-notes.md >}}
+
+### This year's rise {#yield-rise-by-model}
+
+{{< include charts/yield-rise-by-model/output/yield-rise-by-model-notes.md >}}
+
+### Who is supplying long-term debt {#duration-supply}
+
+{{< include charts/duration-supply/output/duration-supply-notes.md >}}

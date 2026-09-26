@@ -29,13 +29,13 @@ The image has four levels of text, and nothing else competes with them. Everythi
 
 ## Text around the chart
 
-Write for a busy senior reader, like a staff economist briefing the Treasury secretary. Each chart's section on the page runs: heading, one paragraph, chart, definitions, source. Text on the page stays readable at any screen size, unlike text drawn into the image.
+Write for a busy senior reader, like a staff economist briefing the Treasury secretary. Each chart's section on the topic page runs: heading, one paragraph, chart, and one small link to the chart's entry on the sources page. Text on the page stays readable at any screen size, unlike text drawn into the image.
 
 - **One paragraph above the chart, two to six sentences.** The first sentence is the general point. The rest backs it up, one message per sentence. Numbers quoted should be ones a reader can find on the chart. Anything a reader must know to read the chart correctly goes here, not in the notes.
 - `build.R` writes the paragraph with `write_chart_lead()` so its numbers update on refresh. Wording that could stop being true on a refresh, such as "nearly all," is recorded in the spec to check.
-- **Notes below the chart are one-line definitions of the legend items**, in legend order, written as "**Label:** definition." No caveats, methods, or analysis; those go in the paragraph or the spec.
+- **Notes on the sources page are one-line definitions of the legend items**, in legend order, written as "**Label:** definition." No caveats, methods, or analysis; those go in the paragraph or the spec.
 - **The source line is short**: the providers, the data's end date, and a link to the original analysis. Smaller and lighter than the notes. It ends with the data download link.
-- `write_chart_notes()` writes the definitions and source to `output/<chart>-notes.md`; the topic page includes the paragraph and notes files. Styles are `.chart-notes` and `.chart-source` in `styles.css`.
+- `write_chart_notes()` writes the definitions and source to `output/<chart>-notes.md`. The topic page includes the paragraph and links to the chart's entry on `sources.qmd`, which includes the notes file under a heading whose id is the chart's folder name. Styles are `.chart-notes` and `.chart-source` in `styles.css`.
 
 ## Color
 
