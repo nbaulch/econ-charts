@@ -11,23 +11,30 @@ The house style follows Datawrapper's published guidance, adapted for static cha
 
 ## Text
 
-The hierarchy has four levels, and nothing else competes with them.
+The image has four levels of text, and nothing else competes with them. Everything else sits on the page as text (see Text around the chart).
 
 | Level | Use | Style |
 |-------|-----|-------|
 | Title | The finding, in a plain sentence | Bold, largest, darkest grey |
 | Subtitle | What is measured, and its units | Regular, dark grey |
 | Labels and legend | Series names, axis values | Regular, smaller |
-| Notes and source | Definitions, source, credit | Smallest, lightest grey, with extra line spacing |
+| Source line | Short source and credit, inside the image | Smallest, lightest grey |
 
 - **Titles state the finding in everyday language** ("comes mostly from working existing equipment and workers harder"), not the dataset name. Accurate before catchy. The technical description belongs in the subtitle.
 - **No acronyms in anything a reader sees**: titles, labels, legends, notes. Spell out total factor productivity, not TFP. The exceptions are ones any reader knows, such as GDP and AI.
 - **Units go in the subtitle** and in any label that shows a value. No axis titles when the subtitle already gives the units.
 - **Legend labels are short**, two or three words. Anything a short label leaves out goes in the notes.
-- **Notes define terms a general reader may not know.** One line per term, written as "Label: definition," in the same order as the legend. Keep each definition short enough to fit on one line. No equations. The spec holds the formulas.
-- **A blank line separates the definitions from the source line.**
-- **The source line names the data and its release**, then credits the original analysis when the chart builds on someone else's work.
+- **The source line in the image is short**: the data's provider and release, and the original analysis by author and outlet. An image saved or shared on its own still says where it came from.
 - Sentence case everywhere. No rotated axis labels. Drop trailing zeros from numbers.
+
+## Text around the chart
+
+Each chart's section on the page runs: heading, lead text, chart, notes, source. Text on the page stays readable at any screen size, unlike text drawn into an image, which shrinks to about 11 pixels on a phone and can't be zoomed cleanly, copied, clicked, or read aloud. Datawrapper handles notes the same way.
+
+- **Lead, above the chart**: one or two sentences on what to notice. The first is written by hand in the topic page and holds no numbers that go stale. The second comes from `write_chart_lead()` in `build.R`, so its numbers update on refresh. The story still comes mainly from the charts and titles; the lead never grows into paragraphs.
+- **Notes, below the chart**: definitions first, one paragraph per term, written as "**Label:** definition," in the same order as the legend. Then any caveat a reader needs to read a specific part of the chart. No equations; the spec holds the formulas.
+- **Source, last**: the data and its release, credit to the original analysis with links, and the data download. Smaller and lighter than the notes, because readers look for it only when they need it.
+- `write_chart_notes()` writes the notes and source to `output/<chart>-notes.md`; the topic page includes the lead and notes files. Styles are `.chart-notes` and `.chart-source` in `styles.css`.
 
 ## Color
 
@@ -50,7 +57,7 @@ Rules:
 - **The same thing keeps the same color** across charts. In the productivity charts, total factor productivity is always blue and utilization always orange.
 - **Use as few colors as the point needs.** Put what matters in color and the rest in grey. More than six colors means a different chart or grouping into "other."
 - **Order the legend like the chart**: top to bottom for stacked bars. Label directly on the chart when it fits.
-- Greys for non-data elements: title `#222220`, text `#4a4a47`, notes and axis labels `#75746f`, zero line `#3a3a38`, gridlines `#e6e5e1`.
+- Greys for non-data elements: title `#222220`, text `#4a4a47`, source line and axis labels `#75746f`, zero line `#3a3a38`, gridlines `#e6e5e1`.
 - Sequential and diverging scales are not defined yet. Add them when the first chart needs one.
 
 ## Data download
@@ -66,9 +73,9 @@ Roboto, Datawrapper's default. It has lining, tabular figures, so numbers align.
 - Horizontal gridlines only, in light grey. No axis lines or tick marks.
 - A darker zero line when values go negative.
 - Legend at the top left, above the plot.
-- Title, subtitle, legend, and notes align with the left edge of the image, not the plot panel.
+- Title, subtitle, legend, and source line align with the left edge of the image, not the plot panel. The image has no side margin, and the page shows it at the width of the text column, so the chart's title lines up with the text above and below it. At about 800 pixels, an 8-inch image keeps its text at the size it was drawn.
 - White background. Saved as PNG with `ragg` at 200 dpi.
-- Every chart is saved twice: a wide version, 10 inches across, for desktops, and a narrow version, 4.2 inches across and named `*-narrow.png`, which the site shows on screens up to 600 pixels wide. `chart_labels()` wraps the title, subtitle, and notes to fit each width. The narrow version stacks its legend in one column.
+- Every chart is saved twice: a wide version, 8 inches across, for desktops, and a narrow version, 4.2 inches across and named `*-narrow.png`, which the site shows on screens up to 600 pixels wide. `chart_labels()` wraps the title, subtitle, and source line to fit each width. The narrow version stacks its legend in one column.
 
 ## Sources
 

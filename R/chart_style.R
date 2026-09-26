@@ -54,25 +54,51 @@ theme_chart <- function(base_size = 12) {
       legend.position = "top",
       legend.location = "plot",
       legend.justification = "left",
+      legend.box.just = "left",
       legend.title = element_blank(),
       legend.text = element_text(size = rel(0.9)),
       legend.key.size = unit(0.9, "lines"),
       legend.margin = margin(b = 4),
-      plot.margin = margin(18, 18, 12, 18),
+      # No side margins, so the title and source line up with the page text around the image.
+      plot.margin = margin(18, 4, 12, 0),
       plot.background = element_rect(fill = "white", colour = NA)
     )
 }
 
-# Wraps the title, subtitle, and notes to fit a chart `width` inches wide. The
-# characters per inch match the text sizes in theme_chart().
-chart_labels <- function(title, subtitle, notes, width) {
+# Wraps the title, subtitle, and short source line to fit a chart `width`
+# inches wide. The characters per inch match the text sizes in theme_chart().
+# Definitions and the full source go on the page instead; see write_chart_notes().
+chart_labels <- function(title, subtitle, source, width) {
   text_width <- width - 0.4
   labs(
     title = stringr::str_wrap(title, floor(text_width * 8.5)),
     subtitle = stringr::str_wrap(subtitle, floor(text_width * 12)),
-    caption = notes |>
-      stringr::str_wrap(floor(text_width * 14.5)) |>
-      stringr::str_c(collapse = "\n")
+    caption = stringr::str_wrap(source, floor(text_width * 14.5))
+  )
+}
+
+# Text on the site around each chart, written as Markdown files that the topic
+# page includes, so numbers in it update when the chart is rebuilt. The lead
+# goes above the chart and says what to notice. The notes go below it:
+# definitions and caveats, then a lighter source line with the data download.
+write_chart_lead <- function(lead, path) {
+  writeLines(stringr::str_c(lead, collapse = "\n\n"), path)
+}
+
+write_chart_notes <- function(notes, source, csv_path, path) {
+  writeLines(
+    c(
+      "::: {.chart-notes}",
+      "",
+      stringr::str_c(notes, collapse = "\n\n"),
+      "",
+      "::: {.chart-source}",
+      stringr::str_glue("{source} [Download the data (CSV)]({csv_path})"),
+      ":::",
+      "",
+      ":::"
+    ),
+    path
   )
 }
 

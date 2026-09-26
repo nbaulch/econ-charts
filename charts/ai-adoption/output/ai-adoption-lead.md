@@ -1,0 +1,1 @@
+When Census widened its question in November 2025, the share of firms using AI rose from 10 to 17 percent. By September 2026 it was 24 percent, and 44 percent among firms with 250 or more employees. In May 2026, 45 percent of workers used generative AI for their job.

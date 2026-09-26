@@ -1,0 +1,1 @@
+Over the four quarters through 2026 Q2, labor productivity grew 2.2 percent at an annual rate. Higher utilization added 1.5 points, computers and software added 0.7 points, and total factor productivity subtracted 0.3 points.

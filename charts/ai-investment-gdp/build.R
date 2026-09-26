@@ -92,27 +92,45 @@ past_year_investment_price <- nipa |>
   ai_investment_contributions() |>
   semi_join(past_year, by = "date")
 
-notes <- c(
-  str_glue("{components$label}: {components$definition}"),
-  "",
-  str_glue(
-    "Over the four quarters through {year(latest_quarter)} Q{quarter(latest_quarter)}, AI-related investment added ",
-    "{round(mean(past_year$gross), 2)} point a year to growth before computer trade and {round(mean(past_year$net), 2)} after, ",
-    "so trade offset {offset_share(past_year)} percent. Weighting computer trade by businesses' share of U.S. spending on ",
-    "computers, instead of the capital goods share of all goods trade, puts the offset at ",
-    "{offset_share(past_year_computer_weight)} percent. Measuring computer trade at the price of business investment ",
-    "in computers puts it at {offset_share(past_year_investment_price)} percent."
+quarter_label <- str_glue("{year(latest_quarter)} Q{quarter(latest_quarter)}")
+
+lead <- str_glue(
+  "Over the four quarters through {quarter_label}, AI-related investment added ",
+  "{round(mean(past_year$gross), 2)} point a year to growth before computer trade and ",
+  "{round(mean(past_year$net), 2)} after, so imported computers offset {offset_share(past_year)} percent of the boost. ",
+  "Other reasonable ways of counting computer trade put the offset as high as ",
+  "{max(offset_share(past_year_computer_weight), offset_share(past_year_investment_price))} percent."
+)
+
+write_chart_lead(lead, file.path(chart_dir, "output", "ai-investment-gdp-lead.md"))
+
+write_chart_notes(
+  notes = c(
+    str_glue("**{components$label}:** {components$definition}"),
+    str_glue(
+      "Counting computer trade by businesses' share of U.S. spending on computers, rather than the capital goods ",
+      "share of all goods trade, puts the offset at {offset_share(past_year_computer_weight)} percent. Valuing it at ",
+      "the prices of business investment in computers puts it at {offset_share(past_year_investment_price)} percent."
+    ),
+    # Specific to 2026 Q2; see the import price check in the spec. Revisit on refresh.
+    str_c(
+      "In 2026 Q2, computer trade added to growth even though spending on imported computers rose, because import ",
+      "prices rose about twice as fast as prices of business investment in computers."
+    )
   ),
-  # Specific to 2026 Q2; see the import price check in the spec. Revisit on refresh.
-  str_glue(
-    "In 2026 Q2, computer trade added to growth even though spending on imported computers rose, because import ",
-    "prices rose about twice as fast as prices of business investment in computers."
+  source = str_glue(
+    "Source: Bureau of Economic Analysis, National Income and Product Accounts, data through {quarter_label}. ",
+    "Method from Paul E. Soto, Mason Thieu, and Jeffrey S. Allen, [\"The AI Buildout and the Economy\"]",
+    "(https://www.federalreserve.gov/econres/notes/feds-notes/the-ai-buildout-and-the-economy-publicly-available-data-to-assess-ais-impact-20260717.html), ",
+    "FEDS Notes, Federal Reserve Board, July 2026."
   ),
-  str_glue(
-    "Source: Bureau of Economic Analysis, National Income and Product Accounts, data through ",
-    "{year(latest_quarter)} Q{quarter(latest_quarter)}. Method from Paul E. Soto, Mason Thieu, and Jeffrey S. Allen, ",
-    "\"The AI Buildout and the Economy,\" FEDS Notes, Federal Reserve Board, July 2026."
-  )
+  csv_path = file.path(chart_dir, "output", "ai-investment-gdp.csv"),
+  path = file.path(chart_dir, "output", "ai-investment-gdp-notes.md")
+)
+
+source_line <- str_glue(
+  "Source: Bureau of Economic Analysis, data through {quarter_label}. ",
+  "Method from Soto, Thieu, and Allen, FEDS Notes, July 2026."
 )
 
 recent <- contributions |>
@@ -148,19 +166,20 @@ subtitle <- "Contributions of AI-related investment to annualized real GDP growt
 
 save_chart(
   investment_chart +
-    chart_labels(title, subtitle, notes, width = 10) +
-    guides(fill = guide_legend(nrow = 1, order = 1)),
+    chart_labels(title, subtitle, source_line, width = 8) +
+    guides(fill = guide_legend(nrow = 1, order = 1)) +
+    theme(legend.box = "vertical", legend.spacing.y = unit(2, "pt")),
   file.path(chart_dir, "output", "ai-investment-gdp.png"),
-  width = 10,
-  height = 7
+  width = 8,
+  height = 5
 )
 
 save_chart(
   investment_chart +
-    chart_labels(title, subtitle, notes, width = 4.2) +
+    chart_labels(title, subtitle, source_line, width = 4.2) +
     guides(fill = guide_legend(ncol = 1, order = 1)) +
     theme(legend.box = "vertical", legend.spacing.y = unit(2, "pt")),
   file.path(chart_dir, "output", "ai-investment-gdp-narrow.png"),
   width = 4.2,
-  height = 11.4
+  height = 7.2
 )
