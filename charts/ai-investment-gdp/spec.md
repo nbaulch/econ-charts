@@ -60,6 +60,15 @@ BEA's flat files carry no release date, so each fetch is saved as `data/bea_nipa
 
 `reproduce.R` compares our five components with the published Figure 7 data. All 17 quarters match to two decimals for every component.
 
+## Census crosswalk
+
+Work in progress, to test the capital goods weight on computer trade.
+
+- BEA's exports and imports of "computers, peripherals, and parts" (B850RC, B852RC) match Census end-use categories 21300 (computers) plus 21301 (computer accessories) within 1 to 3 percent in every quarter from 2022 Q1 to 2026 Q2. Compare Census's seasonally adjusted end-use series, summed to quarters and multiplied by four, with BEA's annual rates.
+- Census publishes those seasonally adjusted end-use series monthly back to 1994, with no API key: `https://www.census.gov/foreign-trade/statistics/historical/imports_enduse.xlsx` and `exports_enduse.xlsx`.
+- Detail below end-use, such as HS codes that separate servers from laptops, and trade by country, is not seasonally adjusted. Seasonal patterns mostly cancel in shares, so the plan is to take the composition from unadjusted HS data and apply it to BEA's adjusted totals, rather than adding unadjusted HS values to adjusted ones.
+- The Census trade API now requires a free key. It is read from the `CENSUS_API_KEY` environment variable and never committed.
+
 ## Known breaks and caveats
 
 - There is no AI line in the national accounts. Software, computers, and power facilities include non-AI spending. Power covers all electric and other power structures.
