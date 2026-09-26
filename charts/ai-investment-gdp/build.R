@@ -98,15 +98,16 @@ quarter_label <- str_glue("{year(latest_quarter)} Q{quarter(latest_quarter)}")
 past_year_nipa <- semi_join(nipa, past_year, by = "date")
 lowest_net <- min(mean(past_year_computer_weight$net), mean(past_year_investment_price$net))
 
+ai_share_of_business_investment <- mean(past_year$gross) / mean(past_year_nipa$business_investment_contribution)
+
 write_chart_lead(
   str_glue(
-    "AI-related investment accounts for most of what business investment is adding to growth, but imported ",
-    "equipment offsets a third to a half of it. Over the four quarters through {quarter_label}, real GDP grew ",
-    "{format(round(mean(past_year_nipa$gdp_growth), 1), nsmall = 1)} percent at an annual rate, and business fixed ",
-    "investment added {round(mean(past_year_nipa$business_investment_contribution), 2)} percentage point. Software, ",
-    "computers, data centers, and power accounted for {round(mean(past_year$gross), 2)} point of that. Net of ",
-    "imported computers, their contribution falls to {round(mean(past_year$net), 2)} point, or to ",
-    "{round(lowest_net, 2)} under other reasonable ways of counting computer trade."
+    "Over the four quarters through {quarter_label}, AI-related investment added {round(mean(past_year$gross), 2)} ",
+    "percentage point to real GDP growth of {format(round(mean(past_year_nipa$gdp_growth), 1), nsmall = 1)} percent, ",
+    "about {5 * round(20 * ai_share_of_business_investment)} percent of business investment's contribution. Much of ",
+    "that spending buys imported computers, which don't add to U.S. output. Net of those imports, the boost was ",
+    "{round(mean(past_year$net), 2)} point, and as little as {round(lowest_net, 2)} under other reasonable ",
+    "assumptions."
   ),
   file.path(chart_dir, "output", "ai-investment-gdp-lead.md")
 )
