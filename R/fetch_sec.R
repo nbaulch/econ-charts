@@ -31,64 +31,67 @@ fetch_sec_filings <- function(cik, cache_dir = "cache/sec") {
     transmute(cik, form, filed = ymd(filingDate), accession = accessionNumber)
 }
 
-# The securities offered in one filing, from its filing fee exhibit, which the
-# SEC has required in structured form since 2022. One row per security, with the
-# amount registered and its currency. Filings are never changed, so each is
-# cached.
-fetch_sec_fee_offerings <- function(cik, accession, cache_dir = "cache/sec") {
+# The notes offered in one prospectus, read from its cover, which lists each
+# tranche with its currency, face amount, coupon, and maturity:
+# "$1,500,000,000 4.450% Notes due 2032". Works for prospectus supplements and
+# for exchange offers that register notes first sold privately. Preliminary
+# supplements leave the amounts blank and return no rows. Filings are never
+# changed, so each is cached.
+fetch_sec_prospectus_tranches <- function(cik, accession, cache_dir = "cache/sec") {
   folder <- str_glue("https://www.sec.gov/Archives/edgar/data/{cik}/{str_remove_all(accession, '-')}")
   files <- jsonlite::fromJSON(sec_get(str_glue("{folder}/index.json"), file.path(cache_dir, str_glue("{accession}.json"))))
-  exhibit <- str_subset(files$directory$item$name, "filingfees.*\\.xml$")
+  prospectus <- str_subset(files$directory$item$name, "424b[235]\\.htm$")
 
-  if (length(exhibit) == 0) {
+  if (length(prospectus) == 0) {
     return(NULL)
   }
 
-  deal_currency <- prospectus_currency(folder, files, accession, cache_dir)
+  text <- sec_get(str_glue("{folder}/{prospectus[1]}"), file.path(cache_dir, str_glue("{accession}.htm"))) |>
+    xml2::read_html() |>
+    xml2::xml_text() |>
+    str_squish()
 
-  facts <- sec_get(str_glue("{folder}/{exhibit[1]}"), file.path(cache_dir, str_glue("{accession}.xml"))) |>
-    xml2::read_xml() |>
-    xml2::xml_ns_strip() |>
-    xml2::xml_find_all("//*[@contextRef]")
+  # Some filings open with a fee table that lists the notes in another order,
+  # so the cover is found by its "(To prospectus dated ...)" line.
+  cover_start <- str_locate(text, "(?i)prospectus supplement\\s*\\(?\\s*to (the )?prospectus dated|offers? to exchange")[1]
+
+  if (is.na(cover_start)) {
+    return(NULL)
+  }
+
+  # "C$" and "A$" come before "$" so Canadian and Australian dollars aren't
+  # read as U.S. dollars. Up to 30 characters may sit between the amount and
+  # the coupon, such as the company name or "of our new registered".
+  tranches <- str_sub(text, cover_start, cover_start + 4000) |>
+    str_match_all(str_c(
+      "(?i)(US\\$|C\\$|A\\$|\\$|\u20ac|\u00a3|\u00a5)\\s?(\\d{1,3}(?:,\\d{3}){2,})\\s+[^$\u20ac\u00a3\u00a5%]{0,30}?",
+      "((?:floating(?: rate)?|[\\d.]+\\s?%)[^$\u20ac\u00a3\u00a5]{0,40}?(?:notes|debentures) due ",
+      "(?:[a-z]+ \\d{1,2}, )?\\d{4})"
+    ))
+  tranches <- tranches[[1]]
 
   tibble(
-    offering = xml2::xml_attr(facts, "contextRef"),
-    field = xml2::xml_name(facts),
-    value = xml2::xml_text(facts)
+    cik,
+    accession,
+    currency = case_when(
+      str_detect(tranches[, 2], "(?i)^c") ~ "CAD",
+      str_detect(tranches[, 2], "(?i)^a") ~ "AUD",
+      str_detect(tranches[, 2], "\\$") ~ "USD",
+      str_detect(tranches[, 2], "\u20ac") ~ "EUR",
+      str_detect(tranches[, 2], "\u00a3") ~ "GBP",
+      str_detect(tranches[, 2], "\u00a5") ~ "JPY"
+    ),
+    amount = parse_number(tranches[, 3]),
+    title = str_squish(tranches[, 4])
   ) |>
-    filter(field %in% c("OfferingSctyTp", "OfferingSctyTitl", "AmtSctiesRegd", "MaxAggtOfferingPric")) |>
-    summarise(
-      type = value[field == "OfferingSctyTp"][1],
-      title = value[field == "OfferingSctyTitl"][1],
-      # Some exhibits give only the offering price, in dollars, not the face amount.
-      amount = coalesce(
-        as.numeric(value[field == "AmtSctiesRegd"][1]),
-        as.numeric(value[field == "MaxAggtOfferingPric"][1])
-      ),
-      .by = offering
+    # Covers can name a tranche twice, with different spacing or a full
+    # maturity date, so tranches are matched on amount, coupon, and year.
+    distinct(
+      currency,
+      amount,
+      coupon = str_extract(str_to_lower(title), "floating|[\\d.]+(?=\\s?%)"),
+      year = str_extract(title, "\\d{4}$"),
+      .keep_all = TRUE
     ) |>
-    filter(type == "Debt") |>
-    transmute(cik, accession, title, amount, currency = deal_currency)
-}
-
-# The exhibit doesn't say which currency the notes are in, so read it from the
-# prospectus cover: the symbol in front of the first amount after
-# "PROSPECTUS SUPPLEMENT". Covers write symbols in several encodings.
-prospectus_currency <- function(folder, files, accession, cache_dir) {
-  prospectus <- str_subset(files$directory$item$name, "424b[25]\\.htm$")
-  symbol <- sec_get(str_glue("{folder}/{prospectus[1]}"), file.path(cache_dir, str_glue("{accession}.htm"))) |>
-    read_file() |>
-    str_remove_all("<[^>]+>") |>
-    str_extract(
-      "(?is)prospectus supplement.{0,600}?(\\$|\u20ac|&#8364;|&#128;|&euro;|\u00a3|&#163;|&pound;|CHF|\u00a5|&#165;|&yen;)\\s?\\d{1,3}(,\\d{3}){2,}",
-      group = 1
-    )
-
-  case_when(
-    str_detect(symbol, "\\$") ~ "USD",
-    str_detect(symbol, "\u20ac|&#8364;|&#128;|&euro;") ~ "EUR",
-    str_detect(symbol, "\u00a3|&#163;|&pound;") ~ "GBP",
-    str_detect(symbol, "CHF") ~ "CHF",
-    str_detect(symbol, "\u00a5|&#165;|&yen;") ~ "JPY"
-  )
+    select(-coupon, -year)
 }

@@ -1,6 +1,6 @@
 # Duration supplied to private investors by Treasury and big tech bonds
 
-Status: built in R from data through August 2026 (fetched September 26, 2026). Original chart, prompted by Alex Etra's; it doesn't reproduce his numbers (see below). Title is a draft for review.
+Status: built in R from data through August 2026 (fetched September 26, 2026), with big tech bonds back to each company's first registered bond. Original chart, prompted by Alex Etra's; it doesn't reproduce his numbers (see below). Title is a draft for review.
 
 ## Question
 
@@ -18,17 +18,18 @@ How much interest rate risk are Treasury and the largest AI borrowers handing to
 |---|---|---|
 | Marketable Treasury securities outstanding by CUSIP, month end, net of buybacks | Treasury, Monthly Statement of the Public Debt, Fiscal Data API | `fetch_treasury_mspd_marketable()` |
 | Fed holdings by CUSIP, weekly | New York Fed, System Open Market Account API | `fetch_nyfed_soma_treasury()`, `fetch_nyfed_soma_dates()` |
-| Big tech bonds: amount and title of each tranche | SEC EDGAR, filing fee exhibits of 424B2 and 424B5 prospectuses | `fetch_sec_filings()`, `fetch_sec_fee_offerings()` |
+| Big tech bonds: currency, amount, coupon, and maturity of each tranche | SEC EDGAR, covers of final 424B2 and 424B5 prospectus supplements, plus two exchange offers (424B3) | `fetch_sec_filings()`, `fetch_sec_prospectus_tranches()` |
 | Nominal and real Treasury yield curves | Fed Board H.15, from FRED | `tidyusmacro::getFRED()`: DGS1MO to DGS30, DFII5 to DFII30 |
 
 - EDGAR requires a user agent with a contact email, read from the `SEC_USER_AGENT` environment variable and never committed.
 - Downloads that don't change are cached in `cache/` (not committed): weekly Fed holdings and SEC filings.
-- Companies: Alphabet (CIK 1652044), Amazon (1018724), Meta (1326801), Microsoft (789019), Oracle (1341439). Microsoft has registered no bonds since 2022.
+- Companies: Alphabet (CIK 1652044) and Google Inc. before it (1288776), Amazon (1018724), Meta (1326801), Microsoft (789019), Oracle (1341439). Filings from each company's first bond, 2007 for Oracle and 2009 for Microsoft. Microsoft has registered no bonds since 2017.
 
 ## Transformations
 
 - Treasury held privately = amount outstanding minus Fed holdings on the last Wednesday on or before the month end. Buybacks are already netted out of amounts outstanding.
-- Big tech bonds outstanding at a month end = dollar tranches filed on or before it and not yet matured. The currency is read from the prospectus cover; euro, sterling, and yen tranches are excluded. The maturity day is taken as the issue's month and day in the maturity year given in the title.
+- Big tech bonds outstanding at a month end = dollar tranches issued on or before it and not yet matured. Each tranche's currency is read from its own symbol on the cover; Canadian-dollar, euro, sterling, and yen tranches are excluded. Maturity is the date in the title when given, otherwise the maturity year with the issue's month and day. Tranches listed twice on a cover (different spacing or a full maturity date) are matched on amount, coupon, and year.
+- Two deals were first sold privately and registered later through exchange offers: Amazon's $16 billion on August 22, 2017 (accession 0001193125-18-154502) and Meta's $10 billion on August 9, 2022 (0000950103-22-020353). They are dated by those issue dates, which the filings state.
 - Modified duration of each security from its coupon and remaining maturity, priced on the latest month-end yield curve for every month. Bills are zero-coupon, floating rate notes count as zero duration, inflation-protected securities are priced on real yields, and corporate bonds on the Treasury curve without a credit spread.
 - 10-year equivalents = amount times duration divided by the duration of a new 10-year note on the same curve.
 - The chart plots the 12-month change in each stock. It includes new issuance, maturities, buybacks, changes in Fed holdings, and bonds aging toward maturity.
@@ -36,7 +37,7 @@ How much interest rate risk are Treasury and the largest AI borrowers handing to
 ## Vintages
 
 - `data/treasury_held_privately_<latest month end>.csv`: privately held amounts by month and security type. Security-level data, about 100,000 rows, are rebuilt from the sources on each run.
-- `data/sec_hyperscaler_bonds_<fetch date>.csv`: every big tech dollar tranche used, with filing date and accession number.
+- `data/sec_hyperscaler_bonds_<fetch date>.csv`: every big tech dollar tranche used, with issue date, accession number, amount, coupon, and maturity.
 - Because every month is priced on the latest curve, the whole history shifts slightly on each refresh.
 
 ## Comparison with Etra
@@ -51,19 +52,19 @@ How much interest rate risk are Treasury and the largest AI borrowers handing to
 | August 2025 | 1,004 | about 1,050 |
 | August 2026 | 980 | about 800 |
 
-Big tech, August 2026: ours 284, his about 400. His Bloomberg data likely include private placements (such as the roughly $27 billion Meta Hyperion financing) and possibly other issuers.
+Big tech, August 2026: ours 255, his about 400. His Bloomberg data likely include private placements (such as the roughly $27 billion Meta Hyperion financing) and possibly other issuers.
 
 Valuation choice: priced at each month's own yields, our Treasury series swings with rates (620 in February 2026, 1,153 in August 2026). The fixed curve removes that.
 
 ## Findings, August 2026
 
 - Treasury added $980 billion of 10-year equivalents to private holdings over 12 months, against $1,004 billion a year earlier and about $1,200 billion in early 2025. Treasury has kept coupon auction sizes unchanged and funded deficits with bills.
-- Big tech dollar bonds added $284 billion, 29 percent as much as Treasury. Their USD issuance over the 12 months was about $254 billion, concentrated in long maturities.
+- Big tech dollar bonds added $255 billion, 26 percent as much as Treasury. From 2011 to August 2025 their 12-month addition never exceeded $61 billion and was often near zero, as new issues roughly offset older bonds aging and maturing.
 - Gross Treasury issuance adds about $2.7 to 3.0 trillion a year in 10-year equivalents, consistent with the Dallas Fed; the net figure is much smaller because bonds age and mature.
 
 ## Known breaks and caveats
 
-- Big tech coverage starts in August 2024, when filing fee exhibits became structured; 12-month changes are complete from August 2025. Earlier big tech bonds' aging isn't subtracted, which overstates the big tech figure by roughly $20 billion a year.
+- Early redemptions, tender offers, and debt swaps aren't captured. Microsoft's exchange offers of 2020 and 2021, which swapped about $18 billion of older notes for new 2050 to 2062 notes, are left out entirely, since counting the new notes without retiring the old ones would double count. Notes assumed in acquisitions (Whole Foods, Activision Blizzard) are also left out.
 - Private placements, other AI borrowers (such as data center developers and chip makers), and foreign-currency bonds are excluded.
 - Other corporate and financial bonds, which Etra includes, aren't covered: no free source gives their maturities.
 - Mid-2020: the Fed's purchases exceeded Treasury's net issuance of duration, so the series turns negative; Etra's doesn't. Unresolved.
@@ -75,3 +76,4 @@ Valuation choice: priced at each month's own yields, our Treasury series swings 
 - 2026-09-26: Dollar bonds only, since the question is the U.S. market.
 - 2026-09-26: Title: "Big tech bond sales now add more than a quarter as much interest rate risk as Treasury." The ratio is 29 percent in August 2026; revisit on refresh.
 - 2026-09-26: Title: "Big tech now adds more than a quarter as much long-term debt as Treasury," dropping "interest rate risk," which general readers don't know. The text defines 10-year equivalents in plain words. The ratio is 29 percent in August 2026; revisit on refresh.
+- 2026-09-26: Read big tech bonds from prospectus covers instead of structured filing fee exhibits, which start only in August 2024. Covers go back to each company's first bond, so the chart shows big tech from 2011 and subtracts older bonds' aging. On the 2024 to 2026 deals the covers match the fee exhibits to within $0.4 billion of $283 billion; the exhibits sometimes give offering prices, the covers face amounts. The change also fixed Canadian-dollar tranches (Alphabet C$8.5 billion, Amazon C$14 billion in 2026) that the old currency check read as U.S. dollars. Together these moved the August 2026 figure from $284 billion to $255 billion. Title: "Big tech now adds about a quarter as much long-term debt as Treasury."

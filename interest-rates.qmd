@@ -37,7 +37,7 @@ What is driving long-term U.S. interest rates.
 ```{=html}
 <picture>
   <source media="(max-width: 600px)" srcset="charts/duration-supply/output/duration-supply-narrow.png">
-  <img src="charts/duration-supply/output/duration-supply.png" class="chart" alt="Stacked area chart of the 12-month change in debt held by private investors, in 10-year equivalents, from 2011 to August 2026. Treasury securities added between about 500 and 700 billion dollars a year before 2020, turned negative in 2020 when the Federal Reserve bought heavily, peaked near 1.6 trillion in 2021 and 2022, and have been around 0.8 to 1.2 trillion since 2024. Big tech bonds, shown from August 2025, added about 280 billion dollars in the 12 months to August 2026.">
+  <img src="charts/duration-supply/output/duration-supply.png" class="chart" alt="Stacked area chart of the 12-month change in debt held by private investors, in 10-year equivalents, from 2011 to August 2026. Treasury securities added between about 500 and 700 billion dollars a year before 2020, turned negative in 2020 when the Federal Reserve bought heavily, peaked near 1.6 trillion in 2021 and 2022, and have been around 0.8 to 1.2 trillion since 2024. Big tech bonds added at most about 60 billion dollars a year until 2025, then about 255 billion in the 12 months to August 2026.">
 </picture>
 ```
 

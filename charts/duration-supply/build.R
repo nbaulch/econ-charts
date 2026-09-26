@@ -47,35 +47,50 @@ treasury_held_privately <- outstanding |>
 
 # Hyperscaler bonds ------------------------------------------------------------
 
-# Dollar bonds registered with the SEC. Structured filing fee exhibits start in
-# August 2024, so 12-month changes are complete from July 2025.
-hyperscalers <- c(Alphabet = "1652044", Amazon = "1018724", Meta = "1326801", Microsoft = "789019", Oracle = "1341439")
-hyperscaler_coverage_starts <- ymd("2024-08-01")
+# Dollar bonds registered with the SEC, read from prospectus covers back to the
+# companies' first bonds. Google Inc. issued Alphabet's bonds before 2016.
+hyperscalers <- c(
+  Alphabet = "1652044", Alphabet = "1288776", Amazon = "1018724", Meta = "1326801", Microsoft = "789019",
+  Oracle = "1341439"
+)
 
-hyperscaler_bonds <- map(hyperscalers, fetch_sec_filings) |>
+# Deals first sold privately appear only in the exchange offers that later
+# registered them, so they are dated by the issue date those filings give.
+privately_placed <- tribble(
+  ~company, ~cik, ~accession, ~issued,
+  "Amazon", "1018724", "0001193125-18-154502", ymd("2017-08-22"),
+  "Meta", "1326801", "0000950103-22-020353", ymd("2022-08-09")
+)
+
+offerings <- map(hyperscalers, fetch_sec_filings) |>
   list_rbind(names_to = "company") |>
-  filter(form %in% c("424B2", "424B5"), filed >= ymd("2022-01-01")) |>
-  (\(filings) {
-    pmap(list(filings$cik, filings$accession), fetch_sec_fee_offerings) |>
-      list_rbind() |>
-      inner_join(select(filings, company, accession, filed), by = "accession")
-  })() |>
+  filter(form %in% c("424B2", "424B5")) |>
+  select(company, cik, accession, issued = filed) |>
+  bind_rows(privately_placed)
+
+hyperscaler_bonds <- pmap(list(offerings$cik, offerings$accession), fetch_sec_prospectus_tranches) |>
+  list_rbind() |>
+  inner_join(select(offerings, company, accession, issued), by = "accession") |>
   filter(currency == "USD") |>
   mutate(
-    coupon = as.numeric(str_extract(title, "[\\d.]+(?=%)")),
+    coupon = as.numeric(str_extract(title, "[\\d.]+(?=\\s?%)")),
     type = if_else(str_detect(title, "(?i)floating"), "floating_rate", "note"),
-    # Titles give the maturity year; the day is taken as the issue's month and day.
-    maturity = make_date(as.integer(str_extract(title, "(?<=due )\\d{4}")), month(filed), day(filed))
+    # Titles give the maturity year and sometimes the date; without a date, the
+    # day is taken as the issue's month and day.
+    maturity = coalesce(
+      mdy(str_extract(title, "(?<=due )[A-Za-z]+ \\d{1,2}, \\d{4}"), quiet = TRUE),
+      make_date(as.integer(str_extract(title, "\\d{4}$")), month(issued), day(issued))
+    )
   )
 
 write_csv(
-  select(hyperscaler_bonds, company, filed, accession, title, amount, coupon, maturity),
+  select(hyperscaler_bonds, company, issued, accession, title, amount, coupon, maturity),
   file.path(chart_dir, "data", str_glue("sec_hyperscaler_bonds_{today()}.csv"))
 )
 
-hyperscalers_outstanding <- tibble(date = month_ends[month_ends >= hyperscaler_coverage_starts]) |>
+hyperscalers_outstanding <- tibble(date = month_ends) |>
   cross_join(hyperscaler_bonds) |>
-  filter(filed <= date, maturity > date) |>
+  filter(issued <= date, maturity > date) |>
   transmute(
     date,
     type,
@@ -151,23 +166,30 @@ recent_treasury_peak <- duration_supply |>
   slice_max(change_12_months)
 
 recent_issuers <- hyperscaler_bonds |>
-  filter(filed > latest_month_end %m-% months(12)) |>
+  filter(issued > latest_month_end %m-% months(12)) |>
   distinct(company) |>
   pull(company) |>
   sort() |>
   str_flatten_comma(last = ", and ")
 
+earlier_hyperscaler_peak <- duration_supply |>
+  filter(issuer == "hyperscalers", date <= latest_month_end %m-% months(12)) |>
+  pull(change_12_months) |>
+  max()
+
 write_chart_lead(
   str_glue(
     "Big tech companies have become a significant new source of long-term debt for investors to absorb, while ",
     "Treasury's contribution has not grown. Measured in 10-year equivalents\u2014the amount of 10-year notes that ",
-    "would carry the same risk from changes in interest rates\u2014Treasury added ",
-    "${billions(latest[['treasury']])} billion to private holdings in the 12 months to {latest_label}. That compares ",
-    "with ${billions(year_earlier_treasury)} billion a year earlier and a peak of ",
+    "would carry the same risk from changes in interest rates\u2014bonds sold by {recent_issuers} added ",
+    "${billions(latest[['hyperscalers']])} billion to private holdings in the 12 months to {latest_label}, ",
+    "{round(100 * latest[['hyperscalers']] / latest[['treasury']])} percent as much as Treasury's ",
+    "${billions(latest[['treasury']])} billion. Before then, big tech's bonds had never added more than ",
+    "${billions(earlier_hyperscaler_peak)} billion in 12 months. Treasury's addition compares with ",
+    "${billions(year_earlier_treasury)} billion a year earlier and a peak of ",
     "${billions(recent_treasury_peak$change_12_months)} billion in {format(recent_treasury_peak$date, '%B %Y')}. ",
-    "Bonds sold by {recent_issuers} added ${billions(latest[['hyperscalers']])} billion, ",
-    "{round(100 * latest[['hyperscalers']] / latest[['treasury']])} percent as much as Treasury. That leaves out ",
-    "private placements, such as the financing for Meta's Hyperion data center, so it understates big tech's borrowing."
+    "The figures leave out private placements, such as the financing for Meta's Hyperion data center, so they ",
+    "understate big tech's borrowing."
   ),
   file.path(chart_dir, "output", "duration-supply-lead.md")
 )
@@ -176,7 +198,7 @@ write_chart_notes(
   notes = c(
     "**10-year equivalents:** The amount of 10-year notes with the same sensitivity to interest rates.",
     "**Treasury securities:** Marketable Treasury debt not held by the Federal Reserve.",
-    "**Big tech bonds:** Dollar bonds registered by Alphabet, Amazon, Meta, Microsoft, and Oracle."
+    "**Big tech bonds:** Dollar bonds registered by Alphabet (and Google before it), Amazon, Meta, Microsoft, and Oracle."
   ),
   source = str_glue(
     "Sources: Treasury; Federal Reserve Bank of New York; Securities and Exchange Commission. Through ",
@@ -201,7 +223,7 @@ duration_chart <- ggplot(areas, aes(date, change_12_months, fill = issuer)) +
   scale_y_continuous(labels = scales::label_comma(), breaks = scales::breaks_width(500)) +
   theme_chart()
 
-title <- "Big tech now adds more than a quarter as much long-term debt as Treasury"
+title <- "Big tech now adds about a quarter as much long-term debt as Treasury"
 subtitle <- "Change over 12 months in debt held by private investors, billions of dollars in 10-year equivalents"
 source_line <- str_glue(
   "Sources: Treasury; Federal Reserve Bank of New York; Securities and Exchange Commission. Data through {latest_label}."
