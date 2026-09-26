@@ -103,9 +103,9 @@ before_the_boom <- filter(contributions, year(date) %in% 2022:2023)
 # them rather than calling the total AI investment.
 write_chart_lead(
   str_glue(
-    "Investment in software, computers, data centers, and power, the spending that carries the AI buildout, has ",
+    "Investment in software, computers, data centers, and power\u2014the spending that carries the AI buildout\u2014has ",
     "lifted real GDP growth over the past two years, but by less than headline figures suggest because many of the ",
-    "computers are imported. Over the four quarters through {quarter_label}, this investment added ",
+    "computers are imported. Over the past four quarters, this investment added ",
     "{round(mean(past_year$gross), 2)} percentage point to real GDP growth of ",
     "{format(round(mean(past_year_nipa$gdp_growth), 1), nsmall = 1)} percent. Net of imported computers and parts, ",
     "it added {round(mean(past_year$net), 2)} point, and as little as {round(lowest_net, 2)} under other reasonable ",

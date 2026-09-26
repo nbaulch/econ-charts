@@ -81,12 +81,13 @@ chart_labels <- function(title, subtitle, source, width) {
 # page includes, so numbers in it update when the chart is rebuilt. The lead
 # goes above the chart and says what to notice. The notes go below it:
 # definitions and caveats, then a lighter source line with the data download.
+# readr writes UTF-8 whatever the locale, so dashes survive in the cloud container.
 write_chart_lead <- function(lead, path) {
-  writeLines(stringr::str_c(lead, collapse = "\n\n"), path)
+  readr::write_lines(stringr::str_c(lead, collapse = "\n\n"), path)
 }
 
 write_chart_notes <- function(notes, source, csv_path, path) {
-  writeLines(
+  readr::write_lines(
     c(
       "::: {.chart-notes}",
       "",
