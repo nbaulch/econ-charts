@@ -26,7 +26,7 @@ website:
     card-style: summary_large_image
   search: false
   navbar:
-    background: "#ffffff"
+    background: "#f6f3ec"
     foreground: "#222220"
     right:
       - text: Charts
