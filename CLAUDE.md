@@ -2,7 +2,7 @@
 
 ## What this is
 
-A personal website of charts on the U.S. economy worth watching, built from public data and kept current. It is organized into a small number of topics. Each chart comes with a short note on why it is worth watching, never a reading of what the data show. Being selective matters more than being comprehensive, and each chart should earn its place by answering a distinct question.
+My personal website: a home page about me, my resume, and a section of charts on the U.S. economy worth watching, built from public data and kept current. The charts are organized into a small number of topics. Each chart comes with a short note on why it is worth watching, never a reading of what the data show. Being selective matters more than being comprehensive, and each chart should earn its place by answering a distinct question.
 
 Topics so far: the AI economy, interest rates, and inflation. Build the site so adding a topic is straightforward, but don't build for topics that don't exist yet.
 
@@ -63,7 +63,8 @@ These are the analyses I've been considering. Treat them as starting points. Ver
 ## Repo layout
 
 ```
-_quarto.yml, *.qmd      the site: config and one page per topic, plus index.qmd
+_quarto.yml, *.qmd      the site: config, index.qmd (home), resume.qmd, sources.qmd, and one page per chart topic
+images/                 headshot and link preview image
 styles.css              site styling, matched to STYLE.md
 R/                      fetch_<agency>_<dataset>() functions, one file per agency, and chart_style.R
 fonts/                  bundled chart font, used by charts and the site
@@ -78,7 +79,8 @@ cache/                  large raw downloads (not committed)
 
 - Organize by chart. Code moves to `R/` only when a second chart needs it.
 - Use `tidyusmacro` (CRAN) for BLS, BEA NIPA, and FRED. Write `fetch_*` functions only for sources it doesn't cover.
-- A topic is one `.qmd` page that shows its charts in order. Add it to `render` and the navbar in `_quarto.yml`.
+- A topic is one `.qmd` page that shows its charts in order. Add it to `render`, the Charts menu in `_quarto.yml`, and the list on the home page.
+- `resume.qmd` is the single source for the resume: Quarto renders it as the web page and, through Typst, as `nicholas-baulch-resume.pdf`. Edit only that file.
 - Every chart on the site has a link to download its CSV. Under each chart, one link goes to its entry on `sources.qmd`, which holds the definitions, sources, release dates, credit links, and CSV download.
 - No `legacy/`, `_backup`, `_v2`, or `_old` files. Git is the history.
 - Every chart names its source and data release in the notes. Series identifiers and formulas go in the spec, not on the chart.

@@ -4,28 +4,43 @@ project:
   # Only these pages are part of the site. Everything else in the repo is working material.
   render:
     - index.qmd
+    - resume.qmd
     - ai-economy.qmd
     - interest-rates.qmd
     - inflation.qmd
     - sources.qmd
   resources:
     - fonts/*.ttf
+    - fonts/*.woff2
+    - images/*
     - charts/*/output/*.csv
     - charts/*/output/*.png
 
 website:
-  title: "Economic Charts"
+  title: "Nicholas Baulch"
+  site-url: https://nbaulch.github.io/econ-charts/
+  description: "Economist. Macroeconomic scenarios, stress testing, and U.S. economic data."
+  image: images/preview.jpg
+  open-graph: true
+  twitter-card:
+    card-style: summary_large_image
   search: false
   navbar:
     background: "#ffffff"
     foreground: "#222220"
-    left:
-      - href: ai-economy.qmd
-        text: The AI economy
-      - href: interest-rates.qmd
-        text: Interest rates
-      - href: inflation.qmd
-        text: Inflation
+    right:
+      - text: Charts
+        menu:
+          - href: ai-economy.qmd
+            text: The AI economy
+          - href: interest-rates.qmd
+            text: Interest rates
+          - href: inflation.qmd
+            text: Inflation
+      - href: resume.qmd
+        text: Resume
+  page-footer:
+    left: "A personal site, not affiliated with any employer."
 
 format:
   html:
