@@ -37,3 +37,7 @@ Sources, release dates, and definitions for each chart, with its data to downloa
 ### Underlying inflation {#inflation-measures}
 
 {{< include charts/inflation-measures/output/inflation-measures-notes.md >}}
+
+### Breadth {#inflation-breadth}
+
+{{< include charts/inflation-breadth/output/inflation-breadth-notes.md >}}

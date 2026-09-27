@@ -18,3 +18,18 @@ How high underlying inflation is, and what is driving it.
 ::: {.chart-source}
 [Sources, definitions, and data](sources.qmd#inflation-measures)
 :::
+
+## Breadth
+
+{{< include charts/inflation-breadth/output/inflation-breadth-lead.md >}}
+
+```{=html}
+<picture>
+  <source media="(max-width: 600px)" srcset="charts/inflation-breadth/output/inflation-breadth-narrow.png">
+  <img src="charts/inflation-breadth/output/inflation-breadth.png" class="chart" alt="Line chart of the share of 177 consumer spending categories with prices up more than 3 percent over 12 months, from 2000 to July 2026. The share ranged from about 15 to 53 percent before 2021, against a 2000 to 2019 average of 32 percent. It peaked at 77 percent in 2022, fell to 36 percent in early 2025, and was 54 percent in July 2026.">
+</picture>
+```
+
+::: {.chart-source}
+[Sources, definitions, and data](sources.qmd#inflation-breadth)
+:::

@@ -12,3 +12,13 @@ fetch_bea_nipa <- function(series, frequency = "Q") {
     pivot_wider(names_from = name, values_from = Value) |>
     arrange(date)
 }
+
+# Whole NIPA tables from BEA's flat files, one row per line and period: line
+# number, series code, label, and value. `tables` are flat-file table IDs, such
+# as "U20404" for PCE prices by category.
+fetch_bea_nipa_tables <- function(tables, frequency = "M") {
+  tidyusmacro::getNIPAFiles(type = frequency) |>
+    filter(TableId %in% tables) |>
+    transmute(table = TableId, line = as.integer(LineNo), code = SeriesCode, label = SeriesLabel, date, value = Value) |>
+    distinct()
+}
