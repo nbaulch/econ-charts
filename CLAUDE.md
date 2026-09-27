@@ -2,33 +2,27 @@
 
 ## What this is
 
-A personal website of curated charts on the U.S. economy, built from public data. It will be organized into a small number of topics, each telling a story mainly through which charts are shown, in what order, and how they are titled, not through long written commentary. Each topic should stay small: a handful of charts at most, ideally one or two that carry the argument. Being selective matters more than being comprehensive.
+A personal website of charts on the U.S. economy worth watching, built from public data and kept current. It is organized into a small number of topics. Each chart comes with a short note on why it is worth watching, never a reading of what the data show. Being selective matters more than being comprehensive, and each chart should earn its place by answering a distinct question.
 
-The first topic is the AI economy: what AI is and is not doing to the U.S. economy right now. Other topics, such as inflation, will follow once the first one works. Build the site so adding a topic later is straightforward, but don't build for topics that don't exist yet.
+Topics so far: the AI economy, interest rates, and inflation. Build the site so adding a topic is straightforward, but don't build for topics that don't exist yet.
 
 I'm a macroeconomist. I know the data and the economics well. I'm less experienced with web development and production engineering, so explain tradeoffs there plainly and don't assume I'll catch problems in that part of the stack.
 
 ## Why it exists
 
-Much of the best analysis in this area is published once, as a blog post or a Fed note, and then goes stale. Part of the site's value is keeping a few of those analyses current, with credit to the original authors. The rest is original charts where the public conversation is getting the numbers wrong or missing context. The site doesn't need to be only one of those.
+Much of the best analysis in this area is published once, as a blog post or a Fed note, and then goes stale. The site's value is keeping a few of those analyses current, with credit to the original authors, and adding charts of measures worth tracking.
 
-## First topic: the AI economy storyline
+## No commentary, anywhere public
 
-This is a working hypothesis, not a conclusion. If refreshed data stops supporting part of it, that's worth telling me, not smoothing over.
+For professional reasons, nothing public may interpret the data: not the site, and not this repo, which is public. That rules out findings, storylines, working hypotheses, forecasts, and statements of what the data show or which way they are moving, in page text, chart titles, annotations, specs, code comments, commit messages, and pull requests. Facts about method are fine: sources, transformations, whether a reproduction matches the original, and why a method was chosen.
 
-- The AI buildout is adding to growth, though less than headline figures suggest once imported computers are netted out. Investment in software, computers, data centers, and power has lifted real GDP growth since early 2025, from a pre-buildout contribution that was mostly software.
-- Adoption is spreading but still thin among firms, and concentrated in large firms. Surveys of workers find much wider use than surveys of firms; the gap reflects both who is counted and how the question is asked.
-- The recent productivity acceleration is mostly firms using existing capital and labor harder, which Tedeschi links to meeting demand for AI capacity, plus investment in computers and software, not AI-driven efficiency gains. Utilization-adjusted TFP grew strongly in 2023 and 2024 and has fallen over the past year.
+Interpretation, such as what a refresh changed and what it might mean, goes to me privately, in the Claude app or by email, never into the repo or the site.
 
-## Second topic: interest rates
+## Topics and charts
 
-A working hypothesis, drafted September 2026 for review.
-
-- Long-term Treasury yields are higher than before 2024 mostly because of a higher term premium. A decomposition can't say whether fiscal policy, Treasury supply, or AI-related borrowing is behind it.
-- This year's rise mostly reflects higher expected policy rates in a strong economy, in both the Fed Board and New York Fed models. The models differ on how much the term premium added. The rise is mostly in real yields, with a smaller contribution from expected inflation.
-- Big tech has become a new source of long-term debt for investors to absorb, adding about a quarter as much as Treasury in the past year after little before 2025, while Treasury's own contribution has not grown.
-
-Charts: `charts/yield-decomposition/`, `charts/yield-rise-by-model/`, and `charts/duration-supply/` (built). Candidate: the 10-year yield split into inflation-protected yield and breakeven inflation, with the 2-year yield.
+- **The AI economy**: `charts/ai-investment-gdp/`, `charts/ai-adoption/`, `charts/productivity-decomposition/`.
+- **Interest rates**: `charts/yield-decomposition/`, `charts/yield-rise-by-model/`, `charts/duration-supply/`. Candidate: the 10-year yield split into inflation-protected yield and breakeven inflation, with the 2-year yield.
+- **Inflation**, started September 2026: `charts/inflation-measures/` and `charts/inflation-breadth/` (breadth reproduces Warsh's share of PCE categories rising faster than 3 percent). Planned, one question each: why PCE runs above CPI (Konczal), supply- versus demand-driven inflation (San Francisco Fed), tariffs (St. Louis Fed method, checked against the April 2026 FEDS Note), AI's contribution (software and electricity prices), and inflation expectations. Release-day tools (PCE implied by CPI and PPI, surprises) come later; surprises need a public benchmark, such as the Cleveland Fed nowcast, since consensus forecasts are proprietary.
 
 ## Chart candidates
 
@@ -37,13 +31,13 @@ These are the analyses I've been considering. Treat them as starting points. Ver
 - **AI investment's contribution to real GDP growth**, gross versus net of imported computers and semiconductors. Built in `charts/ai-investment-gdp/`, following the FEDS Note method.
   - Related work: Federal Reserve FEDS Note on publicly available AI data (July 2026), ING THINK (August 2026), St. Louis Fed On the Economy (January 2026).
   - Data: BEA NIPA investment detail, Census trade data, Census construction spending.
-- **AI adoption by firm size.** Built in `charts/ai-adoption/`: the Census BTOS share of firms using AI in three size groups, weighted by Census firm counts. The earlier version across denominators (firms, workers, and one employment-weighted survey point) was dropped as hard to read; the worker share from the Real-Time Population Survey is quoted in the text.
+- **AI adoption by firm size.** Built in `charts/ai-adoption/`: the Census BTOS share of firms using AI in three size groups, weighted by Census firm counts. The earlier version across denominators (firms, workers, and one employment-weighted survey point) was dropped as hard to read. `reproduce.R` also checks worker figures from the Real-Time Population Survey.
   - Related work: Allen, FEDS Note, April 2026; Bick and coauthors, St. Louis Fed, June 2026, on question wording.
   - Known break: BTOS changed its AI question wording in November 2025. Size-class estimates exist only for the new wording.
-- **Employment of young workers by occupational AI exposure**, from CPS microdata. Dropped in September 2026, with its storyline bullet, because the Stanford and ADP Canaries dashboard already tracks it monthly.
+- **Employment of young workers by occupational AI exposure**, from CPS microdata. Dropped in September 2026 because the Stanford and ADP Canaries dashboard already tracks it monthly.
   - Related work: Dallas Fed, January 2026.
-- **Electricity demand and prices by state.** Built and dropped in September 2026, because the link to AI is indirect and the investment chart already covers data centers and power. Findings, from EIA Form 861M: six states (Texas, Virginia, Ohio, Georgia, Arizona, Oregon) accounted for about three quarters of the growth in commercial electricity use from 2019 to mid-2026. Household prices rose no faster in states where demand grew fastest, matching Lawrence Berkeley National Laboratory and Brattle (2025). Data centers do raise costs through PJM's capacity market, which a state comparison can't show.
-- **Labor productivity versus utilization-adjusted TFP**, showing the utilization contribution. This is the first chart, in `charts/productivity-decomposition/`.
+- **Electricity demand and prices by state.** Built from EIA Form 861M and dropped in September 2026, because the link to AI is indirect and the investment chart already covers data centers and power.
+- **Labor productivity versus utilization-adjusted TFP**, showing the utilization contribution. Built in `charts/productivity-decomposition/`.
   - Related work: Ernie Tedeschi, Stripe Economics, July 2026.
   - Data: BLS productivity, SF Fed (Fernald) TFP.
 - **Industry AI adoption versus labor productivity growth**, before and after removing 2016 to 2019 trends. Set aside: it answers a narrower cross-sectional question.
@@ -54,9 +48,9 @@ These are the analyses I've been considering. Treat them as starting points. Ver
 
 - Start with one chart and get it right before building a framework around it.
 - When maintaining someone else's analysis, reproduce their published numbers for their original period before extending it. If you can't match them, stop and tell me what differs.
-- Getting the story right matters more than matching the original, but replication is what makes a chart defensible, so deviate only with confidence. A deviation needs a reason grounded in data, not preference, and a consistency check against an independent source that the new method passes. Report how much it moves the result, keep `reproduce.R` matching the original under their method, record the deviation in the spec's decision log, and say on the chart that the method is adapted.
+- Measuring the right thing matters more than matching the original, but replication is what makes a chart defensible, so deviate only with confidence. A deviation needs a reason grounded in data, not preference, and a consistency check against an independent source that the new method passes. Report how much it moves the result, keep `reproduce.R` matching the original under their method, record the deviation in the spec's decision log, and say on the chart that the method is adapted.
 - Each chart should have a written spec: sources, series identifiers, transformations, vintage handling, and known breaks. The spec is what makes refreshes reliable and reviewable.
-- Refreshes should report what changed: new data, revisions, methodology breaks, and results that moved enough to matter. I review before anything is published.
+- Refreshes should report what changed: new data, revisions, methodology breaks, and results that moved enough to matter. The report is factual and goes to me privately, not into the repo. I review before anything is published.
 - Credit and link the original analysis on every chart built from someone else's work.
 - Prefer boring, durable choices for data and hosting. This is a side project and needs to survive long gaps between sessions.
 
@@ -121,30 +115,19 @@ The standard is a repo Hadley Wickham would be proud of: well thought out, funct
 
 ## AI features I'm interested in, not yet decided
 
-- A refresh agent that watches release calendars, updates charts from their specs, and summarizes what changed and whether it strengthens or weakens the storyline.
-- Drafted annotations that I rewrite before publishing.
-
-Propose designs when we get there, but don't build these before the first chart works.
+- A daily refresh agent that checks release calendars for new data, rebuilds affected charts from their specs, opens a pull request, and tells me privately, in the Claude app or by email, what changed.
 
 ## Writing style for anything published
 
-Plain, measured, declarative. No stacked lists of three for rhythm, no marketing language. Em dashes are fine for an aside, not for effect. Charts follow `STYLE.md`: no acronyms on a chart except ones every reader knows, such as GDP and AI, and notes define terms in plain words rather than with equations.
+Plain, measured, declarative, and neutral. No marketing language. Em dashes are fine for an aside, not for effect. Charts follow `STYLE.md`: no acronyms on a chart except ones every reader knows, such as GDP and AI, and notes define terms in plain words rather than with equations.
 
-Write like a staff economist briefing the Treasury secretary: high level, short, and cut hard.
-
-- **The paragraph above a chart** opens with the general point, then backs it up. Two to six sentences, each with one clear purpose and message. If a sentence is doing two jobs, split it or cut one.
+- **The paragraph above a chart says why it is worth watching**, in one to three sentences: the question it bears on, who is debating it, and whose analysis it follows. It never says what the data show: no current values, no direction, no conclusion.
 - **Be factual about what is measured.** Name things for what they are. If a category is broader than its label, such as "AI investment" that includes software spending unrelated to AI, name the components instead.
-- **Numbers in the text should be visible on the chart.** If a reader would wonder where a number comes from, show it on the chart or drop it. Keep precision consistent, and don't round a number up to make a point.
-- **Mention a range or alternative estimate only if it changes the story.** Otherwise keep it in the spec as a refresh check.
-- **Avoid words with two meanings in one paragraph**, such as "headline" for both a gross figure and GDP growth.
+- **The title names what the chart shows**, not a finding. The subtitle gives measurement details and units.
+- **Annotations are neutral references only**, such as a policy goal or a historical average, never a callout on a value or a turn in the data.
+- **Notes below the chart are short definitions only.**
 - **Don't repeat on the chart what the chart already shows**, such as the data's end date in the image's source line. The release date goes in the notes below the chart.
-- **Notes below the chart are short definitions only.** If it matters, it goes in the paragraph.
-
-For charts:
-
-- **The title states the chart's message**, all of it: if the paragraph makes two points, the title carries both. Accurate before catchy.
-- **One chart that tells the whole story beats two that split it.** Never publish a standalone chart of a figure the text argues is misleading.
-- **Smooth the data when noise hides the story**, and use the same measure the text quotes, such as four-quarter averages.
+- **Smooth the data when noise hides the signal**, and say how in the subtitle, such as four-quarter averages.
 
 When I ask for options, give a recommendation. When I'm unsure, show me a preview rather than describing it.
 

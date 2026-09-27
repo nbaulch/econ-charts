@@ -55,25 +55,6 @@ parts <- tribble(
   "expected_rates", "Expected short-term rates", chart_colors[["blue"]]
 )
 
-latest <- weekly_changes |>
-  filter(date == max(date)) |>
-  select(model, yield, expected_rates, term_premium)
-latest_for <- \(which_model, what) latest[[what]][latest$model == which_model]
-points <- \(x) format(round(x, 2), nsmall = 2)
-
-write_chart_lead(
-  str_glue(
-    "Most of this year's rise in the 10-year yield reflects higher expected interest rates. From the week of ",
-    "February 23 to {format(end_date, '%B %-d')}, the yield rose about {points(latest_for('board', 'yield'))} ",
-    "percentage point. Two Federal Reserve models agree that expected ",
-    "short-term rates account for most of that, but differ on the rest: the Fed Board model attributes ",
-    "{points(latest_for('board', 'term_premium'))} point to the term premium and the New York Fed model ",
-    "{points(latest_for('new_york', 'term_premium'))}. Neither can say whether fiscal policy, Treasury supply, or ",
-    "AI-related borrowing is behind the term premium."
-  ),
-  file.path(chart_dir, "output", "yield-rise-by-model-lead.md")
-)
-
 write_chart_notes(
   notes = c(
     "**Expected short-term rates:** The average short-term interest rate investors expect over 10 years.",
@@ -118,8 +99,8 @@ yield_rise_chart <- ggplot(bars, aes(date, change)) +
     panel.spacing = unit(1.4, "lines")
   )
 
-title <- "Higher expected interest rates drove most of this year's rise in the 10-year yield"
-subtitle <- "Change since the week of February 23, 2026 in the 10-year Treasury yield and its parts, weekly average, percentage points"
+title <- "Change in the 10-year Treasury yield and its parts since February 2026, in two models"
+subtitle <- "Measured from the week of February 23, weekly average, percentage points"
 source_line <- "Sources: Federal Reserve Board (D'Amico, Kim, and Wei); Federal Reserve Bank of New York (Adrian, Crump, and Moench)."
 
 save_chart(

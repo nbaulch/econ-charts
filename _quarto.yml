@@ -6,6 +6,7 @@ project:
     - index.qmd
     - ai-economy.qmd
     - interest-rates.qmd
+    - inflation.qmd
     - sources.qmd
   resources:
     - fonts/*.ttf
@@ -23,6 +24,8 @@ website:
         text: The AI economy
       - href: interest-rates.qmd
         text: Interest rates
+      - href: inflation.qmd
+        text: Inflation
 
 format:
   html:

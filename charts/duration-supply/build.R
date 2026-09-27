@@ -151,54 +151,13 @@ issuers <- tribble(
   "treasury", "Treasury securities", chart_colors[["blue"]]
 )
 
-latest <- filter(duration_supply, date == latest_month_end) |>
-  select(issuer, change_12_months) |>
-  tibble::deframe()
-year_earlier_treasury <- duration_supply |>
-  filter(issuer == "treasury", date == latest_month_end %m-% months(12)) |>
-  pull(change_12_months)
-
 latest_label <- format(latest_month_end, "%B %Y")
-billions <- \(x) format(round(x), big.mark = ",")
-
-recent_treasury_peak <- duration_supply |>
-  filter(issuer == "treasury", date > latest_month_end %m-% months(24)) |>
-  slice_max(change_12_months)
-
-recent_issuers <- hyperscaler_bonds |>
-  filter(issued > latest_month_end %m-% months(12)) |>
-  distinct(company) |>
-  pull(company) |>
-  sort() |>
-  str_flatten_comma(last = ", and ")
-
-earlier_hyperscaler_peak <- duration_supply |>
-  filter(issuer == "hyperscalers", date <= latest_month_end %m-% months(12)) |>
-  pull(change_12_months) |>
-  max()
-
-write_chart_lead(
-  str_glue(
-    "Big tech companies have become a significant new source of long-term debt for investors to absorb, while ",
-    "Treasury's contribution has not grown. Measured in 10-year equivalents\u2014the amount of 10-year notes that ",
-    "would carry the same risk from changes in interest rates\u2014bonds sold by {recent_issuers} added ",
-    "${billions(latest[['hyperscalers']])} billion to private holdings in the 12 months to {latest_label}, ",
-    "{round(100 * latest[['hyperscalers']] / latest[['treasury']])} percent as much as Treasury's ",
-    "${billions(latest[['treasury']])} billion. Before then, big tech's bonds had never added more than ",
-    "${billions(earlier_hyperscaler_peak)} billion in 12 months. Treasury's addition compares with ",
-    "${billions(year_earlier_treasury)} billion a year earlier and a peak of ",
-    "${billions(recent_treasury_peak$change_12_months)} billion in {format(recent_treasury_peak$date, '%B %Y')}. ",
-    "The figures leave out private placements, such as the financing for Meta's Hyperion data center, so they ",
-    "understate big tech's borrowing."
-  ),
-  file.path(chart_dir, "output", "duration-supply-lead.md")
-)
 
 write_chart_notes(
   notes = c(
     "**10-year equivalents:** The amount of 10-year notes with the same sensitivity to interest rates.",
     "**Treasury securities:** Marketable Treasury debt not held by the Federal Reserve.",
-    "**Big tech bonds:** Dollar bonds registered by Alphabet (and Google before it), Amazon, Meta, Microsoft, and Oracle."
+    "**Big tech bonds:** Dollar bonds registered by Alphabet (and Google before it), Amazon, Meta, Microsoft, and Oracle. Private placements and loans are not included."
   ),
   source = str_glue(
     "Sources: Treasury; Federal Reserve Bank of New York; Securities and Exchange Commission. Through ",
@@ -223,7 +182,7 @@ duration_chart <- ggplot(areas, aes(date, change_12_months, fill = issuer)) +
   scale_y_continuous(labels = scales::label_comma(), breaks = scales::breaks_width(500)) +
   theme_chart()
 
-title <- "Big tech now adds about a quarter as much long-term debt as Treasury"
+title <- "Long-term debt added by the Treasury and big tech"
 subtitle <- "Change over 12 months in debt held by private investors, billions of dollars in 10-year equivalents"
 source_line <- str_glue(
   "Sources: Treasury; Federal Reserve Bank of New York; Securities and Exchange Commission. Data through {latest_label}."

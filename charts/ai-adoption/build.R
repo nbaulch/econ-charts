@@ -36,7 +36,8 @@ write_csv(btos_ai_use, file.path(chart_dir, "data", str_glue("census_btos_ai_{bt
 
 genai_use <- fetch_rps_genai()
 
-# The tracker doesn't date its releases, so the snapshot is named by the fetch date.
+# Only `reproduce.R` uses the worker survey. The tracker doesn't date its
+# releases, so the snapshot is named by the fetch date.
 write_csv(genai_use, file.path(chart_dir, "data", str_glue("rps_genai_{today()}.csv")))
 
 # Firm counts by size class weight the Census size classes into three groups.
@@ -92,31 +93,6 @@ groups <- tribble(
   "small", "Fewer than 50", chart_colors[["grey"]]
 )
 
-latest <- adoption_by_size |>
-  filter(date == max(date)) |>
-  select(group, estimate) |>
-  tibble::deframe()
-
-latest_all_firms <- btos_ai_use |>
-  filter(wording == "new_question", is.na(employment_size)) |>
-  slice_max(period)
-
-latest_workers <- genai_use |>
-  filter(sample == "Employed", use == "For Work", frequency == "Share Using GenAI", statistic == "Mean") |>
-  slice_max(date)
-
-write_chart_lead(
-  str_glue(
-    "AI use is spreading across businesses of every size, but it is concentrated in large firms. About ",
-    "{round(latest[['large']])} percent of firms with 250 or more employees now use it, against ",
-    "{round(latest[['small']])} percent of firms with fewer than 50. Because most firms are small, only about ",
-    "{round(latest_all_firms$estimate)} percent of all firms use AI. Surveys of workers find wider use: ",
-    "{round(latest_workers$value)} percent of employed adults use generative AI for their jobs, a broader measure ",
-    "that counts any use of tools such as chatbots."
-  ),
-  file.path(chart_dir, "output", "ai-adoption-lead.md")
-)
-
 write_chart_notes(
   notes = c(
     "**Using AI:** The business used AI in any of its functions in the past two weeks.",
@@ -124,8 +100,7 @@ write_chart_notes(
   ),
   source = str_glue(
     "Sources: Census Bureau, [Business Trends and Outlook Survey](https://www.census.gov/hfp/btos/), through ",
-    "{format(max(adoption_by_size$date), '%B %-d, %Y')}, and Statistics of U.S. Businesses, {susb_year}; ",
-    "[Real-Time Population Survey](https://www.genaiadoptiontracker.com/) (Bick, Blandin, and Deming). ",
+    "{format(max(adoption_by_size$date), '%B %-d, %Y')}, and Statistics of U.S. Businesses, {susb_year}. ",
     "Builds on Allen, [\"Monitoring AI Adoption in the U.S. Economy\"]",
     "(https://www.federalreserve.gov/econres/notes/feds-notes/monitoring-ai-adoption-in-the-u-s-economy-20260403.html), ",
     "FEDS Notes, April 2026."
@@ -143,8 +118,8 @@ adoption_chart <- adoption_by_size |>
   scale_y_continuous(limits = c(0, 50), breaks = seq(0, 50, 10), expand = expansion(mult = c(0, 0.02))) +
   theme_chart()
 
-title <- "AI use is rising at firms of all sizes, led by large firms"
-subtitle <- "Share of firms using AI, by number of employees, averaged over three surveys, percent"
+title <- "Share of firms using AI, by firm size"
+subtitle <- "By number of employees, average of the latest three surveys, percent"
 source_line <- "Source: Census Bureau. Builds on Allen, FEDS Notes, April 2026."
 
 save_chart(

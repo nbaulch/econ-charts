@@ -2,16 +2,16 @@
 title: "Interest rates"
 ---
 
-What is driving long-term U.S. interest rates.
+Charts on long-term U.S. interest rates.
 
 ## The 10-year yield
 
-{{< include charts/yield-decomposition/output/yield-decomposition-lead.md >}}
+The 10-year Treasury yield sets the cost of long-term borrowing across the economy. The Fed Board's model splits it into the short-term rates and inflation investors expect over 10 years, and the extra return they require for the risk of holding a long-term bond instead. Which parts move bears on debates over how fiscal policy, Treasury supply, and borrowing for AI affect long-term rates.
 
 ```{=html}
 <picture>
   <source media="(max-width: 600px)" srcset="charts/yield-decomposition/output/yield-decomposition-narrow.png">
-  <img src="charts/yield-decomposition/output/yield-decomposition.png" class="chart" alt="Stacked bar chart of the monthly change since December 2023 in the 10-year Treasury yield, split into expected real short-term rates, real term premium, expected inflation, and inflation risk premium, from the Fed Board model. By August 2026 the yield was about 0.7 point higher, mostly from the real term premium and inflation risk premium, with expected inflation adding about 0.2 point and expected real short-term rates little changed.">
+  <img src="charts/yield-decomposition/output/yield-decomposition.png" class="chart" alt="Stacked bar chart, monthly since December 2023, of the change in the 10-year Treasury yield split into expected real short-term rates, real term premium, expected inflation, and inflation risk premium, from the Fed Board model, with a line for the yield.">
 </picture>
 ```
 
@@ -19,14 +19,14 @@ What is driving long-term U.S. interest rates.
 [Sources, definitions, and data](sources.qmd#yield-decomposition)
 :::
 
-## This year's rise
+## Two models
 
-{{< include charts/yield-rise-by-model/output/yield-rise-by-model-lead.md >}}
+Models of the term premium can split the same change in yields differently. The Fed Board and New York Fed models are the two most widely cited, so the chart shows the split from each, side by side, since February 2026.
 
 ```{=html}
 <picture>
   <source media="(max-width: 600px)" srcset="charts/yield-rise-by-model/output/yield-rise-by-model-narrow.png">
-  <img src="charts/yield-rise-by-model/output/yield-rise-by-model.png" class="chart" alt="Two stacked bar charts of the weekly change in the 10-year Treasury yield since the week of February 23, 2026, split into expected short-term rates and term premium, one for the Fed Board model and one for the New York Fed model. The yield rose about 0.7 point by August 31. Expected rates account for about 0.46 point in the Fed Board model and 0.59 in the New York Fed model; the term premium accounts for 0.28 and 0.15.">
+  <img src="charts/yield-rise-by-model/output/yield-rise-by-model.png" class="chart" alt="Two stacked bar charts, weekly since the week of February 23, 2026, of the change in the 10-year Treasury yield split into expected short-term rates and term premium, one for the Fed Board model and one for the New York Fed model, each with a line for the yield.">
 </picture>
 ```
 
@@ -34,14 +34,14 @@ What is driving long-term U.S. interest rates.
 [Sources, definitions, and data](sources.qmd#yield-rise-by-model)
 :::
 
-## Who is supplying long-term debt
+## Supply of long-term debt
 
-{{< include charts/duration-supply/output/duration-supply-lead.md >}}
+Investors have to absorb new long-term debt whoever issues it, and more of it can raise the term premium. Large technology companies now issue bonds to fund AI investment alongside Treasury's borrowing. Measuring both in 10-year equivalents, the amount of 10-year notes with the same sensitivity to interest rates, puts them on a common footing, following work by the [Dallas Fed](https://www.dallasfed.org/research/economics/2026/0210-searls-aifinancing) and Exante Data.
 
 ```{=html}
 <picture>
   <source media="(max-width: 600px)" srcset="charts/duration-supply/output/duration-supply-narrow.png">
-  <img src="charts/duration-supply/output/duration-supply.png" class="chart" alt="Stacked area chart of the 12-month change in debt held by private investors, in 10-year equivalents, from 2011 to August 2026. Treasury securities added between about 500 and 700 billion dollars a year before 2020, turned negative in 2020 when the Federal Reserve bought heavily, peaked near 1.6 trillion in 2021 and 2022, and have been around 0.8 to 1.2 trillion since 2024. Big tech bonds added at most about 60 billion dollars a year until 2025, then about 255 billion in the 12 months to August 2026.">
+  <img src="charts/duration-supply/output/duration-supply.png" class="chart" alt="Stacked area chart, monthly since 2011, of the 12-month change in debt held by private investors, in 10-year equivalents, from Treasury securities and big tech bonds.">
 </picture>
 ```
 

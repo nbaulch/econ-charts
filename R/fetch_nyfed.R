@@ -16,7 +16,6 @@ fetch_nyfed_acm <- function() {
     rename_with(str_to_lower, -date)
 }
 
-
 # The Federal Reserve's System Open Market Account holdings of Treasury
 # securities by CUSIP, on each Wednesday in `dates` (as listed by
 # fetch_nyfed_soma_dates()). Par values are in millions of dollars;
@@ -46,4 +45,19 @@ fetch_nyfed_soma_treasury <- function(dates, cache_dir = "cache/nyfed_soma") {
 
 fetch_nyfed_soma_dates <- function() {
   ymd(jsonlite::fromJSON("https://markets.newyorkfed.org/api/soma/asofdates/list.json")$soma$asOfDates)
+}
+
+# Multivariate Core Trend inflation, the New York Fed's estimate of trend PCE
+# inflation from 17 sectors, monthly, in percent: the central estimate and its
+# band. The download is a chart-data sheet with four header rows.
+# https://www.newyorkfed.org/research/policy/mct
+fetch_nyfed_mct <- function() {
+  read_csv(
+    "https://www.newyorkfed.org/medialibrary/Research/Interactives/Data/mct/mct-chart-data.xlsx",
+    skip = 4,
+    col_names = FALSE,
+    col_types = cols(.default = "c")
+  ) |>
+    transmute(date = mdy(X2), trend_low = as.numeric(X3), trend = as.numeric(X4), trend_high = as.numeric(X5)) |>
+    filter(!is.na(date))
 }

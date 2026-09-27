@@ -1,0 +1,35 @@
+---
+title: "Inflation"
+---
+
+Charts on U.S. consumer price inflation.
+
+## Underlying inflation
+
+Measures of underlying inflation set aside volatile or unusual price changes to gauge where inflation is heading, and the Federal Reserve watches several of them. They are built differently and can give different readings, so the chart shows them together, over time and for the latest month.
+
+```{=html}
+<picture>
+  <source media="(max-width: 600px)" srcset="charts/inflation-measures/output/inflation-measures-narrow.png">
+  <img src="charts/inflation-measures/output/inflation-measures.png" class="chart" alt="Two panels. One shows the 12-month change in headline and core PCE prices since 2019, with a shaded range for six other measures of underlying inflation. The other shows each measure's latest 12-month change and six-month change at an annual rate, with a dashed line at the Federal Reserve's 2 percent goal.">
+</picture>
+```
+
+::: {.chart-source}
+[Sources, definitions, and data](sources.qmd#inflation-measures)
+:::
+
+## Breadth
+
+Price increases spread across many categories are harder to attribute to a few one-off shocks than increases concentrated in a few. Kevin Warsh [cited this measure](https://www.federalreserve.gov/newsevents/speech/warsh20260828a.htm) at Jackson Hole in August 2026.
+
+```{=html}
+<picture>
+  <source media="(max-width: 600px)" srcset="charts/inflation-breadth/output/inflation-breadth-narrow.png">
+  <img src="charts/inflation-breadth/output/inflation-breadth.png" class="chart" alt="Line chart, monthly since 2000, of the share of 177 consumer spending categories with prices up more than 3 percent over 12 months, with a dashed line for the 2000 to 2019 average.">
+</picture>
+```
+
+::: {.chart-source}
+[Sources, definitions, and data](sources.qmd#inflation-breadth)
+:::

@@ -53,8 +53,7 @@ write_csv(nipa, file.path(chart_dir, "data", str_glue("bea_nipa_{today()}.csv"))
 contributions <- ai_investment_contributions(nipa) |>
   filter(!is.na(net))
 
-# Quarterly contributions swing widely, so the chart averages over four quarters,
-# as the text does.
+# Quarterly contributions swing widely, so the chart averages over four quarters.
 four_quarter_average <- \(x) (x + lag(x) + lag(x, 2) + lag(x, 3)) / 4
 
 averages <- contributions |>
@@ -89,24 +88,7 @@ components <- tribble(
 )
 
 latest_quarter <- max(contributions$date)
-past_year <- slice_tail(contributions, n = 4)
-
 quarter_label <- str_glue("{year(latest_quarter)} Q{quarter(latest_quarter)}")
-
-before_the_boom <- filter(averages, date == ymd("2023-12-01"))
-
-# The four components carry the AI buildout but aren't all AI, so the text names
-# them rather than calling the total AI investment.
-write_chart_lead(
-  str_glue(
-    "Investment in software, computers, data centers, and power\u2014the spending that carries the AI buildout\u2014has ",
-    "lifted real GDP growth since early 2025, but by less than headline figures suggest because many of the ",
-    "computers are imported. Net of those imports, it added about {round(mean(past_year$net), 2)} percentage point ",
-    "to real GDP growth over the past four quarters. In 2023, before the buildout, it added about ",
-    "{round(before_the_boom$gross, 1)} point with or without imports."
-  ),
-  file.path(chart_dir, "output", "ai-investment-gdp-lead.md")
-)
 
 write_chart_notes(
   notes = str_glue("**{components$label}:** {components$definition}"),
@@ -149,8 +131,10 @@ investment_chart <- ggplot(bars, aes(date, contribution)) +
   guides(shape = guide_legend(order = 2)) +
   theme_chart()
 
-title <- "The AI buildout is adding to growth, but less than the headline figures suggest"
-subtitle <- "Contribution to real GDP growth, average over four quarters, percentage points"
+# The four components carry the AI buildout but aren't all AI, so the title
+# names them rather than calling the total AI investment.
+title <- "Investment in software, computers, data centers, and power: contribution to real GDP growth"
+subtitle <- "Average over four quarters, percentage points"
 
 save_chart(
   investment_chart +

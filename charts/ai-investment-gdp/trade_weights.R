@@ -1,8 +1,8 @@
 # Compares weights on computer trade. The FEDS Note counts only the capital
 # goods share of computer trade, using goods trade overall as the guide. Census
-# product detail shows what the trade is: mostly servers, storage, and parts,
-# which go to business investment, and a shrinking share of laptops and
-# desktops, which are split between households and businesses.
+# product detail splits the trade into servers, storage, and parts, which go to
+# business investment, and laptops and desktops, which are split between
+# households and businesses.
 
 library(dplyr)
 library(tidyr)
@@ -103,8 +103,8 @@ contributions_by_weight |>
 
 # A weight is too high if the net computer imports it counts exceed business
 # investment in computers, which would leave investment with no domestic
-# content. BEA's final sales of computers put domestic content well above zero.
-# The BEA weight passes by construction, since it is built from final sales.
+# content. The BEA weight passes by construction, since it is built from final
+# sales.
 trade_weights |>
   list_rbind(names_to = "weight") |>
   inner_join(nipa, by = "date") |>
