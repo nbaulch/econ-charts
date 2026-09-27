@@ -41,3 +41,7 @@ Sources, release dates, and definitions for each chart, with its data to downloa
 ### Breadth {#inflation-breadth}
 
 {{< include charts/inflation-breadth/output/inflation-breadth-notes.md >}}
+
+### PCE and CPI {#pce-cpi-gap}
+
+{{< include charts/pce-cpi-gap/output/pce-cpi-gap-notes.md >}}

@@ -79,23 +79,16 @@ before_pandemic <- gap |>
   summarise(mean(gap)) |>
   pull()
 
-# In stacking order, top to bottom, so the legend and notes read like the bars.
-components <- tribble(
-  ~series, ~label, ~colour, ~definition,
-  "portfolio_management", "Portfolio management", chart_colors[["teal"]],
-  "Fees for managing investments and giving investment advice, which move with stock prices. In PCE, not in CPI.",
-  "software", "Software", chart_colors[["purple"]],
-  "Computer software and accessories bought by consumers, which weigh far more in PCE than in CPI.",
-  "everything_else", "Everything else", chart_colors[["grey"]],
-  "The rest of the gap, from differences in coverage, weights, and formulas."
-)
-
 month_label <- format(latest_month, "%B %Y")
 
 write_chart_notes(
   notes = c(
     "**Gap:** The 12-month change in core PCE prices minus the 12-month change in core CPI prices. Both leave out food and energy.",
-    str_glue("**{components$label}:** {components$definition}"),
+    str_glue(
+      "**Gap excluding portfolio management and software:** The same gap with two items taken out of core PCE: fees ",
+      "for managing investments and giving investment advice, which are in PCE but not CPI, and computer software and ",
+      "accessories, which weigh far more in PCE than in CPI."
+    ),
     "**Dashed line:** The average gap from 2011 to 2019."
   ),
   source = str_glue(
@@ -107,27 +100,22 @@ write_chart_notes(
   path = file.path(chart_dir, "output", "pce-cpi-gap-notes.md")
 )
 
-chart_start <- ymd("2011-01-01")
-recent <- filter(gap, date >= chart_start)
+lines <- gap |>
+  filter(date >= ymd("2011-01-01")) |>
+  transmute(date, gap, gap_excluding = gap - portfolio_management - software) |>
+  pivot_longer(-date, names_to = "series", values_to = "gap") |>
+  mutate(series = factor(series, levels = c("gap", "gap_excluding")))
 
-bars <- recent |>
-  select(date, all_of(components$series)) |>
-  pivot_longer(-date, names_to = "series", values_to = "contribution") |>
-  mutate(series = factor(series, levels = components$series))
-
-gap_chart <- ggplot(bars, aes(date, contribution)) +
-  geom_col(aes(fill = series), width = 31, linewidth = 0) +
+gap_chart <- ggplot(lines, aes(date, gap, colour = series)) +
   geom_hline(yintercept = 0, colour = chart_greys[["baseline"]], linewidth = 0.4) +
   geom_hline(yintercept = before_pandemic, colour = chart_greys[["muted"]], linetype = "dashed", linewidth = 0.4) +
-  geom_line(data = recent, aes(y = gap, linetype = "Gap"), colour = chart_greys[["title"]], linewidth = 0.8) +
-  scale_fill_manual(
-    values = setNames(components$colour, components$series),
-    labels = setNames(components$label, components$series)
+  geom_line(linewidth = 0.9) +
+  scale_colour_manual(
+    values = c(gap = chart_colors[["blue"]], gap_excluding = chart_colors[["orange"]]),
+    labels = c(gap = "Gap", gap_excluding = "Gap excluding portfolio management and software")
   ) +
-  scale_linetype_manual(values = "solid") +
   scale_x_date(date_breaks = "3 years", date_labels = "%Y") +
   scale_y_continuous(breaks = scales::breaks_width(0.5)) +
-  guides(fill = guide_legend(order = 1), linetype = guide_legend(order = 2)) +
   theme_chart()
 
 title <- "Gap between core PCE and core CPI inflation"
@@ -144,9 +132,8 @@ save_chart(
 save_chart(
   gap_chart +
     chart_labels(title, subtitle, source_line, width = 4.2) +
-    guides(fill = guide_legend(ncol = 1, order = 1)) +
-    theme(legend.box = "vertical", legend.spacing.y = unit(2, "pt")),
+    guides(colour = guide_legend(ncol = 1)),
   file.path(chart_dir, "output", "pce-cpi-gap-narrow.png"),
   width = 4.2,
-  height = 6.8
+  height = 5.8
 )
