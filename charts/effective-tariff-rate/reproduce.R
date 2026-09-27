@@ -17,9 +17,10 @@ totals_by_country <- list.files(file.path(chart_dir, "data"), "^census_imports_b
   read_csv(col_types = cols(country_code = "c"))
 
 # The chart divides by imports for consumption; the Federal Reserve Board note
-# divides by general imports. Penn Wharton's figures match imports for consumption without chapters 98 and
-# 99, which hold special classifications such as U.S. goods returned; the totals
-# by country include everything, so that check reads the trade store.
+# divides by general imports. Penn Wharton's figures match imports for
+# consumption without chapters 98 and 99, which hold special classifications
+# such as U.S. goods returned; the totals by country include everything, so
+# that check reads the trade store.
 without_special_chapters <- function(month) {
   read_census_trade("imports", month, month) |>
     filter(!substr(commodity, 1, 2) %in% c("98", "99")) |>
