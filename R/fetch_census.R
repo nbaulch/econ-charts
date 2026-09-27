@@ -49,6 +49,131 @@ fetch_census_trade_hs <- function(flow, hs_code, from) {
     )
 }
 
+# One month of U.S. goods trade from the Census bulk files: every 10-digit
+# product and country, summed over customs districts, not seasonally adjusted,
+# in dollars. Imports keep the rate provision, which records whether goods
+# entered duty-free (for example under USMCA) or dutiable. Exports keep whether
+# goods were made in the U.S. or are re-exports. The files come with their own
+# product and country codes, returned alongside. Field names are Census's, as
+# documented in the file layouts.
+# https://www.census.gov/foreign-trade/data/IMDB.html
+# https://www.census.gov/foreign-trade/data/EXDB.html
+fetch_census_trade_month <- function(flow, month) {
+  dir <- tempfile()
+  on.exit(unlink(dir, recursive = TRUE))
+  zip <- file.path(dir, "download.zip")
+  dir.create(dir)
+  # Import files run to 200 MB, past R's default one-minute download timeout.
+  op <- options(timeout = 900)
+  on.exit(options(op), add = TRUE)
+  download.file(census_trade_url(flow, month), zip, mode = "wb", quiet = TRUE)
+  # File names inside are upper case in recent years and lower case in older ones.
+  contents <- unzip(zip, list = TRUE)$Name
+  needed <- c(detail = if (flow == "imports") "IMP_DETL.TXT" else "EXP_DETL.TXT", codes = "CONCORD.TXT", countries = "COUNTRY.TXT")
+  files <- set_names(contents[match(needed, toupper(contents))], names(needed))
+  unzip(zip, files = files, exdir = dir)
+  paths <- set_names(file.path(dir, files), names(files))
+
+  list(
+    trade = read_census_trade_detail(paths[["detail"]], flow),
+    commodities = read_fwf(
+      paths[["codes"]],
+      fwf_positions(
+        c(1, 11, 211, 214, 217, 222, 227, 234),
+        c(10, 160, 213, 216, 221, 226, 232, 235),
+        c("commodity", "description", "unit_qy1", "unit_qy2", "sitc", "end_use", "naics", "hitech")
+      ),
+      col_types = cols(.default = "c"),
+      progress = FALSE
+    ),
+    countries = read_fwf(
+      paths[["countries"]],
+      fwf_positions(c(1, 12), c(4, 61), c("country_code", "country")),
+      col_types = cols(.default = "c"),
+      progress = FALSE
+    )
+  )
+}
+
+census_trade_url <- function(flow, month) {
+  file <- if (flow == "imports") "im_m/IMDB" else "ex_m/EXDB"
+  str_glue("https://www.census.gov/trade/downloads/{year(month)}/Merch/{file}{format(month, '%y%m')}.ZIP")
+}
+
+# Keeps the monthly fields and drops the year-to-date ones, which repeat them.
+# Arrow does the sum over districts, which takes dplyr much longer on a few
+# million rows.
+read_census_trade_detail <- function(path, flow) {
+  if (flow == "imports") {
+    keys <- c("commodity", "country_code", "rate_provision")
+    values <- c(
+      "con_qy1", "con_qy2", "con_val", "dut_val", "cal_dut", "con_cha", "con_cif",
+      "gen_qy1", "gen_qy2", "gen_val", "gen_cha", "gen_cif",
+      "air_val", "air_wgt", "air_cha", "ves_val", "ves_wgt", "ves_cha", "cnt_val", "cnt_wgt", "cnt_cha"
+    )
+    columns <- fwf_positions(
+      c(1, 11, 21, 23, 27, seq(44, 344, by = 15)),
+      c(10, 14, 22, 26, 28, seq(58, 358, by = 15)),
+      c(keys, "year", "month", values)
+    )
+  } else {
+    keys <- c("domestic_foreign", "commodity", "country_code")
+    values <- c("qty_1", "qty_2", "all_val", "air_val", "air_wgt", "ves_val", "ves_wgt", "cnt_val", "cnt_wgt")
+    columns <- fwf_positions(
+      c(1, 2, 12, 18, 22, seq(39, 159, by = 15)),
+      c(1, 11, 15, 21, 23, seq(53, 173, by = 15)),
+      c(keys, "year", "month", values)
+    )
+  }
+
+  read_fwf(
+    path,
+    columns,
+    col_types = cols(.default = "d", !!!set_names(rep(list("c"), length(keys)), keys), year = "i", month = "i"),
+    progress = FALSE
+  ) |>
+    arrow::arrow_table() |>
+    summarise(across(all_of(values), sum), .by = c(year, month, all_of(keys))) |>
+    collect() |>
+    filter(if_any(all_of(values), \(x) x != 0)) |>
+    mutate(date = make_date(year, month), .before = 1, .keep = "unused") |>
+    arrange(commodity, country_code)
+}
+
+# Months of the Census trade store, the copy of the bulk files above kept as
+# release assets on this repo by scripts/update_census_trade.R. Downloads
+# months not yet in cache/, and again any that Census has since revised, then
+# returns an Arrow dataset to query with dplyr and collect().
+read_census_trade <- function(flow, from, to = today()) {
+  store <- "https://github.com/nbaulch/econ-charts/releases/download/census-trade-data"
+  dir <- "cache/census_trade"
+  dir.create(dir, recursive = TRUE, showWarnings = FALSE)
+  local_manifest_path <- file.path(dir, "manifest.csv")
+
+  manifest <- read_csv(file.path(store, "manifest.csv"), col_types = "ccDcic") |>
+    filter(flow == .env$flow, date >= floor_date(from, "month"), date <= to)
+  local_manifest <- if (file.exists(local_manifest_path)) {
+    read_csv(local_manifest_path, col_types = "ccDcic")
+  } else {
+    manifest[0, ]
+  }
+
+  current <- manifest |>
+    semi_join(local_manifest, by = c("file", "source_modified")) |>
+    filter(file.exists(file.path(dir, file)))
+  to_download <- anti_join(manifest, current, by = "file")
+  walk(to_download$file, \(file) {
+    download.file(file.path(store, file), file.path(dir, file), mode = "wb", quiet = TRUE)
+  })
+
+  local_manifest |>
+    anti_join(manifest, by = "file") |>
+    bind_rows(manifest) |>
+    write_csv(local_manifest_path)
+
+  arrow::open_dataset(file.path(dir, manifest$file))
+}
+
 # One sheet of a Business Trends and Outlook Survey download, such as
 # "National.xlsx", in long form: one row per question, answer, and survey
 # period, with estimates in percent. Suppressed estimates, shown as ".", are NA.
