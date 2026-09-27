@@ -8,6 +8,7 @@ project:
     - ai-economy.qmd
     - interest-rates.qmd
     - inflation.qmd
+    - trade.qmd
     - sources.qmd
   resources:
     - fonts/*.ttf
@@ -37,6 +38,8 @@ website:
             text: Interest rates
           - href: inflation.qmd
             text: Inflation
+          - href: trade.qmd
+            text: Trade
       - href: resume.qmd
         text: Resume
   page-footer:
