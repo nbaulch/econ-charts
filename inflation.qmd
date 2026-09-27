@@ -33,3 +33,18 @@ Price increases spread across many categories are harder to attribute to a few o
 ::: {.chart-source}
 [Sources, definitions, and data](sources.qmd#inflation-breadth)
 :::
+
+## PCE and CPI
+
+The Federal Reserve's 2 percent goal is for PCE inflation, but CPI is released first and draws more attention. The two indexes differ in what they cover and how they weight it: fees for portfolio management, which move with stock prices, are in PCE but not CPI, and software carries a much larger weight in PCE. The chart follows [Mike Konczal's August 2026 analysis](https://newsletter.mikekonczal.com/p/is-the-actual-inflation-rate-pce).
+
+```{=html}
+<picture>
+  <source media="(max-width: 600px)" srcset="charts/pce-cpi-gap/output/pce-cpi-gap-narrow.png">
+  <img src="charts/pce-cpi-gap/output/pce-cpi-gap.png" class="chart" alt="Line chart, monthly since 2011, of core PCE inflation minus core CPI inflation over 12 months, and the same gap excluding portfolio management and software, with a dashed line for the 2011 to 2019 average.">
+</picture>
+```
+
+::: {.chart-source}
+[Sources, definitions, and data](sources.qmd#pce-cpi-gap)
+:::
