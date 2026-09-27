@@ -78,6 +78,6 @@ Sharif's latest value isn't matched. His tweet also mentions leaving out portfol
 
 ## Decision log
 
-- 2026-09-27: One figure in two stacked panels: headline and core since 2019 with the range of the other measures, then every measure's latest 12-month and six-month rates. Side by side was too cramped on phones.
+- 2026-09-27: One figure in two panels: headline and core since 2019 with the range of the other measures, and every measure's latest 12-month and six-month rates. Side by side on desktops, stacked on phones, where side by side was too cramped.
 - 2026-09-27: Market-based core excluding housing follows Sharif; the history matches his chart but the latest value doesn't (2.99 against 3.23).
 - 2026-09-27: Title: "Inflation is above 2 percent on every measure and has picked up in recent months." Check on each refresh that every measure is still above 2 percent and that six-month rates are above 12-month rates; the text's "every measure has picked up" is computed.

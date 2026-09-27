@@ -206,9 +206,8 @@ title <- "Inflation is above 2 percent on every measure and has picked up in rec
 subtitle <- "PCE price inflation, percent"
 source_line <- "Sources: Bureau of Economic Analysis; Federal Reserve Banks of Cleveland, Dallas, and New York."
 
-stack_panels <- function(history, latest, width, heights) {
-  (free(history) / free(latest)) +
-    plot_layout(heights = heights) +
+annotate_panels <- function(panels, width) {
+  panels +
     plot_annotation(
       title = wrap_without_orphan(title, floor((width - 0.4) * 8.5)),
       subtitle = wrap_without_orphan(subtitle, floor((width - 0.4) * 12)),
@@ -217,27 +216,28 @@ stack_panels <- function(history, latest, width, heights) {
     )
 }
 
-one_row_legends <- guides(colour = guide_legend(nrow = 1, order = 1), fill = guide_legend(order = 2))
+stacked_legends <- list(
+  guides(colour = guide_legend(ncol = 1, order = 1), fill = guide_legend(order = 2)),
+  theme(legend.box = "vertical", legend.spacing.y = unit(0, "pt"))
+)
 
+# Side by side on desktops, stacked on phones.
 save_chart(
-  stack_panels(
-    history_panel + one_row_legends + theme(legend.box = "horizontal"),
-    latest_panel(60) + guides(colour = guide_legend(nrow = 1)),
-    width = 8,
-    heights = c(1, 0.85)
+  annotate_panels(
+    (history_panel + stacked_legends | latest_panel(26) + guides(colour = guide_legend(ncol = 1))) +
+      plot_layout(widths = c(1.15, 1)),
+    width = 8
   ),
   file.path(chart_dir, "output", "inflation-measures.png"),
   width = 8,
-  height = 7.4
+  height = 6
 )
 
 save_chart(
-  stack_panels(
-    history_panel + guides(colour = guide_legend(ncol = 1, order = 1), fill = guide_legend(order = 2)) +
-      theme(legend.box = "vertical", legend.spacing.y = unit(0, "pt")),
-    latest_panel(22) + guides(colour = guide_legend(ncol = 1)),
-    width = 4.2,
-    heights = c(1, 1.3)
+  annotate_panels(
+    (free(history_panel + stacked_legends) / free(latest_panel(22) + guides(colour = guide_legend(ncol = 1)))) +
+      plot_layout(heights = c(1, 1.3)),
+    width = 4.2
   ),
   file.path(chart_dir, "output", "inflation-measures-narrow.png"),
   width = 4.2,
