@@ -1,32 +1,34 @@
 ---
-title: "Nicholas Baulch"
-subtitle: "Economist. Macroeconomic scenarios, stress testing, and U.S. economic data."
 pagetitle: "Nicholas Baulch"
 image: images/preview.jpg
+format:
+  html:
+    grid:
+      body-width: 640px
 ---
 
-::: {.intro}
 ```{=html}
-<img src="images/headshot.jpg" class="headshot" alt="Photo of Nicholas Baulch">
+<div class="hero">
+  <img src="images/headshot.jpg" class="headshot" alt="Photo of Nicholas Baulch">
+  <div>
+    <p class="name">Nicholas Baulch</p>
+    <p class="tagline">Economist</p>
+  </div>
+</div>
 ```
 
-::: {.intro-text}
-I'm an economist at U.S. Bank, where I lead the design of the economic scenarios behind the bank's stress tests and loan-loss reserves. Before that, I spent four years as an international economist at the U.S. Treasury.
+Hi, I'm Nick. I'm an economist at U.S. Bank, where I build the economic scenarios the bank uses to test how it would hold up in a recession. Before that I spent four years at the Treasury Department working on international finance, from the IMF to Ukraine.
 
-[Email](mailto:nicholas.baulch@gmail.com) · [GitHub](https://github.com/nbaulch) · [Resume](resume.qmd)
+[Personal paragraph: where you live and grew up, who you live with, and what fills your time outside work.]
+
+I like building things in R, and lately a lot of that has been with AI tools. This site is partly one of those projects: a handful of charts on the U.S. economy that I keep up to date, many of them extending analyses I thought deserved to stay current.
+
+::: {.links}
+[Email](mailto:nicholas.baulch@gmail.com) · [LinkedIn](#) · [GitHub](https://github.com/nbaulch) · [Resume](resume.qmd)
 :::
-:::
 
-## About
+## Charts I'm watching
 
-At U.S. Bank, I lead the team that designs the economic scenarios used for stress testing (CCAR) and loan-loss reserving (CECL), and I brief senior leadership each month on macroeconomic risks. I rebuilt the team's scenario production system as an R package, and I lead AI adoption for the bank's corporate finance division.
-
-At Treasury, I was the lead economist on Ukraine after Russia's 2022 invasion, and I coordinated Treasury's support for the Federal Reserve's emergency lending facilities during COVID-19. I also worked on IMF lending and sovereign debt. I came to government as a Presidential Management Fellow at the IRS, after starting my career in analytics at Cardinal Health. I have an M.A. in international economics and finance from Johns Hopkins SAIS.
-
-## Charts
-
-I keep a small set of charts on the U.S. economy current, built from public data. Several maintain analyses first published by other economists, with credit to the original authors.
-
-- [The AI economy](ai-economy.qmd): AI investment, adoption, and productivity.
-- [Interest rates](interest-rates.qmd): the 10-year Treasury yield and the supply of long-term debt.
-- [Inflation](inflation.qmd): measures of consumer price inflation.
+- [The AI economy](ai-economy.qmd): investment, adoption, and productivity
+- [Interest rates](interest-rates.qmd): the 10-year Treasury yield and who is supplying long-term debt
+- [Inflation](inflation.qmd): measures of consumer price inflation

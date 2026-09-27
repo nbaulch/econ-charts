@@ -11,6 +11,7 @@ project:
     - sources.qmd
   resources:
     - fonts/*.ttf
+    - fonts/*.woff2
     - images/*
     - charts/*/output/*.csv
     - charts/*/output/*.png
