@@ -69,35 +69,17 @@ breadth |>
   mutate(across(c(twelve_month, six_month), \(x) round(x, 1))) |>
   write_csv(file.path(chart_dir, "output", "inflation-breadth.csv"))
 
-latest <- filter(breadth, date == latest_month)
+latest_categories <- nrow(component_lines)
 before_pandemic <- breadth |>
   filter(between(year(date), 2000, 2019)) |>
   summarise(mean(twelve_month)) |>
   pull()
-high_before_2021 <- slice_max(filter(breadth, between(year(date), 2000, 2020)), twelve_month, n = 1)
-peak <- slice_max(filter(breadth, year(date) >= 2021), twelve_month, n = 1)
-low_since_2024 <- slice_min(filter(breadth, year(date) >= 2024), twelve_month, n = 1)
 month_label <- format(latest_month, "%B %Y")
-whole <- \(x) round(x)
-
-write_chart_lead(
-  str_glue(
-    "Price increases have broadened since early 2025. In {month_label}, prices of ",
-    "{whole(latest$twelve_month)} percent of the {latest$categories} categories of consumer spending were up more ",
-    "than {threshold} percent from a year earlier, compared with {whole(low_since_2024$twelve_month)} percent in ",
-    "{format(low_since_2024$date, '%B %Y')}. That is more than in any month from 2000 to 2020, when the high was ",
-    "{whole(high_before_2021$twelve_month)} percent in {year(high_before_2021$date)}, though well below the ",
-    "{whole(peak$twelve_month)} percent reached in {format(peak$date, '%B %Y')}. Kevin Warsh ",
-    "[pointed to this measure](https://www.federalreserve.gov/newsevents/speech/warsh20260828a.htm) at Jackson ",
-    "Hole in August."
-  ),
-  file.path(chart_dir, "output", "inflation-breadth-lead.md")
-)
 
 write_chart_notes(
   notes = c(
     str_glue(
-      "**Share of categories:** The share of the {latest$categories} categories of consumer spending in the Dallas ",
+      "**Share of categories:** The share of the {latest_categories} categories of consumer spending in the Dallas ",
       "Fed's trimmed mean whose prices rose more than {threshold} percent over the past 12 months. Each category ",
       "counts equally, whatever its share of spending."
     ),
@@ -126,8 +108,8 @@ breadth_chart <- ggplot(filter(breadth, date >= ymd("2000-01-01")), aes(date, tw
   scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 20), expand = expansion(mult = c(0, 0.02))) +
   theme_chart()
 
-title <- str_glue("More than half of prices are rising faster than {threshold} percent, more than at any time before 2021")
-subtitle <- str_glue("Share of consumer spending categories with prices up more than {threshold} percent over 12 months, percent")
+title <- str_glue("Share of consumer spending categories with prices rising faster than {threshold} percent")
+subtitle <- "Price change over 12 months, percent of categories"
 source_line <- "Source: Bureau of Economic Analysis, with categories from the Federal Reserve Bank of Dallas."
 
 save_chart(

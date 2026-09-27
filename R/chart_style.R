@@ -89,16 +89,10 @@ wrap_without_orphan <- function(text, width) {
   }
 }
 
-# Text on the site around each chart, written as Markdown files that the pages
-# include, so numbers in it update when the chart is rebuilt. The lead goes
-# above the chart on its topic page and says what to notice. The notes go on
-# the sources page: definitions, then a lighter source line with the data
-# download.
-# readr writes UTF-8 whatever the locale, so dashes survive in the cloud container.
-write_chart_lead <- function(lead, path) {
-  readr::write_lines(stringr::str_c(lead, collapse = "\n\n"), path)
-}
-
+# Notes for each chart's entry on the sources page, written as a Markdown file
+# the page includes, so dates in it update when the chart is rebuilt:
+# definitions, then a lighter source line with the data download. readr writes
+# UTF-8 whatever the locale, so dashes survive in the cloud container.
 write_chart_notes <- function(notes, source, csv_path, path) {
   readr::write_lines(
     c(

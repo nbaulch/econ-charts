@@ -1,10 +1,10 @@
 # AI adoption by firm size
 
-Status: built in R from the Business Trends and Outlook Survey published September 24, 2026 (survey through September 6, 2026), weighted with Statistics of U.S. Businesses firm counts for 2022. The worker figure in the text is from the Generative AI Adoption Tracker fetched September 26, 2026 (survey through May 2026). `reproduce.R` matches every number checked from the original. Title is a draft for review.
+Status: built in R from the Business Trends and Outlook Survey published September 24, 2026 (survey through September 6, 2026), weighted with Statistics of U.S. Businesses firm counts for 2022. `reproduce.R` also checks worker figures from the Generative AI Adoption Tracker, fetched September 26, 2026. It matches every number checked from the original.
 
 ## Question
 
-How widespread is AI use in the U.S. economy, and why do the common measures disagree so much?
+What share of U.S. firms use AI, by firm size?
 
 ## Original analysis
 
@@ -25,7 +25,7 @@ Related work:
 | Firms, new question | same | `fetch_census_btos("National.xlsx", "Response Estimates")` | Question 7, answer "Yes", national, periods from 202524 |
 | Firms by employment size | same | `fetch_census_btos("Employment Size Class.xlsx", "Response Estimates")` | Question 7, answer "Yes", size classes A (1 to 4 employees) to G (250 or more) |
 | Survey dates | same | `fetch_census_btos_periods()` | "Collection and Reference Dates" sheet of `National.xlsx` |
-| Workers | Real-Time Population Survey (Bick, Blandin, and Deming), from the Generative AI Adoption Tracker | `fetch_rps_genai()` | `GenAI_All.csv`: sample "Employed", use "For Work", "Share Using GenAI", mean |
+| Workers (for `reproduce.R` only) | Real-Time Population Survey (Bick, Blandin, and Deming), from the Generative AI Adoption Tracker | `fetch_rps_genai()` | `GenAI_All.csv`: sample "Employed", use "For Work", "Share Using GenAI", mean |
 | Firm counts by size, for weights | Census, Statistics of U.S. Businesses, 2022 | `fetch_census_susb(2022)` | U.S., all industries, detailed enterprise sizes |
 | Jobs at firms using AI (no longer shown) | Atlanta Fed, Survey of Business Uncertainty | none | 78 percent, November 2025, as reported by Allen |
 
@@ -46,7 +46,6 @@ Tracker downloads: `https://www.genaiadoptiontracker.com/GenAI_All.csv`. The sit
 - The chart groups the seven BTOS size classes into fewer than 50 employees (A to D), 50 to 249 (E and F), and 250 or more (G). Each group is the average of its classes weighted by the number of firms in each, from SUSB. SUSB's 200 to 299 class straddles the 250 cutoff and is split evenly between F and G.
 - Each plotted point is the average of the latest three survey periods (six weeks), because single size classes, especially G, swing by several points from survey to survey. BTOS estimates are not seasonally adjusted.
 - Size-class estimates are published only for the new question, so the chart starts in November 2025 and has no wording break.
-- The text quotes the all-firm share (new question, latest period, unsmoothed) and the worker share (RPS), which are not on the chart.
 
 ## Vintages
 
@@ -62,13 +61,9 @@ Tracker downloads: `https://www.genaiadoptiontracker.com/GenAI_All.csv`. The sit
 ## Known breaks and caveats
 
 - The BTOS wording change in November 2025 raised the firm share from 10 percent (October 2025, old question) to 17 percent (first new-question period). The two series should not be joined.
-- The three measures differ in unit (firm, worker, job), in weighting, and in the question (any AI in two weeks, generative AI for the job, any of seven technologies). The storyline's "mostly because of who they count" is only partly supported: the BTOS wording change alone moved the firm share by 7 points, and Bick and coauthors attribute most of the firm and worker gap to wording.
-- An employment-weighted BTOS figure could be built from its size classes, but it can't exceed the share for the largest class (44 percent in September 2026), far below the SBU's 78 percent. The gap between those two is also partly wording.
-- The SBU figure is a single survey in November 2025 and will not update.
+- Firm, worker, and job measures of AI use differ in unit, in weighting, and in the question asked, so they aren't comparable. Bick and coauthors attribute much of the gap between firm and worker surveys to question wording.
 
 ## Decision log
 
-- 2026-09-26: Show firms (BTOS, both wordings), workers (RPS), and jobs at firms using AI (SBU, one point quoted from Allen). The employment-weighted BTOS line from CLAUDE.md is not built: it would be our own construction and cannot come close to the SBU figure.
-- 2026-09-26: Title: "Measured AI use depends on who is counted and what is asked." It names wording as well as the unit counted, following Bick and coauthors.
-- 2026-09-26: Title: "AI use looks thin across firms but widespread across workers." The text leads with who is counted and says the gap is mostly about firm size, without quoting size-class figures, which aren't on the chart. Evidence as of the September 2026 survey period: firms with 1 to 4 employees 24 percent, 5 to 49 employees 21 to 25 percent, 100 to 249 employees 34 percent, 250 or more 44 percent. Check on each refresh that the largest firms still lead by a wide margin. The size-class estimates are saved in the BTOS snapshot in `data/`.
-- 2026-09-26: Replace the chart with firm AI use by firm size over time. Readers found the single Atlanta Fed point confusing, and a job-weighted line built from BTOS size classes and SUSB employment (about 37 percent in September 2026, a lower bound because the 250-plus class is open-ended) was hard to read next to the other lines. Firm size shows two parts of the storyline directly: use is rising at firms of every size, and large firms lead. The text doesn't claim firm size explains the gap between firm and worker surveys, since Bick and coauthors attribute most of it to question wording. Title: "AI use is rising at firms of all sizes, led by large firms."
+- 2026-09-26: A first version showed firms (BTOS, both wordings), workers (RPS), and jobs at firms using AI (SBU, one point quoted from Allen). It was replaced with firm use by size over time: the single SBU point confused readers, and a job-weighted line built from BTOS size classes and SUSB employment was hard to read next to the other lines and is a lower bound, because the 250-plus class is open-ended.
+- 2026-09-27: Descriptive title, "Share of firms using AI, by firm size," and no interpretation on the page, in line with the site's no-commentary rule.

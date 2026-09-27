@@ -1,10 +1,10 @@
 # Breadth of price increases
 
-Status: built in R from BEA's monthly NIPA files (fetched September 27, 2026, through July 2026) and the Dallas Fed's list of trimmed-mean categories. `reproduce.R` checks Warsh's numbers. Title is a draft for review.
+Status: built in R from BEA's monthly NIPA files (fetched September 27, 2026, through July 2026) and the Dallas Fed's list of trimmed-mean categories. `reproduce.R` checks Warsh's numbers.
 
 ## Question
 
-Are price increases concentrated in a few categories, or spread across most of the consumer basket?
+What share of consumer spending categories have prices rising faster than 3 percent over 12 months?
 
 ## Related work
 
@@ -37,23 +37,17 @@ Are price increases concentrated in a few categories, or spread across most of t
 | Same, 2022 peak | 77 | 77.4 |
 | Share above 3 percent, 6 months annualized | 49 | 50.8 |
 
-The 12-month figures match. The six-month figure is about 2 points higher, perhaps from a different annualization or seasonal adjustment of short changes; the chart doesn't show it.
+The 12-month figures match. The six-month figure is about 2 points higher, perhaps from a different annualization or seasonal adjustment of short changes; the chart doesn't show six-month changes.
 
 Weighting categories by their spending share doesn't match Warsh: it gives 63 percent in July 2026 and 34 percent on average from 2000 to 2019. His measure counts categories equally.
 
-## Findings, July 2026
-
-- 54 percent of categories are up more than 3 percent over 12 months, up from 36 percent in January 2025, the low since 2024.
-- That is above every month from 2000 to 2020; the high before 2021 was 53 percent in 2008. The 2004 to 2007 range was 33 to 51 percent.
-- Similar breadth in 2004 to 2007 came with core PCE inflation averaging 2.2 percent, against 3.3 percent now, so breadth alone doesn't pin down the level of inflation. Not in the text, since the chart doesn't show core inflation.
-
 ## Known breaks and caveats
 
-- The 3 percent threshold is Warsh's. The share is sensitive to it: many categories cluster near 2 to 4 percent.
+- The 3 percent threshold is Warsh's. The share can be sensitive to the threshold.
 - Equal weights give small categories, such as specific food items, the same say as rent.
 - The Dallas Fed list is current; categories BEA added or dropped over time may make early years slightly different from what the Dallas Fed used then.
 
 ## Decision log
 
-- 2026-09-27: Reproduces Warsh with the Dallas Fed's 177 categories, unweighted. The six-month line was dropped from the chart: it is noisier and doesn't change the story.
-- 2026-09-27: Title: "More than half of prices are rising faster than 3 percent, more than at any time before 2021." Check on each refresh that the share is above 50 percent and above the pre-2021 high of 53.
+- 2026-09-27: Reproduces Warsh with the Dallas Fed's 177 categories, unweighted. The six-month line was dropped from the chart as noisier.
+- 2026-09-27: Descriptive title, "Share of consumer spending categories with prices rising faster than 3 percent," and no interpretation on the page, in line with the site's no-commentary rule.

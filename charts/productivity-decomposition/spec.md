@@ -4,7 +4,7 @@ Status: built in R from the September 3, 2026 release of the Fernald data. The p
 
 ## Question
 
-Is the recent acceleration in U.S. labor productivity coming from technology and efficiency (utilization-adjusted TFP), or from firms running existing capital and labor harder (utilization)?
+How much of U.S. labor productivity growth comes from technology and efficiency (utilization-adjusted TFP), from firms running existing capital and labor harder (utilization), and from capital deepening, including computers and software?
 
 ## Original analysis
 
@@ -70,19 +70,18 @@ The July vintage is not public. An exact match would require asking Fernald's te
 
 ## Known breaks and caveats
 
-- Utilization is not observed. It is inferred from hours per worker, following Basu, Fernald, Fisher, and Kimball. The chart's argument depends on that method.
+- Utilization is not observed. It is inferred from hours per worker, following Basu, Fernald, Fisher, and Kimball, so the split between utilization and TFP depends on that method.
 - The computer and software bar is a proxy for AI investment. It includes all information processing equipment and software, and it leaves out data center buildings, which are in structures. It is a capital services measure, so a surge in investment shows up gradually as the stock grows.
 
 ## Decision log
 
 Record decisions here with a date and the reason.
 
-- 2026-09-26: Chose this chart over the industry AI adoption scatter. The question is macro: is productivity growth coming from TFP or from utilization. The scatter answers a narrower cross-sectional question.
+- 2026-09-26: Chose this chart over the industry AI adoption scatter. The question is macro: how much productivity growth comes from TFP and how much from utilization. The scatter answers a narrower cross-sectional question.
 - 2026-09-26: Fernald release of 2026-09-03 inspected. Data run through 2026 Q2. Component identities verified.
 - 2026-09-26: Credit. The data and the growth accounting are Fernald's, so the source line names his series and the San Francisco Fed. The chart's framing is Tedeschi's, so the note says "Chart adapted from" his post.
 - 2026-09-26: No acronyms or formulas on the chart. Notes define each component in plain words. See `STYLE.md`.
-- 2026-09-26: Added the four-component version. Four-quarter averages, 2026 Q2: labor productivity 2.16, utilization 1.51, computer and software capital deepening 0.66, other deepening and labor composition 0.34, utilization-adjusted TFP -0.34. Computer and software deepening has risen every quarter since 2025 Q2 (0.47).
+- 2026-09-26: Added the four-component version, splitting computer and software capital out of capital deepening.
 - 2026-09-26: Components are four-quarter trailing means of the quarterly annualized log changes. A black point shows labor productivity growth itself, since stacked bars with negative segments make the total hard to read.
-- 2026-09-26: Publish the four-component version only. It answers whether AI is raising productivity through investment, efficiency, or neither. Short legend labels, each defined in one line of the notes. Title: "Recent productivity growth comes from higher utilization and computer investment."
-- 2026-09-26: Title: "Productivity is growing, but not yet from AI efficiency gains." The text ties the chart to AI with Tedeschi's reading: the acceleration comes from firms pushing existing capacity to meet demand for AI (utilization) and from computer investment, while total factor productivity, where efficiency gains from using AI would show up, is flat to negative. The data show the split, not that utilization is AI-related, so the text attributes that link to Tedeschi and says "appears." Check on each refresh that utilization still leads and total factor productivity is still small.
-- 2026-09-26: The text glosses utilization in plain words and says where efficiency gains from AI would show up, and links Tedeschi's post where it cites his argument.
+- 2026-09-26: Publish the four-component version only. Short legend labels, each defined in one line of the notes.
+- 2026-09-27: Descriptive title, "Contributions to U.S. labor productivity growth," and no interpretation on the page, in line with the site's no-commentary rule.

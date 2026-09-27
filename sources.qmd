@@ -24,11 +24,11 @@ Sources, release dates, and definitions for each chart, with its data to downloa
 
 {{< include charts/yield-decomposition/output/yield-decomposition-notes.md >}}
 
-### This year's rise {#yield-rise-by-model}
+### Two models {#yield-rise-by-model}
 
 {{< include charts/yield-rise-by-model/output/yield-rise-by-model-notes.md >}}
 
-### Who is supplying long-term debt {#duration-supply}
+### Supply of long-term debt {#duration-supply}
 
 {{< include charts/duration-supply/output/duration-supply-notes.md >}}
 

@@ -50,32 +50,6 @@ contributions |>
   mutate(across(-date, \(x) round(x, 3))) |>
   write_csv(file.path(chart_dir, "output", "productivity-decomposition.csv"))
 
-latest <- contributions |>
-  filter(date == max(date)) |>
-  select(series, four_quarter_mean) |>
-  tibble::deframe()
-
-points <- \(x) format(abs(round(x, 1)), nsmall = 1)
-
-peak_efficiency <- contributions |>
-  filter(series == "tfp_util_adjusted", year(date) %in% 2023:2024) |>
-  slice_max(four_quarter_mean)
-
-write_chart_lead(
-  str_glue(
-    "So far, AI appears to be lifting productivity through the buildout rather than by making businesses more ",
-    "efficient. Labor productivity grew {points(latest[['labor_productivity']])} percent over the past four quarters. ",
-    "Higher utilization\u2014working existing staff and equipment harder\u2014added {points(latest[['utilization']])} ",
-    "percentage points, and investment in computers and software {points(latest[['it_capital_deepening']])}. ",
-    "[Ernie Tedeschi of Stripe](https://www.stripeeconomics.com/p/ai-and-productivity) argues that much of the higher ",
-    "utilization reflects firms pushing servers, factories, and other capacity they already have to meet demand for ",
-    "AI. Total factor productivity, where efficiency gains from using AI would show up, ",
-    "{if (latest[['tfp_util_adjusted']] < 0) 'subtracted' else 'added'} {points(latest[['tfp_util_adjusted']])} point, ",
-    "after adding as much as {points(peak_efficiency$four_quarter_mean)} points in {year(peak_efficiency$date)}."
-  ),
-  file.path(chart_dir, "output", "productivity-decomposition-lead.md")
-)
-
 write_chart_notes(
   notes = str_glue("**{components$label}:** {components$definition}"),
   source = str_glue(
@@ -115,8 +89,8 @@ productivity_chart <- ggplot(bars, aes(date, four_quarter_mean)) +
   guides(shape = guide_legend(order = 2)) +
   theme_chart()
 
-title <- "Productivity is growing, but not yet from AI efficiency gains"
-subtitle <- "Contributions to growth in U.S. business sector labor productivity, four-quarter average, percentage points"
+title <- "Contributions to U.S. labor productivity growth"
+subtitle <- "Business sector, average over four quarters, percentage points"
 
 # A wide version for desktops and a narrow one for phones, with text wrapped to fit each.
 save_chart(

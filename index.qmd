@@ -2,10 +2,12 @@
 title: "Economic Charts"
 ---
 
-Curated charts on the U.S. economy, built from public data and kept up to date as new data are released. Charts that extend someone else's analysis credit and link the original.
+Charts on the U.S. economy worth watching, built from public data and updated as new data are released. Each chart comes with a short note on why it is worth watching, not a reading of what the data show. Charts that extend someone else's analysis credit and link the original.
+
+This is a personal project, not affiliated with any employer.
 
 ## Topics
 
-- [The AI economy](ai-economy.qmd): what AI is and is not doing to the U.S. economy right now.
-- [Interest rates](interest-rates.qmd): what is driving long-term U.S. interest rates.
-- [Inflation](inflation.qmd): how high underlying inflation is, and what is driving it.
+- [The AI economy](ai-economy.qmd): AI investment, adoption, and productivity.
+- [Interest rates](interest-rates.qmd): the 10-year Treasury yield and the supply of long-term debt.
+- [Inflation](inflation.qmd): measures of consumer price inflation.

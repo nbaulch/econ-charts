@@ -4,7 +4,7 @@ The house style follows Datawrapper's published guidance, adapted for static cha
 
 ## Principles
 
-- A chart should make one point, and the title should state it.
+- A chart shows one measure or one comparison, and the title names it. Charts don't interpret: no title, label, or callout says what the data mean or which way they are moving.
 - Design decides what readers see first, second, and last. Use size, weight, and contrast for that, not decoration.
 - Grey is the most used color. It carries text, axes, gridlines, and context data, so the data that matters can use color.
 - Readers shouldn't have to decode anything that plain words could say.
@@ -15,12 +15,13 @@ The image has four levels of text, and nothing else competes with them. Everythi
 
 | Level | Use | Style |
 |-------|-----|-------|
-| Title | The finding, in a plain sentence | Bold, largest, darkest grey |
-| Subtitle | What is measured, and its units | Regular, dark grey |
+| Title | What the chart shows, in plain words | Bold, largest, darkest grey |
+| Subtitle | Measurement details, and units | Regular, dark grey |
 | Labels and legend | Series names, axis values | Regular, smaller |
 | Source line | Short source and credit, inside the image | Smallest, lightest grey |
 
-- **Titles state the finding in everyday language** ("comes mostly from working existing equipment and workers harder"), not the dataset name. Accurate before catchy. The technical description belongs in the subtitle.
+- **Titles name what is shown in everyday language** ("Contributions to U.S. labor productivity growth"), not the dataset name and not a finding. The technical description belongs in the subtitle.
+- **Annotations are neutral references only**, such as a dashed line for a policy goal or a historical average. No callouts that point to a value or a turn in the data.
 - **No acronyms in anything a reader sees**: titles, labels, legends, notes. Spell out total factor productivity, not TFP. The exceptions are ones any reader knows, such as GDP and AI.
 - **Units go in the subtitle** and in any label that shows a value. No axis titles when the subtitle already gives the units.
 - **Legend labels are short**, two or three words. Anything a short label leaves out goes in the notes.
@@ -31,11 +32,11 @@ The image has four levels of text, and nothing else competes with them. Everythi
 
 Write for a busy senior reader, like a staff economist briefing the Treasury secretary. Each chart's section on the topic page runs: heading, one paragraph, chart, and one small link to the chart's entry on the sources page. Text on the page stays readable at any screen size, unlike text drawn into the image.
 
-- **One paragraph above the chart, two to six sentences.** The first sentence is the general point. The rest backs it up, one message per sentence. Numbers quoted should be ones a reader can find on the chart. Anything a reader must know to read the chart correctly goes here, not in the notes.
-- `build.R` writes the paragraph with `write_chart_lead()` so its numbers update on refresh. Wording that could stop being true on a refresh, such as "nearly all," is recorded in the spec to check.
-- **Notes on the sources page are one-line definitions of the legend items**, in legend order, written as "**Label:** definition." No caveats, methods, or analysis; those go in the paragraph or the spec.
+- **One paragraph above the chart, one to three sentences, on why the chart is worth watching**: the question it bears on, who is debating it, and whose analysis it follows. It never says what the data show: no current values, no direction, no conclusion. Anything a reader must know to read the chart correctly goes here, not in the notes.
+- The paragraph is written directly in the topic page. It has no numbers from the data, so it doesn't change on refresh.
+- **Notes on the sources page are one-line definitions of the legend items**, in legend order, written as "**Label:** definition." No caveats, methods, or analysis; those go in the spec.
 - **The source line is short**: the providers, the data's end date, and a link to the original analysis. Smaller and lighter than the notes. It ends with the data download link.
-- `write_chart_notes()` writes the definitions and source to `output/<chart>-notes.md`. The topic page includes the paragraph and links to the chart's entry on `sources.qmd`, which includes the notes file under a heading whose id is the chart's folder name. Styles are `.chart-notes` and `.chart-source` in `styles.css`.
+- `write_chart_notes()` writes the definitions and source to `output/<chart>-notes.md`. The topic page links to the chart's entry on `sources.qmd`, which includes the notes file under a heading whose id is the chart's folder name. Styles are `.chart-notes` and `.chart-source` in `styles.css`.
 
 ## Color
 

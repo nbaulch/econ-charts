@@ -105,29 +105,7 @@ measures <- tribble(
 latest <- inflation |>
   filter(date == latest_month) |>
   left_join(measures, by = "measure")
-
-underlying <- filter(latest, measure != "headline")
-all_rising <- latest |>
-  filter(!is.na(six_month)) |>
-  summarise(all(six_month > twelve_month)) |>
-  pull()
-percent <- \(x) format(round(x, 1), nsmall = 1)
-value_of <- \(which, window = "twelve_month") latest[[window]][latest$measure == which]
 month_label <- format(latest_month, "%B %Y")
-
-write_chart_lead(
-  str_glue(
-    "Underlying inflation is running between about {percent(min(underlying$twelve_month))} and ",
-    "{percent(max(underlying$twelve_month))} percent, depending on the measure, and ",
-    "{if (all_rising) 'every measure has' else 'most measures have'} picked up in recent months. Headline PCE prices ",
-    "rose {percent(value_of('headline'))} percent over the 12 months to {month_label}, lifted by energy prices. Core ",
-    "prices, which leave out food and energy, rose {percent(value_of('core'))} percent. Measures that set aside the ",
-    "biggest price swings run lower, down to {percent(value_of('trimmed_mean'))} percent for the Dallas Fed's ",
-    "trimmed mean. Over the past six months, headline prices rose at a {percent(value_of('headline', 'six_month'))} ",
-    "percent annual rate and core at {percent(value_of('core', 'six_month'))} percent."
-  ),
-  file.path(chart_dir, "output", "inflation-measures-lead.md")
-)
 
 write_chart_notes(
   notes = c(
@@ -202,7 +180,7 @@ latest_panel <- function(label_width) {
     panel_title_style
 }
 
-title <- "Inflation is above 2 percent on every measure and has picked up in recent months"
+title <- "Measures of underlying inflation"
 subtitle <- "PCE price inflation, percent"
 source_line <- "Sources: Bureau of Economic Analysis; Federal Reserve Banks of Cleveland, Dallas, and New York."
 

@@ -1,10 +1,10 @@
 # Duration supplied to private investors by Treasury and big tech bonds
 
-Status: built in R from data through August 2026 (fetched September 26, 2026), with big tech bonds back to each company's first registered bond. Original chart, prompted by Alex Etra's; it doesn't reproduce his numbers (see below). Title is a draft for review.
+Status: built in R from data through August 2026 (fetched September 26, 2026), with big tech bonds back to each company's first registered bond. Original chart, prompted by Alex Etra's; it doesn't reproduce his numbers (see below).
 
 ## Question
 
-How much interest rate risk are Treasury and the largest AI borrowers handing to private investors, and is Treasury's share rising, as the fiscal explanation of higher yields would suggest?
+How much long-term debt, measured in 10-year equivalents, do Treasury and the largest AI borrowers add to private investors' holdings each year?
 
 ## Related work
 
@@ -56,12 +56,6 @@ Big tech, August 2026: ours 255, his about 400. His Bloomberg data likely includ
 
 Valuation choice: priced at each month's own yields, our Treasury series swings with rates (620 in February 2026, 1,153 in August 2026). The fixed curve removes that.
 
-## Findings, August 2026
-
-- Treasury added $980 billion of 10-year equivalents to private holdings over 12 months, against $1,004 billion a year earlier and about $1,200 billion in early 2025. Treasury has kept coupon auction sizes unchanged and funded deficits with bills.
-- Big tech dollar bonds added $255 billion, 26 percent as much as Treasury. From 2011 to August 2025 their 12-month addition never exceeded $61 billion and was often near zero, as new issues roughly offset older bonds aging and maturing.
-- Gross Treasury issuance adds about $2.7 to 3.0 trillion a year in 10-year equivalents, consistent with the Dallas Fed; the net figure is much smaller because bonds age and mature.
-
 ## Known breaks and caveats
 
 - Early redemptions, tender offers, and debt swaps aren't captured. Microsoft's exchange offers of 2020 and 2021, which swapped about $18 billion of older notes for new 2050 to 2062 notes, are left out entirely, since counting the new notes without retiring the old ones would double count. Notes assumed in acquisitions (Whole Foods, Activision Blizzard) are also left out.
@@ -74,6 +68,5 @@ Valuation choice: priced at each month's own yields, our Treasury series swings 
 - 2026-09-26: Build from public data; credit Etra and the Dallas Fed as related work rather than reproducing Etra, whose method and corporate data aren't public.
 - 2026-09-26: Value every month on the latest yield curve, so the series reflects what was issued rather than yield swings.
 - 2026-09-26: Dollar bonds only, since the question is the U.S. market.
-- 2026-09-26: Title: "Big tech bond sales now add more than a quarter as much interest rate risk as Treasury." The ratio is 29 percent in August 2026; revisit on refresh.
-- 2026-09-26: Title: "Big tech now adds more than a quarter as much long-term debt as Treasury," dropping "interest rate risk," which general readers don't know. The text defines 10-year equivalents in plain words. The ratio is 29 percent in August 2026; revisit on refresh.
-- 2026-09-26: Read big tech bonds from prospectus covers instead of structured filing fee exhibits, which start only in August 2024. Covers go back to each company's first bond, so the chart shows big tech from 2011 and subtracts older bonds' aging. On the 2024 to 2026 deals the covers match the fee exhibits to within $0.4 billion of $283 billion; the exhibits sometimes give offering prices, the covers face amounts. The change also fixed Canadian-dollar tranches (Alphabet C$8.5 billion, Amazon C$14 billion in 2026) that the old currency check read as U.S. dollars. Together these moved the August 2026 figure from $284 billion to $255 billion. Title: "Big tech now adds about a quarter as much long-term debt as Treasury."
+- 2026-09-26: Read big tech bonds from prospectus covers instead of structured filing fee exhibits, which start only in August 2024. Covers go back to each company's first bond, so the chart shows big tech from 2011 and subtracts older bonds' aging. On the 2024 to 2026 deals the covers match the fee exhibits to within $0.4 billion of $283 billion; the exhibits sometimes give offering prices, the covers face amounts. The change also fixed Canadian-dollar tranches (Alphabet C$8.5 billion, Amazon C$14 billion in 2026) that the old currency check read as U.S. dollars. Together these moved the August 2026 figure from $284 billion to $255 billion.
+- 2026-09-27: Descriptive title, "Long-term debt added by the Treasury and big tech," and no interpretation on the page, in line with the site's no-commentary rule.

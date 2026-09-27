@@ -31,7 +31,7 @@ write_csv(
 )
 
 # Daily estimates are noisy, so the chart uses monthly averages, measured from
-# December 2023, the last month before the term premium's rise.
+# December 2023.
 base_month <- ymd("2023-12-01")
 
 monthly <- dkw |>
@@ -57,27 +57,6 @@ parts <- tribble(
   "Average inflation investors expect over 10 years.",
   "inflation_risk_premium", "Inflation risk premium", chart_colors[["red"]],
   "The extra return investors require for the risk that inflation turns out different from what they expect. With the real term premium, it makes up the term premium."
-)
-
-latest <- slice_max(changes, date)
-
-# The Fed began raising rates in March 2022.
-since_hiking_began <- latest$yield + monthly$yield[monthly$date == base_month] -
-  monthly$yield[monthly$date == ymd("2021-12-01")]
-
-term_premium <- latest$real_term_premium + latest$inflation_risk_premium
-points <- \(x) format(round(x, 2), nsmall = 2)
-
-write_chart_lead(
-  str_glue(
-    "The 10-year Treasury yield is about {round(since_hiking_began)} percentage points higher than before the Fed ",
-    "began raising rates in 2022, and since the end of 2023 the term premium has done most of the rising. In the ",
-    "Fed Board's model, the yield averaged {points(latest$yield)} point more in {format(latest$date, '%B %Y')} than ",
-    "in December 2023. The term premium\u2014the extra return investors require to lock up money for 10 years ",
-    "instead of rolling over short-term bills\u2014accounted for {points(term_premium)} point of that and expected ",
-    "inflation {points(latest$expected_inflation)}, while expected real short-term rates were little changed."
-  ),
-  file.path(chart_dir, "output", "yield-decomposition-lead.md")
 )
 
 write_chart_notes(
@@ -111,8 +90,8 @@ term_premium_chart <- ggplot(bars, aes(date, change)) +
   guides(fill = guide_legend(order = 1, nrow = 2), linetype = guide_legend(order = 2)) +
   theme_chart()
 
-title <- "The 10-year yield's rise since 2023 has come mostly from the term premium"
-subtitle <- "Change since December 2023 in the 10-year Treasury yield and its parts, monthly average, percentage points"
+title <- "Change in the 10-year Treasury yield and its parts since December 2023"
+subtitle <- "Fed Board model, monthly average, percentage points"
 source_line <- "Source: Federal Reserve Board (D'Amico, Kim, and Wei model)."
 
 save_chart(

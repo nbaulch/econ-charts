@@ -1,4 +1,4 @@
-# Checks the jump in BEA's price of computer imports in 2026 against BLS import
+# Checks BEA's price of computer imports against BLS import
 # and producer prices, and asks how much of computer trade's contribution comes
 # from import prices rising faster than investment prices.
 

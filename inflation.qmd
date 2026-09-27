@@ -2,16 +2,16 @@
 title: "Inflation"
 ---
 
-How high underlying inflation is, and what is driving it.
+Charts on U.S. consumer price inflation.
 
 ## Underlying inflation
 
-{{< include charts/inflation-measures/output/inflation-measures-lead.md >}}
+Measures of underlying inflation set aside volatile or unusual price changes to gauge where inflation is heading, and the Federal Reserve watches several of them. They are built differently and can give different readings, so the chart shows them together, over time and for the latest month.
 
 ```{=html}
 <picture>
   <source media="(max-width: 600px)" srcset="charts/inflation-measures/output/inflation-measures-narrow.png">
-  <img src="charts/inflation-measures/output/inflation-measures.png" class="chart" alt="Two panels. The top panel shows the 12-month change in headline and core PCE prices since 2019, with a shaded range for six other measures of underlying inflation; all rose sharply in 2021 and 2022, settled between about 2 and 3.5 percent in 2024 and 2025, and turned up in 2026. The bottom panel shows each measure in July 2026 over 12 months and over six months at an annual rate: headline 3.7 and 4.1 percent, core 3.3 and 3.5, excluding energy goods 3.3 and 3.3, market-based core 3.0 and 3.2, market-based core excluding housing 3.0 and 3.1, median 2.7 and 2.9, the New York Fed trend 2.7, and the trimmed mean 2.3 and 2.4.">
+  <img src="charts/inflation-measures/output/inflation-measures.png" class="chart" alt="Two panels. One shows the 12-month change in headline and core PCE prices since 2019, with a shaded range for six other measures of underlying inflation. The other shows each measure's latest 12-month change and six-month change at an annual rate, with a dashed line at the Federal Reserve's 2 percent goal.">
 </picture>
 ```
 
@@ -21,12 +21,12 @@ How high underlying inflation is, and what is driving it.
 
 ## Breadth
 
-{{< include charts/inflation-breadth/output/inflation-breadth-lead.md >}}
+Price increases spread across many categories are harder to attribute to a few one-off shocks than increases concentrated in a few. Kevin Warsh [cited this measure](https://www.federalreserve.gov/newsevents/speech/warsh20260828a.htm) at Jackson Hole in August 2026.
 
 ```{=html}
 <picture>
   <source media="(max-width: 600px)" srcset="charts/inflation-breadth/output/inflation-breadth-narrow.png">
-  <img src="charts/inflation-breadth/output/inflation-breadth.png" class="chart" alt="Line chart of the share of 177 consumer spending categories with prices up more than 3 percent over 12 months, from 2000 to July 2026. The share ranged from about 15 to 53 percent before 2021, against a 2000 to 2019 average of 32 percent. It peaked at 77 percent in 2022, fell to 36 percent in early 2025, and was 54 percent in July 2026.">
+  <img src="charts/inflation-breadth/output/inflation-breadth.png" class="chart" alt="Line chart, monthly since 2000, of the share of 177 consumer spending categories with prices up more than 3 percent over 12 months, with a dashed line for the 2000 to 2019 average.">
 </picture>
 ```
 

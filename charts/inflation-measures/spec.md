@@ -1,10 +1,10 @@
 # Measures of underlying PCE inflation
 
-Status: built in R from BEA's monthly NIPA files (fetched September 27, 2026, through July 2026) and the Cleveland, Dallas, and New York Fed measures through July 2026. `reproduce.R` checks the published numbers below. Title is a draft for review.
+Status: built in R from BEA's monthly NIPA files (fetched September 27, 2026, through July 2026) and the Cleveland, Dallas, and New York Fed measures through July 2026. `reproduce.R` checks the published numbers below.
 
 ## Question
 
-How high is underlying inflation, how much does the answer depend on the measure, and is it rising or falling?
+How do the main measures of underlying PCE inflation compare, over time and in the latest month?
 
 ## Related work
 
@@ -54,30 +54,14 @@ FRED's DPCMRG3M086SBEA is total market-based PCE, not market-based core; market-
 
 Sharif's latest value isn't matched. His tweet also mentions leaving out portfolio management, but removing it lowers our measure to 2.50, since portfolio management prices are up about 21 percent over the year. The history matches, so the measure is shown as following Sharif, not reproducing him.
 
-## Findings, July 2026
-
-| Measure | 12 months | 6 months, annualized |
-|---|---|---|
-| Headline | 3.70 | 4.13 |
-| Core | 3.34 | 3.46 |
-| Excluding energy goods | 3.28 | 3.33 |
-| Market-based core | 3.03 | 3.20 |
-| Market-based core excluding housing | 2.99 | 3.09 |
-| Median | 2.72 | 2.88 |
-| New York Fed trend | 2.67 | |
-| Trimmed mean | 2.28 | 2.35 |
-
-- Every measure is above 2 percent, and every six-month rate is above its 12-month rate.
-- Energy goods add about 0.4 point to headline (3.70 against 3.28 excluding them).
-
 ## Known breaks and caveats
 
 - The Cleveland median and Dallas trimmed mean are computed by those banks from their own component detail; their revisions follow their schedules.
 - The New York Fed trend is a model estimate and is revised as new data arrive.
-- Portfolio management and software prices, which BEA is revising, weigh on the core and market-based measures.
+- BEA is revising portfolio management and software prices, which enter the core and market-based measures.
 
 ## Decision log
 
 - 2026-09-27: One figure in two panels: headline and core since 2019 with the range of the other measures, and every measure's latest 12-month and six-month rates. Side by side on desktops, stacked on phones, where side by side was too cramped.
 - 2026-09-27: Market-based core excluding housing follows Sharif; the history matches his chart but the latest value doesn't (2.99 against 3.23).
-- 2026-09-27: Title: "Inflation is above 2 percent on every measure and has picked up in recent months." Check on each refresh that every measure is still above 2 percent and that six-month rates are above 12-month rates; the text's "every measure has picked up" is computed.
+- 2026-09-27: Descriptive title, "Measures of underlying inflation," and no interpretation on the page, in line with the site's no-commentary rule.
