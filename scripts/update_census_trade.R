@@ -28,7 +28,8 @@ gh <- function(...) {
 upload <- function(path) gh("release", "upload", release, path, "--clobber")
 
 source_modified <- function(flow, month) {
-  response <- httr::HEAD(census_trade_url(flow, month))
+  # Months not yet released answer 404, which needs no retry.
+  response <- httr::RETRY("HEAD", census_trade_url(flow, month), terminate_on = 404, quiet = TRUE)
   if (httr::status_code(response) != 200) {
     return(NA_character_)
   }
@@ -66,13 +67,25 @@ to_update <- sources |>
 
 message(nrow(to_update), " of ", nrow(sources), " monthly files are new or revised")
 
+# Census's server now and then answers with a brief error, such as a 502. A
+# month that still fails after a few tries is left for the next run.
+fetch_month_patiently <- possibly(
+  insistently(fetch_census_trade_month, rate_backoff(pause_base = 10, max_times = 4), quiet = FALSE),
+  otherwise = NULL
+)
+skipped <- character()
+
 for (i in seq_len(nrow(to_update))) {
   if (now() > stop_after) {
     message("Stopping for time; the next run continues from here")
     break
   }
   source_file <- to_update[i, ]
-  month <- fetch_census_trade_month(source_file$flow, source_file$date)
+  month <- fetch_month_patiently(source_file$flow, source_file$date)
+  if (is.null(month)) {
+    skipped <- c(skipped, str_glue("{source_file$flow} {format(source_file$date, '%Y-%m')}"))
+    next
+  }
   file <- str_glue("{source_file$flow}-{format(source_file$date, '%Y-%m')}.parquet")
   arrow::write_parquet(month$trade, file.path(store_dir, file), compression = "zstd")
   upload(file.path(store_dir, file))
@@ -100,4 +113,9 @@ for (i in seq_len(nrow(to_update))) {
   write_csv(manifest, manifest_path)
   upload(manifest_path)
   message("Stored ", file)
+}
+
+# Fails the run so a skipped month shows in the Actions history.
+if (length(skipped) > 0) {
+  stop("Skipped after repeated errors, left for the next run: ", str_flatten_comma(skipped))
 }
