@@ -74,11 +74,13 @@ charts/<chart-name>/
   reproduce.R           check against the original analysis, for charts that maintain someone else's work
   data/                 small dated snapshots of fetched data (committed)
   output/               chart images (wide and narrow) and CSV of the plotted series, all committed and published
+scripts/                jobs that maintain shared data, such as update_census_trade.R
 cache/                  large raw downloads (not committed)
 ```
 
 - Organize by chart. Code moves to `R/` only when a second chart needs it.
 - Use `tidyusmacro` (CRAN) for BLS, BEA NIPA, and FRED. Write `fetch_*` functions only for sources it doesn't cover.
+- Census goods trade comes from the trade store: monthly imports and exports by 10-digit product and country from January 2010, one Parquet file per flow and month, attached to the `census-trade-data` release of this repo. `read_census_trade(flow, from, to)` downloads the months a chart needs into `cache/` and returns an Arrow dataset. `.github/workflows/census-trade-data.yml` runs `scripts/update_census_trade.R` daily to add new months and re-pull any that Census revises. Imports keep the rate provision (duty-free under a trade agreement, dutiable, and so on); exports keep domestic versus re-exported goods; customs districts are summed out.
 - A topic is one `.qmd` page that shows its charts in order. Add it to `render`, the Charts menu in `_quarto.yml`, and the list on the home page.
 - `resume.qmd` is the single source for the resume: Quarto renders it as the web page and, through Typst, as `nicholas-baulch-resume.pdf`. Edit only that file.
 - Every chart on the site has a link to download its CSV. Under each chart, one link goes to its entry on `sources.qmd`, which holds the definitions, sources, release dates, credit links, and CSV download.
@@ -91,6 +93,7 @@ The site is https://nbaulch.github.io/econ-charts/, built with Quarto and hosted
 
 - `main` is protected. Every change goes through a pull request that I review and merge.
 - Merging to `main` runs `.github/workflows/publish.yml`, which renders the pages and publishes them. It does not run R. Charts are rebuilt in a session and committed.
+- The one workflow that runs R is `census-trade-data.yml`, which maintains the Census trade store. It changes only release assets, never the site or the repo's files.
 - To preview locally, run `quarto render` and open `_site/index.html`.
 
 ## Code style
