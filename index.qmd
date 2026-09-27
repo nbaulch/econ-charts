@@ -23,7 +23,7 @@ Before that, I spent four years at the U.S. Treasury. I was the lead economist o
 
 I live in the Charlotte area with my wife and our twins. I grew up in Ohio and have since lived in South Carolina, Wisconsin, D.C., and Minnesota. Outside work, I run, bike, lift, read fantasy, and play board games.
 
-This site is where I keep a small set of charts on the U.S. economy current. Many extend analyses by other economists that I thought were worth maintaining.
+Most of my work is built in R, and lately I've been using AI tools to do more of it. This site is one result: a small set of charts on the U.S. economy that I keep current. Many extend analyses by other economists that I thought were worth maintaining.
 
 ::: {.links}
 [Email](mailto:nicholas.baulch@gmail.com) · [LinkedIn](https://www.linkedin.com/in/nbaulch) · [GitHub](https://github.com/nbaulch) · [Resume](resume.qmd)
