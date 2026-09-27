@@ -17,11 +17,11 @@ format:
 </div>
 ```
 
-Hi, I'm Nick. I'm an economist at U.S. Bank, where I build the economic scenarios the bank uses to test how it would hold up in a recession. Before that I spent four years at the Treasury Department working on international finance, from the IMF to Ukraine.
+I'm an economist at U.S. Bank, where I lead the design of the economic scenarios the bank uses to plan for downturns and set aside reserves for loan losses. Before that, I spent four years at the U.S. Treasury working on international finance, including IMF lending and the response to Russia's invasion of Ukraine.
 
-[Personal paragraph: where you live and grew up, who you live with, and what fills your time outside work.]
+I live in the Charlotte area with my wife and our twins. I grew up in Ohio and have lived in South Carolina, Wisconsin, Washington, D.C., and Minnesota along the way. When I'm not working, I'm usually out for a run or a ride, in the gym, or partway through a fantasy series, and there's a good chance a board game is on the table.
 
-I like building things in R, and lately a lot of that has been with AI tools. This site is partly one of those projects: a handful of charts on the U.S. economy that I keep up to date, many of them extending analyses I thought deserved to stay current.
+Most of my work is built in R, and lately I've been using AI tools to do more of it. This site is one result: a small set of charts on the U.S. economy that I keep current, many of them extending analyses I thought deserved a longer life.
 
 ::: {.links}
 [Email](mailto:nicholas.baulch@gmail.com) · [LinkedIn](#) · [GitHub](https://github.com/nbaulch) · [Resume](resume.qmd)
