@@ -22,7 +22,7 @@ Interpretation, such as what a refresh changed and what it might mean, goes to m
 
 - **The AI economy**: `charts/ai-investment-gdp/`, `charts/ai-adoption/`, `charts/productivity-decomposition/`.
 - **Interest rates**: `charts/yield-decomposition/`, `charts/yield-rise-by-model/`, `charts/duration-supply/`. Candidate: the 10-year yield split into inflation-protected yield and breakeven inflation, with the 2-year yield.
-- **Inflation**, started September 2026: `charts/inflation-measures/`, `charts/inflation-breadth/` (reproduces Warsh's share of PCE categories rising faster than 3 percent), and `charts/pce-cpi-gap/` (follows Konczal on the gap between core PCE and core CPI). Planned, one question each: supply- versus demand-driven inflation (San Francisco Fed), tariffs (St. Louis Fed method, checked against the April 2026 FEDS Note), AI's contribution (software and electricity prices), and inflation expectations. Release-day tools (PCE implied by CPI and PPI, surprises) come later; surprises need a public benchmark, such as the Cleveland Fed nowcast, since consensus forecasts are proprietary.
+- **Inflation**, started September 2026: `charts/inflation-measures/`, `charts/inflation-breadth/` (reproduces Warsh's share of PCE categories rising faster than 3 percent), and `charts/pce-cpi-gap/` (follows Konczal on the gap between core PCE and core CPI). Planned, one question each: AI's contribution (software and electricity prices), and inflation expectations. Release-day tools (PCE implied by CPI and PPI, surprises) come later; surprises need a public benchmark, such as the Cleveland Fed nowcast, since consensus forecasts are proprietary.
 
 ## Chart candidates
 
@@ -40,6 +40,8 @@ These are the analyses I've been considering. Treat them as starting points. Ver
 - **Labor productivity versus utilization-adjusted TFP**, showing the utilization contribution. Built in `charts/productivity-decomposition/`.
   - Related work: Ernie Tedeschi, Stripe Economics, July 2026.
   - Data: BLS productivity, SF Fed (Fernald) TFP.
+- **Supply- versus demand-driven inflation** (Shapiro, San Francisco Fed). Built and dropped in September 2026, because the San Francisco Fed already maintains and charts the series monthly.
+- **Tariffs and inflation.** Explored and dropped in September 2026. Aggregate estimates of the tariff effect on prices (St. Louis Fed, April 2026 FEDS Note, Minneapolis Fed) depend on import-content, pass-through, and timing assumptions that could not be reproduced cleanly from public data, and a product-level version was not pursued.
 - **Industry AI adoption versus labor productivity growth**, before and after removing 2016 to 2019 trends. Set aside: it answers a narrower cross-sectional question.
   - Related work: same Tedeschi post.
   - Data: BTOS, Chicago Fed industry productivity.
