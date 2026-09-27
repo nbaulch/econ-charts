@@ -31,3 +31,9 @@ Sources, release dates, and definitions for each chart, with its data to downloa
 ### Who is supplying long-term debt {#duration-supply}
 
 {{< include charts/duration-supply/output/duration-supply-notes.md >}}
+
+## Inflation
+
+### Underlying inflation {#inflation-measures}
+
+{{< include charts/inflation-measures/output/inflation-measures-notes.md >}}

@@ -30,6 +30,12 @@ A working hypothesis, drafted September 2026 for review.
 
 Charts: `charts/yield-decomposition/`, `charts/yield-rise-by-model/`, and `charts/duration-supply/` (built). Candidate: the 10-year yield split into inflation-protected yield and breakeven inflation, with the 2-year yield.
 
+## Third topic: inflation
+
+Started September 2026. The working hypothesis will be drafted from the charts rather than ahead of them. The debate: is underlying inflation rising, as much of the FOMC says, or are oil and tariff shocks passing through, as Robin Brooks and Mark Zandi argue, with markets pushing the Fed to hike?
+
+Charts: `charts/inflation-measures/` (built). Planned, one question each: breadth (share of PCE items rising faster than 3 percent, reproducing Warsh), why PCE runs above CPI (Konczal), supply- versus demand-driven inflation (San Francisco Fed), tariffs (St. Louis Fed method, checked against the April 2026 FEDS Note), AI's contribution (software and electricity prices), and inflation expectations. Release-day tools (PCE implied by CPI and PPI, surprises) come later; surprises need a public benchmark, such as the Cleveland Fed nowcast, since consensus forecasts are proprietary.
+
 ## Chart candidates
 
 These are the analyses I've been considering. Treat them as starting points. Verify sources, figures, and URLs yourself before relying on them.
