@@ -17,14 +17,16 @@ format:
 </div>
 ```
 
-I'm an economist at U.S. Bank, where I lead the design of the economic scenarios the bank uses to plan for downturns and set aside reserves for loan losses. Before that, I spent four years at the U.S. Treasury working on international finance, including IMF lending and the response to Russia's invasion of Ukraine.
+I'm an economist. I spent four years at the U.S. Treasury, where I was the lead economist on Ukraine after Russia's 2022 invasion and coordinated Treasury's backstop of the Federal Reserve's emergency lending facilities during COVID-19. I also served as senior advisor to the Acting Deputy Secretary after the 2020 transition.
 
-I live in the Charlotte area with my wife and our twins. I grew up in Ohio and have lived in South Carolina, Wisconsin, Washington, D.C., and Minnesota along the way. When I'm not working, I'm usually out for a run or a ride, in the gym, or partway through a fantasy series, and there's a good chance a board game is on the table.
+Now I lead scenario design at U.S. Bank, building the economic scenarios behind the bank's stress tests and loss reserves.
 
-Most of my work is built in R, and lately I've been using AI tools to do more of it. This site is one result: a small set of charts on the U.S. economy that I keep current, many of them extending analyses I thought deserved a longer life.
+I live in the Charlotte area with my wife and our twins. I grew up in Ohio and have since lived in South Carolina, Wisconsin, D.C., and Minnesota. Outside work, I run, bike, lift, read fantasy, and play board games.
+
+This site is where I keep a small set of charts on the U.S. economy current. Many extend analyses by other economists that I thought were worth maintaining.
 
 ::: {.links}
-[Email](mailto:nicholas.baulch@gmail.com) · [LinkedIn](#) · [GitHub](https://github.com/nbaulch) · [Resume](resume.qmd)
+[Email](mailto:nicholas.baulch@gmail.com) · [LinkedIn](https://www.linkedin.com/in/nbaulch) · [GitHub](https://github.com/nbaulch) · [Resume](resume.qmd)
 :::
 
 ## Charts I'm watching

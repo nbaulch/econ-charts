@@ -24,7 +24,7 @@ format:
 ```{=typst}
 #set par(justify: false)
 #set text(hyphenate: false)
-#align(center)[nicholas.baulch\@gmail.com · github.com/nbaulch · nbaulch.github.io/econ-charts]
+#align(center)[nicholas.baulch\@gmail.com · linkedin.com/in/nbaulch · github.com/nbaulch · nbaulch.github.io/econ-charts]
 ```
 
 ## Experience
