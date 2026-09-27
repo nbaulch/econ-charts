@@ -1,4 +1,5 @@
-/* Matches the chart style in STYLE.md: Roboto, warm greys, plain layout. */
+/* Matches the chart style in STYLE.md: Roboto, warm greys, plain layout, on a
+   warm paper background. */
 
 @font-face {
   font-family: "Roboto Chart";
@@ -29,27 +30,39 @@
 body, .navbar {
   font-family: "Roboto Chart", sans-serif;
   color: #4a4a47;
-  background: #ffffff;
+  background: #f6f3ec;
   line-height: 1.6;
 }
 
-h1, h2, h3 {
+h1, h3 {
   color: #222220;
 }
 
+h2 {
+  color: #1d3557;
+}
+
 a {
-  color: #1f6fb2;
+  color: #1d4e89;
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
 }
 
 .navbar {
-  border-bottom: 1px solid #e6e5e1;
+  border-bottom: 1px solid #e3ded2;
 }
 
+.nav-footer {
+  background: #f6f3ec;
+  border-top: 1px solid #e3ded2;
+}
+
+/* Chart images have white backgrounds; multiplying them onto the page lets
+   the paper color show through without changing the data colors noticeably. */
 .chart {
   width: 100%;
   height: auto;
+  mix-blend-mode: multiply;
 }
 
 
@@ -116,6 +129,7 @@ h3 {
   object-fit: cover;
   border-radius: 50%;
   flex-shrink: 0;
+  box-shadow: 0 0 0 4px #ffffff, 0 0 0 5px #e3ded2;
 }
 
 .hero .name {
@@ -130,7 +144,8 @@ h3 {
 .hero .tagline {
   font-family: "Roboto Chart", sans-serif;
   font-size: 1.05rem;
-  color: #75746f;
+  letter-spacing: 0.02em;
+  color: #8a6d3b;
   margin: 0.2rem 0 0;
 }
 
