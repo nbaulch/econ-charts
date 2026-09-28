@@ -37,7 +37,7 @@ Exhibits are read from `current_press_release/exh{n}.xlsx`, which holds only the
 
 - `data/census_ft900_<release date>.csv` saves the exhibits as read; `data/census_end_use_<release date>.csv` saves the API pull. Census does not archive exhibits at a predictable URL, so these files are the record of each release.
 - The build stops if the trade store does not yet hold the month the FT-900 covers, so the page never mixes releases. The store's daily workflow adds a month a day or so after release.
-- `.github/workflows/trade-release.yml` runs after each daily update of the store. `scripts/check_trade_release.R` reports the release as current (its data file exists), waiting (the store lacks its month), or new. A new release is rebuilt on branch `trade-release-<release date>` and goes to a pull request for review.
+- `.github/workflows/trade-release.yml` runs after each daily update of the store. `scripts/check_trade_release.R` reports the release as current (its data file exists), waiting (the store lacks its month), or new. A new release is rebuilt and pushed to `main`, which publishes it.
 
 ## Known breaks and caveats
 
@@ -50,3 +50,4 @@ Exhibits are read from `current_press_release/exh{n}.xlsx`, which holds only the
 - September 2026: a standalone release page rather than a release-day block on every chart, so the release view can be organized around the release.
 - September 2026: both seasonally adjusted and unadjusted views, compared over a month and a year respectively, since a month-over-month change in unadjusted data mostly reflects seasonal patterns.
 - September 2026: tables for the headline, chained dollars, and countries; charts where the comparison across rows matters more than the values.
+- September 2026: refreshes publish without a pull request, so the page updates on release day. The code and text are reviewed when they change; a refresh only reruns them on new data.

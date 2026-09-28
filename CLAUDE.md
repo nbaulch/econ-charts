@@ -61,7 +61,7 @@ These are the analyses I've been considering. Treat them as starting points. Ver
 ## Constraints
 
 - Public data and personal tools and accounts only.
-- Nothing publishes without my review.
+- Nothing publishes without my review, except release pages: their refreshes are mechanical rebuilds of reviewed code, with no text written per release.
 - I prefer to work in R.
 
 ## Repo layout
@@ -97,7 +97,8 @@ The site is https://nbaulch.github.io/econ-charts/, built with Quarto and hosted
 
 - `main` is protected. Every change goes through a pull request that I review and merge.
 - Merging to `main` runs `.github/workflows/publish.yml`, which renders the pages and publishes them. It does not run R. Charts are rebuilt in a session and committed.
-- Two workflows run R. `census-trade-data.yml` maintains the Census trade store; it changes only release assets, never the site or the repo's files. `trade-release.yml` runs after it: when a new FT-900 is out and the store holds its month, it rebuilds `charts/trade-release/` on a new branch, opens a pull request, and emails the release tables from my Gmail to myself. The email holds only the tables, no reading of them. It needs the repository secrets `GMAIL_USERNAME`, `GMAIL_APP_PASSWORD`, and `CENSUS_API_KEY`.
+- Two workflows run R. `census-trade-data.yml` maintains the Census trade store; it changes only release assets, never the site or the repo's files. `trade-release.yml` runs after it: when a new FT-900 is out and the store holds its month, it rebuilds `charts/trade-release/` and pushes to `main`, which publishes the site. It pushes with a deploy key that the `main` ruleset lets bypass its pull request rule. It needs the repository secrets `RELEASE_DEPLOY_KEY` and `CENSUS_API_KEY`.
+- A Claude Routine, separate from the workflows, reads each trade release on release day and emails me a private interpretation. It never writes to the repo or GitHub. Its prompt lives in the Routine, not here.
 - To preview locally, run `quarto render` and open `_site/index.html`.
 
 ## Code style
