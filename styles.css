@@ -168,3 +168,35 @@ h3 {
   font-size: 0.85rem;
   color: #75746f;
 }
+
+/* Data tables: compact rows in the chart font, with tabular figures so numbers
+   line up. */
+.table {
+  font-family: "Roboto Chart", sans-serif;
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  width: auto;
+  min-width: 60%;
+  margin: 0.5rem 0 1.25rem;
+}
+
+.table > :not(caption) > * > * {
+  padding: 0.05rem 0.5rem;
+  line-height: 1.35;
+  border-bottom-color: #e6e5e1;
+}
+
+.table > :not(caption) > * > *:first-child {
+  padding-left: 0;
+  white-space: nowrap;
+}
+
+.table > thead > tr > th {
+  border-bottom-color: #3a3a38;
+}
+
+.table th {
+  font-weight: 700;
+  color: #4a4a47;
+  vertical-align: bottom;
+}
