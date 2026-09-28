@@ -55,3 +55,7 @@ Sources, release dates, and definitions for each chart, with its data to downloa
 ### Tariff rates {#effective-tariff-rate}
 
 {{< include charts/effective-tariff-rate/output/effective-tariff-rate-notes.md >}}
+
+### Goods trade balance {#goods-balance}
+
+{{< include charts/goods-balance/output/goods-balance-notes.md >}}

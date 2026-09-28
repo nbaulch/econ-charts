@@ -18,3 +18,18 @@ Announced tariffs and the duties importers pay can differ, because of exemptions
 ::: {.chart-source}
 [Sources, definitions, and data](sources.qmd#effective-tariff-rate)
 :::
+
+## Goods trade balance
+
+Debates over the U.S. trade deficit often turn on a few product groups whose trade can move for reasons of its own: computers and chips, pharmaceuticals, and gold. The chart splits the goods balance into those groups and all other goods, using the Census Bureau's product categories.
+
+```{=html}
+<picture>
+  <source media="(max-width: 600px)" srcset="charts/goods-balance/output/goods-balance-narrow.png">
+  <img src="charts/goods-balance/output/goods-balance.png" class="chart" alt="Stacked bar chart, monthly since 2019, of the U.S. goods trade balance in billions of dollars, split into computers and parts, semiconductors and telecom equipment, pharmaceuticals, gold, and all other goods, with dots for the total.">
+</picture>
+```
+
+::: {.chart-source}
+[Sources, definitions, and data](sources.qmd#goods-balance)
+:::
