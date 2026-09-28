@@ -97,7 +97,7 @@ The site is https://nbaulch.github.io/econ-charts/, built with Quarto and hosted
 
 - `main` is protected. Every change goes through a pull request that I review and merge.
 - Merging to `main` runs `.github/workflows/publish.yml`, which renders the pages and publishes them. It does not run R. Charts are rebuilt in a session and committed.
-- The one workflow that runs R is `census-trade-data.yml`, which maintains the Census trade store. It changes only release assets, never the site or the repo's files.
+- Two workflows run R. `census-trade-data.yml` maintains the Census trade store; it changes only release assets, never the site or the repo's files. `trade-release.yml` runs after it: when a new FT-900 is out and the store holds its month, it rebuilds `charts/trade-release/` on a new branch, opens a pull request, and emails the release tables from my Gmail to myself. The email holds only the tables, no reading of them. It needs the repository secrets `GMAIL_USERNAME`, `GMAIL_APP_PASSWORD`, and `CENSUS_API_KEY`.
 - To preview locally, run `quarto render` and open `_site/index.html`.
 
 ## Code style

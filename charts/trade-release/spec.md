@@ -37,6 +37,7 @@ Exhibits are read from `current_press_release/exh{n}.xlsx`, which holds only the
 
 - `data/census_ft900_<release date>.csv` saves the exhibits as read; `data/census_end_use_<release date>.csv` saves the API pull. Census does not archive exhibits at a predictable URL, so these files are the record of each release.
 - The build stops if the trade store does not yet hold the month the FT-900 covers, so the page never mixes releases. The store's daily workflow adds a month a day or so after release.
+- `.github/workflows/trade-release.yml` runs after each daily update of the store. `scripts/check_trade_release.R` reports the release as current (its data file exists), waiting (the store lacks its month), or new. A new release is rebuilt on branch `trade-release-<release date>` and goes to a pull request for review.
 
 ## Known breaks and caveats
 

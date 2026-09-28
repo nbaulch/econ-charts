@@ -1,0 +1,87 @@
+# Rebuilds the trade release page when a new monthly trade report (FT-900) is
+# out and the Census trade store holds its month. Runs after each update of the
+# store; a run with no new release stops after the check. A new release goes to
+# a pull request for review, and its tables go by email from the owner's Gmail
+# to itself.
+#
+# Needs repository secrets GMAIL_USERNAME, GMAIL_APP_PASSWORD (a Gmail app
+# password), and CENSUS_API_KEY, and the setting that allows GitHub Actions to
+# create pull requests.
+name: Refresh trade release page
+
+on:
+  workflow_run:
+    workflows: [Update Census trade data]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: trade-release
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: renv
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-renv@v2
+      # Libraries the ragg graphics device needs to draw charts.
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends libfreetype6 libpng16-16t64 libtiff6 libjpeg-turbo8 libwebp7 libwebpmux3 libharfbuzz0b libfribidi0
+      - id: check
+        run: Rscript scripts/check_trade_release.R
+      - id: branch
+        if: steps.check.outputs.status == 'new'
+        run: |
+          branch="trade-release-${{ steps.check.outputs.released }}"
+          echo "name=$branch" >> "$GITHUB_OUTPUT"
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.branch.outputs.name && !steps.branch.outputs.exists
+        run: Rscript charts/trade-release/build.R
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+      - id: pr
+        if: steps.branch.outputs.name && !steps.branch.outputs.exists
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898702+github-actions[bot]@users.noreply.github.com"
+          git switch -c "${{ steps.branch.outputs.name }}"
+          git add charts/trade-release
+          git commit -m "Refresh the trade release page for ${{ steps.check.outputs.month }} data"
+          git push -u origin "${{ steps.branch.outputs.name }}"
+          url=$(gh pr create --base main \
+            --title "Refresh the trade release page for ${{ steps.check.outputs.month }} data" \
+            --body "Rebuilt by the Refresh trade release page workflow from the FT-900 released ${{ steps.check.outputs.released }} and the Census trade store.")
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          {
+            echo "[Pull request]($url)"
+            for table in release headline real-goods partners duties-by-country; do
+              echo
+              cat "charts/trade-release/output/$table.md"
+            done
+          } > "$RUNNER_TEMP/summary.md"
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - if: steps.pr.outputs.url
+        uses: dawidd6/action-send-mail@v9
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.GMAIL_USERNAME }}
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          from: ${{ secrets.GMAIL_USERNAME }}
+          to: ${{ secrets.GMAIL_USERNAME }}
+          subject: Trade release, ${{ steps.check.outputs.month }}
+          html_body: file://${{ runner.temp }}/summary.md
+          convert_markdown: true
