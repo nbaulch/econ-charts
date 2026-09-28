@@ -6,6 +6,7 @@ library(lubridate)
 library(ggplot2)
 
 source("R/fetch_bea.R")
+source("R/price_indexes.R")
 source("R/chart_style.R")
 
 chart_dir <- "charts/pce-cpi-gap"
@@ -26,20 +27,6 @@ cpi <- tidyusmacro::getFRED(core_cpi = "CPILFESL") |>
 latest_month <- max(pce$date)
 write_csv(pce, file.path(chart_dir, "data", str_glue("bea_pce_{latest_month}.csv")))
 write_csv(cpi, file.path(chart_dir, "data", str_glue("fred_core_cpi_{latest_month}.csv")))
-
-# Price index for an aggregate with one component taken out, found by solving
-# BEA's monthly Fisher formula for the remainder's price change. Same method as
-# charts/inflation-measures.
-index_excluding <- function(price, spending, part_price, part_spending) {
-  aggregate_change <- price / lag(price)
-  part_change <- part_price / lag(part_price)
-  share_before <- lag(part_spending / spending)
-  share_after <- part_spending / spending
-  a <- 1 - share_before
-  b <- share_before * part_change - aggregate_change^2 * share_after / part_change
-  c <- -aggregate_change^2 * (1 - share_after)
-  cumprod(coalesce((-b + sqrt(b^2 - 4 * a * c)) / (2 * a), 1))
-}
 
 twelve_month_change <- \(index) 100 * (index / lag(index, 12) - 1)
 

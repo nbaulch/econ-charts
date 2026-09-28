@@ -9,6 +9,7 @@ library(slider)
 library(patchwork)
 
 source("R/fetch_bea.R")
+source("R/price_indexes.R")
 source("R/fetch_clevelandfed.R")
 source("R/fetch_nyfed.R")
 source("R/chart_style.R")
@@ -34,20 +35,6 @@ trend <- fetch_nyfed_mct()
 latest_month <- max(pce$date)
 list(bea_pce = pce, clevelandfed_median_pce = median_pce, dallasfed_trimmed_mean = trimmed_mean, nyfed_mct = trend) |>
   iwalk(\(data, name) write_csv(data, file.path(chart_dir, "data", str_glue("{name}_{latest_month}.csv"))))
-
-# Price index for an aggregate with one component taken out, found by solving
-# BEA's monthly Fisher formula for the remainder's price change. It reproduces
-# BEA's published market-based core from market-based PCE to within 0.02 point.
-index_excluding <- function(price, spending, part_price, part_spending) {
-  aggregate_change <- price / lag(price)
-  part_change <- part_price / lag(part_price)
-  share_before <- lag(part_spending / spending)
-  share_after <- part_spending / spending
-  a <- 1 - share_before
-  b <- share_before * part_change - aggregate_change^2 * share_after / part_change
-  c <- -aggregate_change^2 * (1 - share_after)
-  cumprod(coalesce((-b + sqrt(b^2 - 4 * a * c)) / (2 * a), 1))
-}
 
 twelve_month_change <- \(index) 100 * (index / lag(index, 12) - 1)
 six_month_change <- \(index) 100 * ((index / lag(index, 6))^2 - 1)

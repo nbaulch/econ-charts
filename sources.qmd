@@ -46,6 +46,10 @@ Sources, release dates, and definitions for each chart, with its data to downloa
 
 {{< include charts/pce-cpi-gap/output/pce-cpi-gap-notes.md >}}
 
+### Software and electricity {#software-electricity-prices}
+
+{{< include charts/software-electricity-prices/output/software-electricity-prices-notes.md >}}
+
 ## Trade
 
 ### Tariff rates {#effective-tariff-rate}

@@ -22,8 +22,8 @@ Interpretation, such as what a refresh changed and what it might mean, goes to m
 
 - **The AI economy**: `charts/ai-investment-gdp/`, `charts/ai-adoption/`, `charts/productivity-decomposition/`.
 - **Interest rates**: `charts/yield-decomposition/`, `charts/yield-rise-by-model/`, `charts/duration-supply/`. Candidate: the 10-year yield split into inflation-protected yield and breakeven inflation, with the 2-year yield.
-- **Inflation**, started September 2026: `charts/inflation-measures/`, `charts/inflation-breadth/` (reproduces Warsh's share of PCE categories rising faster than 3 percent), and `charts/pce-cpi-gap/` (follows Konczal on the gap between core PCE and core CPI). Planned, one question each: supply- versus demand-driven inflation (San Francisco Fed), AI's contribution (software and electricity prices), and inflation expectations. Release-day tools (PCE implied by CPI and PPI, surprises) come later; surprises need a public benchmark, such as the Cleveland Fed nowcast, since consensus forecasts are proprietary.
-- **Trade**, started September 2026, built on the Census trade store: `charts/effective-tariff-rate/` (the collected tariff rate, following the Fed Board's April 2026 FEDS Note, and the rate at the 2024 mix of products and countries). Planned, one question each: the goods balance by category (computers and AI hardware, pharmaceuticals, gold, the rest), following Brad Setser; and imports from China as reported by the United States and by China, with partner shares. Candidate: imports by size of tariff increase. Dropped in September 2026: tariffs' effect on inflation.
+- **Inflation**, started September 2026: `charts/inflation-measures/`, `charts/inflation-breadth/` (reproduces Warsh's share of PCE categories rising faster than 3 percent), `charts/pce-cpi-gap/` (follows Konczal on the gap between core PCE and core CPI), and `charts/software-electricity-prices/` (contributions of software and electricity prices, adapted from the FEDS Note on software prices). Planned: inflation expectations. Release-day tools (PCE implied by CPI and PPI, surprises) come later; surprises need a public benchmark, such as the Cleveland Fed nowcast, since consensus forecasts are proprietary.
+- **Trade**, started September 2026, built on the Census trade store: `charts/effective-tariff-rate/` (the collected tariff rate, following the Fed Board's April 2026 FEDS Note, and the rate at the 2024 mix of products and countries). Planned, one question each: the goods balance by category (computers and AI hardware, pharmaceuticals, gold, the rest), following Brad Setser; and imports from China as reported by the United States and by China, with partner shares. Candidate: imports by size of tariff increase.
 
 ## Chart candidates
 
@@ -41,6 +41,8 @@ These are the analyses I've been considering. Treat them as starting points. Ver
 - **Labor productivity versus utilization-adjusted TFP**, showing the utilization contribution. Built in `charts/productivity-decomposition/`.
   - Related work: Ernie Tedeschi, Stripe Economics, July 2026.
   - Data: BLS productivity, SF Fed (Fernald) TFP.
+- **Supply- versus demand-driven inflation** (Shapiro, San Francisco Fed). Built and dropped in September 2026, because the San Francisco Fed already maintains and charts the series monthly.
+- **Tariffs and inflation.** Explored and dropped in September 2026. Aggregate estimates of the tariff effect on prices (St. Louis Fed, April 2026 FEDS Note, Minneapolis Fed) depend on import-content, pass-through, and timing assumptions that could not be reproduced cleanly from public data, and a product-level version was not pursued.
 - **Industry AI adoption versus labor productivity growth**, before and after removing 2016 to 2019 trends. Set aside: it answers a narrower cross-sectional question.
   - Related work: same Tedeschi post.
   - Data: BTOS, Chicago Fed industry productivity.
@@ -67,7 +69,7 @@ These are the analyses I've been considering. Treat them as starting points. Ver
 _quarto.yml, *.qmd      the site: config, index.qmd (home), resume.qmd, sources.qmd, and one page per chart topic
 images/                 headshot and link preview image
 styles.css              site styling, matched to STYLE.md
-R/                      fetch_<agency>_<dataset>() functions, one file per agency, and chart_style.R
+R/                      fetch_<agency>_<dataset>() functions, one file per agency, chart_style.R, and price_indexes.R
 fonts/                  bundled chart font, used by charts and the site
 charts/<chart-name>/
   spec.md               sources, series IDs, transformations, vintages, breaks, decision log
