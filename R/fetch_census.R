@@ -212,14 +212,10 @@ fetch_census_trade_schedule <- function() {
     mutate(month = my(month))
 }
 
-# One exhibit of the latest monthly trade report (FT-900), in long form: one
-# row per block, month, and series, in millions of dollars. Census posts only
-# the latest release, so a refresh saves what it reads. The sheets spread each
-# header over several rows, so `series` names the value columns left to right.
-# Exhibits in blocks, such as exports above imports, name each block in the
-# row above it. Months revised in this release are marked "(R)".
+# Census posts only the latest monthly trade report (FT-900), so a refresh saves
+# what it reads.
 # https://www.census.gov/foreign-trade/Press-Release/current_press_release/index.html
-fetch_census_ft900_exhibit <- function(number, series) {
+download_census_ft900_exhibit <- function(number) {
   path <- tempfile(fileext = ".xlsx")
   download.file(
     str_glue("https://www.census.gov/foreign-trade/Press-Release/current_press_release/exh{number}.xlsx"),
@@ -227,9 +223,19 @@ fetch_census_ft900_exhibit <- function(number, series) {
     mode = "wb",
     quiet = TRUE
   )
+  path
+}
 
-  readxl::read_excel(path, col_names = c("label", series), col_types = "text") |>
+# One exhibit of the FT-900 by month, in long form: one row per block, month,
+# and series, in millions of dollars. The sheets spread each header over several
+# rows, so `series` names the value columns left to right. Exhibits in blocks,
+# such as exports above imports, name each block in the row above it. Months
+# revised in this release are marked "(R)". Some exhibits repeat the previous
+# month as published a month earlier, in the row below its label.
+fetch_census_ft900_exhibit <- function(number, series) {
+  readxl::read_excel(download_census_ft900_exhibit(number), col_names = c("label", series), col_types = "text") |>
     mutate(
+      label = coalesce(label, if_else(str_detect(lag(label), "published last month"), lag(label), NA)),
       block = if_else(is.na(label) & .data[[series[1]]] %in% c("Exports", "Imports"), .data[[series[1]]], NA),
       year = as.integer(str_extract(label, "^\\d{4}$"))
     ) |>
@@ -239,10 +245,34 @@ fetch_census_ft900_exhibit <- function(number, series) {
       block = str_to_lower(block),
       date = make_date(year, match(word(label), month.name)),
       revised = str_detect(label, fixed("(R)")),
+      published_last_month = str_detect(label, "published last month"),
       across(all_of(series), \(x) suppressWarnings(as.numeric(x)))
     ) |>
     pivot_longer(all_of(series), names_to = "series") |>
     filter(!is.na(value))
+}
+
+# FT-900 exhibit 19: seasonally adjusted goods trade by country and area, Census
+# basis, in millions of dollars, for the latest two months. Each block (balance,
+# exports, imports) lists countries under its name. The month headers sit in the
+# fourth row; the previous month's header is merged over a column of revision
+# marks and the column of values.
+fetch_census_ft900_countries <- function() {
+  sheet <- readxl::read_excel(
+    download_census_ft900_exhibit(19),
+    col_names = FALSE,
+    col_types = "text",
+    .name_repair = "unique_quiet"
+  )
+  months <- my(str_squish(unlist(sheet[4, c(2, 3)])))
+
+  sheet |>
+    select(country = 1, latest = 2, previous = 4) |>
+    mutate(block = if_else(country %in% c("Balance", "Exports", "Imports") & is.na(latest), str_to_lower(country), NA)) |>
+    fill(block) |>
+    filter(!is.na(block), !is.na(latest)) |>
+    pivot_longer(c(latest, previous), names_to = "month") |>
+    transmute(block, country, date = months[match(month, c("latest", "previous"))], value = as.numeric(value))
 }
 
 # Monthly U.S. goods trade by Census end-use category from the international

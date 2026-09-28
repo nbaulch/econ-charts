@@ -24,6 +24,8 @@ end_use_adjusted <- fetch_census_ft900_exhibit(6, c(
   "total_bop", "net_adjustments", "total_census",
   "0", "1", "2", "3", "4", "5"
 ))
+real_goods <- fetch_census_ft900_exhibit(10, c("total", "0", "1", "2", "3", "4", "5", "residual"))
+partners_adjusted <- fetch_census_ft900_countries()
 
 latest_month <- max(headline$date)
 previous_month <- latest_month - months(1)
@@ -42,7 +44,13 @@ end_use <- c("imports", "exports") |>
   list_rbind()
 
 list(
-  census_ft900 = bind_rows(exhibit_1 = headline, exhibit_6 = end_use_adjusted, .id = "exhibit"),
+  census_ft900 = bind_rows(
+    exhibit_1 = headline,
+    exhibit_6 = end_use_adjusted,
+    exhibit_10 = real_goods,
+    exhibit_19 = partners_adjusted,
+    .id = "exhibit"
+  ),
   census_end_use = end_use
 ) |>
   iwalk(\(data, name) write_csv(data, file.path(chart_dir, "data", str_glue("{name}_{released}.csv"))))
@@ -50,6 +58,7 @@ list(
 billions <- \(x) sprintf("%.1f", x / 1e3)
 change <- \(x) if_else(round(x, 1) == 0, "0", sprintf("%+.1f", x))
 month_short <- \(date) format(date, "%b %Y")
+dollars <- \(x) if_else(x < 0, str_c("-$", abs(x)), str_c("$", x))
 
 markdown_table <- function(table, path) {
   header <- str_c("| ", str_c(c("", names(table)[-1]), collapse = " | "), " |")
@@ -79,13 +88,15 @@ headline_rows <- c(
 
 headline |>
   filter(series %in% names(headline_rows), date %in% c(latest_month, previous_month)) |>
-  select(series, date, value) |>
-  pivot_wider(names_from = date, values_from = value) |>
+  mutate(column = case_when(published_last_month ~ "first", date == latest_month ~ "latest", .default = "previous")) |>
+  select(series, column, value) |>
+  pivot_wider(names_from = column, values_from = value) |>
   transmute(
     series = headline_rows[series],
-    "{month_short(latest_month)}" := billions(.data[[as.character(latest_month)]]),
-    "{month_short(previous_month)}" := billions(.data[[as.character(previous_month)]]),
-    Change = change((.data[[as.character(latest_month)]] - .data[[as.character(previous_month)]]) / 1e3)
+    "{month_short(latest_month)}" := billions(latest),
+    "{month_short(previous_month)}" := billions(previous),
+    Change = change((latest - previous) / 1e3),
+    "Revision to {month_short(previous_month)}" := change((previous - first) / 1e3)
   ) |>
   arrange(match(series, headline_rows)) |>
   markdown_table(file.path(chart_dir, "output", "headline.md"))
@@ -118,6 +129,37 @@ goods_balance_chart <- goods_balance |>
   scale_colour_manual(values = unname(chart_colors[c("blue", "orange")])) +
   scale_x_date(date_breaks = "3 months", date_labels = "%b\n%Y") +
   theme_chart()
+
+# Goods in chained dollars -----------------------------------------------------------
+
+# Averages over the quarter so far and the previous full quarter, the comparison
+# that feeds quarterly GDP. The balance of chained-dollar series is the
+# difference of the two, as BEA reports it.
+quarter_start <- floor_date(latest_month, "quarter")
+quarter_name <- \(date) str_glue("{year(date)} Q{quarter(date)}")
+months_to_date <- if (latest_month == quarter_start) {
+  format(latest_month, "%B")
+} else {
+  str_glue("{format(quarter_start, '%B')} to {format(latest_month, '%B')}")
+}
+annual_rate <- \(current, previous) sprintf("%+.1f", 100 * ((current / previous)^4 - 1))
+
+real_goods |>
+  filter(series == "total", !published_last_month, date >= quarter_start - months(3)) |>
+  mutate(period = if_else(date >= quarter_start, "current", "previous")) |>
+  summarise(value = mean(value), .by = c(block, period)) |>
+  pivot_wider(names_from = block) |>
+  mutate(balance = exports - imports) |>
+  pivot_longer(-period, names_to = "series") |>
+  pivot_wider(names_from = period) |>
+  transmute(
+    series = c(exports = "Exports", imports = "Imports", balance = "Balance")[series],
+    "{quarter_name(quarter_start - months(3))}" := billions(previous),
+    "{quarter_name(quarter_start)}, {months_to_date}" := billions(current),
+    "Change" := change((current - previous) / 1e3),
+    "Percent change, annual rate" := if_else(series == "Balance", "", annual_rate(current, previous))
+  ) |>
+  markdown_table(file.path(chart_dir, "output", "real-goods.md"))
 
 # What moved -------------------------------------------------------------------
 
@@ -162,7 +204,7 @@ end_use_chart <- end_use_changes |>
   geom_col(position = position_dodge(width = 0.75, reverse = TRUE), width = 0.7) +
   facet_wrap(vars(view), scales = "free_x") +
   scale_fill_manual(values = unname(chart_colors[c("blue", "orange")])) +
-  scale_x_continuous(labels = \(x) str_c("$", x)) +
+  scale_x_continuous(labels = dollars) +
   theme_chart() +
   theme(
     panel.grid.major.y = element_blank(),
@@ -185,6 +227,8 @@ product_changes |>
   mutate(change = round(change, 3)) |>
   write_csv(file.path(chart_dir, "output", "product-changes.csv"))
 
+product_label <- \(row) product_changes$description[match(row, str_c(str_to_sentence(product_changes$flow), product_changes$code))]
+
 product_chart <- product_changes |>
   mutate(
     flow = factor(str_to_sentence(flow), levels = c("Imports", "Exports")),
@@ -194,15 +238,70 @@ product_chart <- product_changes |>
   geom_vline(xintercept = 0, colour = chart_greys[["baseline"]], linewidth = 0.4) +
   geom_col(width = 0.7) +
   facet_wrap(vars(flow), scales = "free_y", ncol = 1) +
-  scale_y_discrete(labels = \(x) product_changes$description[match(x, str_c(str_to_sentence(product_changes$flow), product_changes$code))]) +
+  scale_y_discrete(labels = product_label) +
   scale_fill_manual(values = c(`TRUE` = chart_colors[["blue"]], `FALSE` = chart_colors[["grey"]]), guide = "none") +
-  scale_x_continuous(labels = \(x) str_c("$", x)) +
+  scale_x_continuous(labels = dollars) +
   theme_chart() +
   theme(
     panel.grid.major.y = element_blank(),
     panel.grid.major.x = element_line(colour = chart_greys[["grid"]], linewidth = 0.35),
     strip.text = element_text(hjust = 0, face = "bold", size = rel(0.95), colour = chart_greys[["text"]])
   )
+
+# Partners ------------------------------------------------------------------------
+
+countries <- read_census_trade_countries()
+
+# The change from a year earlier is not seasonally adjusted, from the trade
+# store, which names countries as the FT-900 does, in capitals.
+partner_balance_unadjusted <- c(imports = "gen_val", exports = "all_val") |>
+  imap(\(value, flow) {
+    read_census_trade(flow, year_earlier, latest_month) |>
+      filter(date %in% c(latest_month, year_earlier)) |>
+      select(date, country_code, value = all_of(value)) |>
+      summarise(value = sum(value), .by = c(date, country_code)) |>
+      collect()
+  }) |>
+  list_rbind(names_to = "flow") |>
+  pivot_wider(names_from = flow, values_from = value, values_fill = 0) |>
+  left_join(countries, by = "country_code") |>
+  transmute(country, date, balance = (exports - imports) / 1e6)
+
+# The twelve countries with the largest balances either way. The exhibit's
+# areas, such as the European Union, overlap with them and are left out.
+partners <- partners_adjusted |>
+  filter(block == "balance", str_to_upper(country) %in% countries$country) |>
+  mutate(date = if_else(date == latest_month, "latest", "previous")) |>
+  pivot_wider(names_from = date) |>
+  slice_max(abs(latest), n = 12) |>
+  mutate(key = str_to_upper(country)) |>
+  left_join(
+    partner_balance_unadjusted |>
+      mutate(date = if_else(date == latest_month, "latest_unadjusted", "year_earlier_unadjusted")) |>
+      pivot_wider(names_from = date, values_from = balance),
+    by = join_by(key == country)
+  ) |>
+  arrange(latest)
+
+partners |>
+  transmute(
+    country,
+    balance_adjusted = latest,
+    balance_previous_month_adjusted = previous,
+    balance_unadjusted = latest_unadjusted,
+    balance_year_earlier_unadjusted = year_earlier_unadjusted
+  ) |>
+  mutate(across(where(is.numeric), \(x) round(x / 1e3, 3))) |>
+  write_csv(file.path(chart_dir, "output", "partners.csv"))
+
+partners |>
+  transmute(
+    country = str_replace(country, "^Korea, South$", "South Korea"),
+    "Balance, {month_short(latest_month)}" := billions(latest),
+    "From {month_short(previous_month)}" := change((latest - previous) / 1e3),
+    "From {month_short(year_earlier)}, not adjusted" := change((latest_unadjusted - year_earlier_unadjusted) / 1e3)
+  ) |>
+  markdown_table(file.path(chart_dir, "output", "partners.md"))
 
 # Tariffs -----------------------------------------------------------------------
 
@@ -225,10 +324,8 @@ duties_chart <- duties_by_month |>
   geom_hline(yintercept = 0, colour = chart_greys[["baseline"]], linewidth = 0.4) +
   scale_fill_manual(values = c(`TRUE` = chart_colors[["blue"]], `FALSE` = chart_colors[["grey"]]), guide = "none") +
   scale_x_date(date_breaks = "3 months", date_labels = "%b\n%Y") +
-  scale_y_continuous(labels = \(x) str_c("$", x)) +
+  scale_y_continuous(labels = dollars) +
   theme_chart()
-
-countries <- read_census_trade_countries()
 
 duties |>
   filter(date %in% c(latest_month, year_earlier)) |>
@@ -250,39 +347,35 @@ duties |>
 
 # Charts --------------------------------------------------------------------------
 
+# Each chart is saved wide and narrow. The narrow version stacks panels, wraps
+# long category names, and spaces dates further apart.
+narrow_dates <- scale_x_date(date_breaks = "6 months", date_labels = "%b\n%Y")
 source_line <- "Source: Census Bureau."
-charts <- list(
-  "goods-balance" = list(
-    goods_balance_chart,
-    "U.S. goods trade balance",
-    "Census basis, billions of dollars a month",
-    5
-  ),
-  "end-use-changes" = list(
-    end_use_chart,
-    "Change in U.S. goods trade by category",
-    "Billions of dollars",
-    4.5
-  ),
-  "product-changes" = list(
-    product_chart,
-    "Largest changes in U.S. goods trade by product",
-    str_glue("Change from {format(year_earlier, '%B %Y')}, billions of dollars, not seasonally adjusted"),
-    6.5
-  ),
-  "duties" = list(
-    duties_chart,
-    "Duties on U.S. imports",
-    "Calculated duties, billions of dollars a month, not seasonally adjusted",
-    4.5
-  )
+charts <- tribble(
+  ~name, ~chart, ~narrow, ~title, ~subtitle, ~height, ~narrow_height,
+  "goods-balance", goods_balance_chart, list(narrow_dates, guides(colour = guide_legend(ncol = 1))),
+  "U.S. goods trade balance", "Census basis, billions of dollars a month", 5, 5.5,
+  "end-use-changes", end_use_chart, list(facet_wrap(vars(view), ncol = 1, scales = "free_x"), scale_y_discrete(labels = \(x) str_wrap(x, 18))),
+  "Change in U.S. goods trade by category", "Billions of dollars", 4.5, 7.5,
+  "product-changes", product_chart, list(scale_y_discrete(labels = \(x) str_wrap(product_label(x), 24)), theme(axis.text.y = element_text(lineheight = 0.85))),
+  "Largest changes in U.S. goods trade by product",
+  str_glue("Change from {format(year_earlier, '%B %Y')}, billions of dollars, not seasonally adjusted"), 6.5, 11,
+  "duties", duties_chart, list(narrow_dates),
+  "Duties on U.S. imports", "Calculated duties, billions of dollars a month, not seasonally adjusted", 4.5, 4.5
 )
 
-iwalk(charts, \(chart, name) {
+pwalk(charts, \(name, chart, narrow, title, subtitle, height, narrow_height) {
   save_chart(
-    chart[[1]] + chart_labels(chart[[2]], chart[[3]], source_line, width = 8),
+    chart + chart_labels(title, subtitle, source_line, width = 8),
     file.path(chart_dir, "output", str_glue("{name}.png")),
     width = 8,
-    height = chart[[4]]
+    height = height
+  )
+  save_chart(
+    # A right margin keeps the last axis label from being cut off.
+    chart + narrow + theme(plot.margin = margin(18, 12, 12, 0)) + chart_labels(title, subtitle, source_line, width = 4.2),
+    file.path(chart_dir, "output", str_glue("{name}-narrow.png")),
+    width = 4.2,
+    height = narrow_height
   )
 })

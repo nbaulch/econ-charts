@@ -261,10 +261,10 @@ date,flow,level,code,description,value
 2024-07-01,imports,EU1,4,Consumer goods,69896125723
 2024-07-01,imports,EU5,40000,"Apparel, household goods - cotton",4057953119
 2024-07-01,imports,EU5,40010,"Apparel, household goods - wool",372035917
+2024-07-01,imports,EU5,40050,Camping apparel and gear,1190392305
 2024-07-01,imports,EU5,40020,"Apparel, textiles, nonwool or cotton",5163834024
 2024-07-01,imports,EU5,40030,"Apparel,household goods-nontextile",909178238
 2024-07-01,imports,EU5,40040,Footwear,1921926267
-2024-07-01,imports,EU5,40050,Camping apparel and gear,1190392305
 2024-07-01,imports,EU5,40100,Pharmaceutical preparations,20912584374
 2024-07-01,imports,EU5,40110,"Books, printed matter",443922393
 2024-07-01,imports,EU5,40120,Toiletries and cosmetics,1905956238
@@ -478,10 +478,10 @@ date,flow,level,code,description,value
 2024-09-01,imports,EU5,12050,Natural rubber,147317235
 2024-09-01,imports,EU5,12060,"Farming materials, livestock",172523378
 2024-09-01,imports,EU5,12070,"Tobacco, waxes, etc.",1464645229
+2024-09-01,imports,EU5,12140,"Hair, waste materials",103120427
 2024-09-01,imports,EU5,12100,"Cotton cloth, fabrics",76878538
 2024-09-01,imports,EU5,12110,"Wool, silk, etc.",45011020
 2024-09-01,imports,EU5,12135,Synthetic cloth,469042305
-2024-09-01,imports,EU5,12140,"Hair, waste materials",103120427
 2024-09-01,imports,EU5,12150,Finished textile supplies,507243760
 2024-09-01,imports,EU5,12160,Leather and furs,35555579
 2024-09-01,imports,EU5,12320,"Materials, excluding chemicals",152916848
@@ -704,10 +704,10 @@ date,flow,level,code,description,value
 2024-10-01,imports,EU5,30230,Other parts and accessories of vehicles,12508125070
 2024-10-01,imports,EU1,4,Consumer goods,78649342934
 2024-10-01,imports,EU5,40000,"Apparel, household goods - cotton",4077165614
+2024-10-01,imports,EU5,40040,Footwear,1628104015
 2024-10-01,imports,EU5,40010,"Apparel, household goods - wool",345243478
 2024-10-01,imports,EU5,40020,"Apparel, textiles, nonwool or cotton",5184063104
 2024-10-01,imports,EU5,40030,"Apparel,household goods-nontextile",934876043
-2024-10-01,imports,EU5,40040,Footwear,1628104015
 2024-10-01,imports,EU5,40050,Camping apparel and gear,1223302714
 2024-10-01,imports,EU5,40100,Pharmaceutical preparations,23100455664
 2024-10-01,imports,EU5,40110,"Books, printed matter",414703243
@@ -906,10 +906,10 @@ date,flow,level,code,description,value
 2024-12-01,imports,EU5,01010,"Alcoholic beverages, excluding wine",1021839701
 2024-12-01,imports,EU5,01020,"Nonagricultural foods, etc.",110836378
 2024-12-01,imports,EU1,1,Industrial supplies and materials,64234930109
+2024-12-01,imports,EU5,10030,Liquefied petroleum gases,371648454
 2024-12-01,imports,EU5,10000,Crude oil,13298493393
 2024-12-01,imports,EU5,10010,Fuel oil,1549358338
 2024-12-01,imports,EU5,10020,"Petroleum products, other",2734105639
-2024-12-01,imports,EU5,10030,Liquefied petroleum gases,371648454
 2024-12-01,imports,EU5,10100,Coal and related fuels,196194103
 2024-12-01,imports,EU5,10110,Gas-natural,899846475
 2024-12-01,imports,EU5,10300,Nuclear fuel materials,542240343
@@ -1099,10 +1099,10 @@ date,flow,level,code,description,value
 2025-01-01,imports,EU5,14280,Other precious metals,1718915392
 2025-01-01,imports,EU5,14290,"Nonferrous metals, other",457700898
 2025-01-01,imports,EU5,15000,"Iron and steel products, n.e.c.",1090537266
+2025-01-01,imports,EU5,16050,Synthetic rubber--primary,223431157
 2025-01-01,imports,EU5,15100,"Iron and steel, advanced",1304502763
 2025-01-01,imports,EU5,15200,Finished metal shapes,32994124140
 2025-01-01,imports,EU5,16040,"Sulfur, nonmetallic minerals",149004512
-2025-01-01,imports,EU5,16050,Synthetic rubber--primary,223431157
 2025-01-01,imports,EU5,16110,"Blank tapes, audio & visual",10774137
 2025-01-01,imports,EU5,16120,"Industrial supplies, other",3921733424
 2025-01-01,imports,EU1,2,"Capital goods, except automotive",83745306938
@@ -1193,10 +1193,10 @@ date,flow,level,code,description,value
 2025-02-01,imports,EU5,00130,Vegetables,1735165523
 2025-02-01,imports,EU5,00140,Nuts,201357264
 2025-02-01,imports,EU5,00150,"Food oils, oilseeds",851899265
+2025-02-01,imports,EU5,00190,"Wine, beer, and related products",1162798938
 2025-02-01,imports,EU5,00160,Bakery products,1772226273
 2025-02-01,imports,EU5,00170,"Tea, spices, etc.",267497969
 2025-02-01,imports,EU5,00180,Other foods,2062814024
-2025-02-01,imports,EU5,00190,"Wine, beer, and related products",1162798938
 2025-02-01,imports,EU5,00200,Feedstuff and foodgrains,731632674
 2025-02-01,imports,EU5,01000,Fish and shellfish,1976786072
 2025-02-01,imports,EU5,01010,"Alcoholic beverages, excluding wine",900503759
@@ -1591,10 +1591,10 @@ date,flow,level,code,description,value
 2025-04-01,imports,EU5,30220,Automotive tires and tubes,1618954990
 2025-04-01,imports,EU5,30230,Other parts and accessories of vehicles,12118612354
 2025-04-01,imports,EU1,4,Consumer goods,67092908691
+2025-04-01,imports,EU5,40030,"Apparel,household goods-nontextile",721630087
 2025-04-01,imports,EU5,40000,"Apparel, household goods - cotton",3441032978
 2025-04-01,imports,EU5,40010,"Apparel, household goods - wool",126837610
 2025-04-01,imports,EU5,40020,"Apparel, textiles, nonwool or cotton",4080083528
-2025-04-01,imports,EU5,40030,"Apparel,household goods-nontextile",721630087
 2025-04-01,imports,EU5,40040,Footwear,1402398348
 2025-04-01,imports,EU5,40050,Camping apparel and gear,1289927552
 2025-04-01,imports,EU5,40100,Pharmaceutical preparations,24458251493
@@ -1642,10 +1642,10 @@ date,flow,level,code,description,value
 2025-05-01,imports,EU5,00180,Other foods,2594401922
 2025-05-01,imports,EU5,00190,"Wine, beer, and related products",1227154946
 2025-05-01,imports,EU5,00200,Feedstuff and foodgrains,770958204
+2025-05-01,imports,EU1,1,Industrial supplies and materials,52573055583
 2025-05-01,imports,EU5,01000,Fish and shellfish,2474135960
 2025-05-01,imports,EU5,01010,"Alcoholic beverages, excluding wine",820437588
 2025-05-01,imports,EU5,01020,"Nonagricultural foods, etc.",121917972
-2025-05-01,imports,EU1,1,Industrial supplies and materials,52573055583
 2025-05-01,imports,EU5,10000,Crude oil,12000517463
 2025-05-01,imports,EU5,10010,Fuel oil,1315501416
 2025-05-01,imports,EU5,10020,"Petroleum products, other",3447251995
@@ -1981,10 +1981,10 @@ date,flow,level,code,description,value
 2025-07-01,imports,EU5,14200,Bauxite and aluminum,1144644965
 2025-07-01,imports,EU5,14220,Copper,2280953338
 2025-07-01,imports,EU5,14240,Nickel,189219782
+2025-07-01,imports,EU5,14280,Other precious metals,2213458109
 2025-07-01,imports,EU5,14250,Tin,72075475
 2025-07-01,imports,EU5,14260,Zinc,147650404
 2025-07-01,imports,EU5,14270,Nonmonetary gold,10490752215
-2025-07-01,imports,EU5,14280,Other precious metals,2213458109
 2025-07-01,imports,EU5,14290,"Nonferrous metals, other",453332232
 2025-07-01,imports,EU5,15000,"Iron and steel products, n.e.c.",852857006
 2025-07-01,imports,EU5,15100,"Iron and steel, advanced",1062593854
@@ -2071,10 +2071,10 @@ date,flow,level,code,description,value
 2025-07-01,imports,EU5,50020,"U.s. Goods returned, and reimports",8942253272
 2025-07-01,imports,EU5,50030,Minimum value shipments,2756016849
 2025-07-01,imports,EU5,50040,"Other (movies, miscellaneous imports, and special transactions)",1017718033
+2025-08-01,imports,EU5,00020,Cane and beet sugar,84664726
 2025-08-01,imports,EU1,0,"Foods, feeds, and beverages",16164541260
 2025-08-01,imports,EU5,00000,Green coffee,790631861
 2025-08-01,imports,EU5,00010,Cocoa beans,140313252
-2025-08-01,imports,EU5,00020,Cane and beet sugar,84664726
 2025-08-01,imports,EU5,00100,Meat products,1743446903
 2025-08-01,imports,EU5,00110,Dairy products and eggs,253439601
 2025-08-01,imports,EU5,00120,"Fruits, frozen juices",1991692544
@@ -2290,10 +2290,10 @@ date,flow,level,code,description,value
 2025-09-01,imports,EU5,16110,"Blank tapes, audio & visual",7325038
 2025-09-01,imports,EU5,16120,"Industrial supplies, other",3756683622
 2025-09-01,imports,EU1,2,"Capital goods, except automotive",91360152923
+2025-09-01,imports,EU5,21010,Specialized mining,79875059
 2025-09-01,imports,EU5,20000,"Generators, accessories",4526375668
 2025-09-01,imports,EU5,20005,Electric apparatus,8011441770
 2025-09-01,imports,EU5,21000,Drilling & oilfield equipment,306510627
-2025-09-01,imports,EU5,21010,Specialized mining,79875059
 2025-09-01,imports,EU5,21030,Excavating machinery,1316424685
 2025-09-01,imports,EU5,21040,Nonfarm tractors and parts,68183929
 2025-09-01,imports,EU5,21100,Industrial engines,2712949402
@@ -2414,10 +2414,10 @@ date,flow,level,code,description,value
 2025-10-01,imports,EU5,12530,Chemicals-inorganic,940774495
 2025-10-01,imports,EU5,12540,Chemicals-organic,1633091500
 2025-10-01,imports,EU5,12550,"Chemicals-other, n.e.c.",1426604730
+2025-10-01,imports,EU5,13100,"Glass-plate, sheet, etc.",222716192
 2025-10-01,imports,EU5,13000,Lumber,489443859
 2025-10-01,imports,EU5,13010,Plywood and veneers,317934038
 2025-10-01,imports,EU5,13020,"Stone, sand, cement, etc.",594357264
-2025-10-01,imports,EU5,13100,"Glass-plate, sheet, etc.",222716192
 2025-10-01,imports,EU5,13110,"Shingles, wallboard",1115329253
 2025-10-01,imports,EU5,13120,Nontextile floor tiles,495233604
 2025-10-01,imports,EU5,14000,Steelmaking materials,830984152
@@ -2628,10 +2628,10 @@ date,flow,level,code,description,value
 2025-11-01,imports,EU5,30230,Other parts and accessories of vehicles,10292889724
 2025-11-01,imports,EU1,4,Consumer goods,58109855665
 2025-11-01,imports,EU5,40000,"Apparel, household goods - cotton",2759151639
+2025-11-01,imports,EU5,40040,Footwear,1241411041
 2025-11-01,imports,EU5,40010,"Apparel, household goods - wool",243882719
 2025-11-01,imports,EU5,40020,"Apparel, textiles, nonwool or cotton",3516318932
 2025-11-01,imports,EU5,40030,"Apparel,household goods-nontextile",725111858
-2025-11-01,imports,EU5,40040,Footwear,1241411041
 2025-11-01,imports,EU5,40050,Camping apparel and gear,920191492
 2025-11-01,imports,EU5,40100,Pharmaceutical preparations,18572512120
 2025-11-01,imports,EU5,40110,"Books, printed matter",323617505
@@ -2920,10 +2920,10 @@ date,flow,level,code,description,value
 2026-01-01,imports,EU5,30110,Bodies and chassis for trucks and buses,46707147
 2026-01-01,imports,EU5,30200,Engines and engine parts,2422768053
 2026-01-01,imports,EU5,30210,Bodies and chassis for passenger cars,2488917
+2026-01-01,imports,EU5,40000,"Apparel, household goods - cotton",3291649534
 2026-01-01,imports,EU5,30220,Automotive tires and tubes,1301925995
 2026-01-01,imports,EU5,30230,Other parts and accessories of vehicles,10296785064
 2026-01-01,imports,EU1,4,Consumer goods,50652095229
-2026-01-01,imports,EU5,40000,"Apparel, household goods - cotton",3291649534
 2026-01-01,imports,EU5,40010,"Apparel, household goods - wool",169481818
 2026-01-01,imports,EU5,40020,"Apparel, textiles, nonwool or cotton",4019233074
 2026-01-01,imports,EU5,40030,"Apparel,household goods-nontextile",716327021
@@ -3093,10 +3093,10 @@ date,flow,level,code,description,value
 2026-02-01,imports,EU5,41130,Photo equipment,298513189
 2026-02-01,imports,EU5,41140,Musical instruments,127834474
 2026-02-01,imports,EU5,41200,Televisions and video equipment,1062571307
+2026-02-01,imports,EU5,41310,Jewelry,1447025901
 2026-02-01,imports,EU5,41210,"Stereo equipment, etc",632315569
 2026-02-01,imports,EU5,41220,Recorded media,64065115
 2026-02-01,imports,EU5,41300,Numismatic coins,403867507
-2026-02-01,imports,EU5,41310,Jewelry,1447025901
 2026-02-01,imports,EU5,41320,"Artwork, antiques, stamps, etc.",1147310962
 2026-02-01,imports,EU5,42000,"Nursery stock, etc.",336305786
 2026-02-01,imports,EU5,42100,Gem diamonds,419658694
@@ -3164,10 +3164,10 @@ date,flow,level,code,description,value
 2026-03-01,imports,EU5,14100,Iron and steel mill products,1143149841
 2026-03-01,imports,EU5,14200,Bauxite and aluminum,2406346791
 2026-03-01,imports,EU5,14220,Copper,2091874979
+2026-03-01,imports,EU5,14270,Nonmonetary gold,1785656416
 2026-03-01,imports,EU5,14240,Nickel,250852346
 2026-03-01,imports,EU5,14250,Tin,89387162
 2026-03-01,imports,EU5,14260,Zinc,216427784
-2026-03-01,imports,EU5,14270,Nonmonetary gold,1785656416
 2026-03-01,imports,EU5,14280,Other precious metals,1867105084
 2026-03-01,imports,EU5,14290,"Nonferrous metals, other",517393879
 2026-03-01,imports,EU5,15000,"Iron and steel products, n.e.c.",787448989
@@ -3255,10 +3255,10 @@ date,flow,level,code,description,value
 2026-03-01,imports,EU5,50020,"U.s. Goods returned, and reimports",9448185626
 2026-03-01,imports,EU5,50030,Minimum value shipments,3241874726
 2026-03-01,imports,EU5,50040,"Other (movies, miscellaneous imports, and special transactions)",1054245538
+2026-04-01,imports,EU5,00020,Cane and beet sugar,163944710
 2026-04-01,imports,EU1,0,"Foods, feeds, and beverages",17985425243
 2026-04-01,imports,EU5,00000,Green coffee,753711912
 2026-04-01,imports,EU5,00010,Cocoa beans,183686025
-2026-04-01,imports,EU5,00020,Cane and beet sugar,163944710
 2026-04-01,imports,EU5,00100,Meat products,2173838748
 2026-04-01,imports,EU5,00110,Dairy products and eggs,337881962
 2026-04-01,imports,EU5,00120,"Fruits, frozen juices",2740177883
@@ -3850,6 +3850,10 @@ date,flow,level,code,description,value
 2024-06-01,exports,EU1,0,"Foods, feeds, and beverages",11990249538
 2024-06-01,exports,EU1,1,Industrial supplies and materials,60512328266
 2024-06-01,exports,EU1,2,"Capital goods, except automotive",55774488072
+2024-06-01,exports,EU1,3,"Automotive vehicles, parts, and engines",15312154776
+2024-06-01,exports,EU1,4,Consumer goods,23445987405
+2024-06-01,exports,EU1,5,Other goods,1728295277
+2024-06-01,exports,EU1,6,"Exports, n.e.c., and reexports",5486587112
 2024-06-01,exports,EU5,00000,Wheat,418591846
 2024-06-01,exports,EU5,00010,Rice,207687306
 2024-06-01,exports,EU5,00100,Soybeans,815363104
@@ -3928,12 +3932,8 @@ date,flow,level,code,description,value
 2024-06-01,exports,EU5,21140,"Wood, glass, plastic",264217481
 2024-06-01,exports,EU5,21150,Pulp and paper machinery,200337844
 2024-06-01,exports,EU5,21160,"Measuring, testing, control instruments",2627312889
-2024-06-01,exports,EU5,21180,"Industrial machines, other",6042832271
-2024-06-01,exports,EU1,3,"Automotive vehicles, parts, and engines",15312154776
-2024-06-01,exports,EU1,4,Consumer goods,23445987405
-2024-06-01,exports,EU1,5,Other goods,1728295277
 2024-06-01,exports,EU5,21170,Materials handling equipment,1307107771
-2024-06-01,exports,EU1,6,"Exports, n.e.c., and reexports",5486587112
+2024-06-01,exports,EU5,21180,"Industrial machines, other",6042832271
 2024-06-01,exports,EU5,21190,"Photo, service industry machinery",946801184
 2024-06-01,exports,EU5,21200,"Agricultural machinery, equipment",865448765
 2024-06-01,exports,EU5,21300,Computers,2874579466
@@ -3991,17 +3991,17 @@ date,flow,level,code,description,value
 2024-06-01,exports,EU5,50070,Parts for military-type goods,701778963
 2024-06-01,exports,EU5,60000,Minimum value shipments,4654557113
 2024-06-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,832029999
-2024-07-01,exports,EU5,00110,"Oilseeds, food oils",243529058
 2024-07-01,exports,EU1,0,"Foods, feeds, and beverages",12325465694
 2024-07-01,exports,EU1,1,Industrial supplies and materials,61112310601
-2024-07-01,exports,EU5,00000,Wheat,528275210
-2024-07-01,exports,EU5,00010,Rice,199837163
-2024-07-01,exports,EU5,00100,Soybeans,823746393
 2024-07-01,exports,EU1,2,"Capital goods, except automotive",55279262062
 2024-07-01,exports,EU1,3,"Automotive vehicles, parts, and engines",12896648066
 2024-07-01,exports,EU1,4,Consumer goods,19983040287
 2024-07-01,exports,EU1,5,Other goods,2005883623
 2024-07-01,exports,EU1,6,"Exports, n.e.c., and reexports",5344384171
+2024-07-01,exports,EU5,00000,Wheat,528275210
+2024-07-01,exports,EU5,00010,Rice,199837163
+2024-07-01,exports,EU5,00100,Soybeans,823746393
+2024-07-01,exports,EU5,00110,"Oilseeds, food oils",243529058
 2024-07-01,exports,EU5,00200,Corn,1254070764
 2024-07-01,exports,EU5,00210,"Sorghum, barley, oats",99224124
 2024-07-01,exports,EU5,00220,"Animal feeds, n.e.c.",896936617
@@ -4135,15 +4135,15 @@ date,flow,level,code,description,value
 2024-07-01,exports,EU5,50070,Parts for military-type goods,744303612
 2024-07-01,exports,EU5,60000,Minimum value shipments,4536808722
 2024-07-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,807575449
-2024-08-01,exports,EU5,00010,Rice,168433443
 2024-08-01,exports,EU1,0,"Foods, feeds, and beverages",12564403228
 2024-08-01,exports,EU1,1,Industrial supplies and materials,62657395199
-2024-08-01,exports,EU5,00000,Wheat,658234934
 2024-08-01,exports,EU1,2,"Capital goods, except automotive",58652465875
 2024-08-01,exports,EU1,3,"Automotive vehicles, parts, and engines",15243820827
 2024-08-01,exports,EU1,4,Consumer goods,22655582742
 2024-08-01,exports,EU1,5,Other goods,2512512992
 2024-08-01,exports,EU1,6,"Exports, n.e.c., and reexports",5768324191
+2024-08-01,exports,EU5,00000,Wheat,658234934
+2024-08-01,exports,EU5,00010,Rice,168433443
 2024-08-01,exports,EU5,00100,Soybeans,882873534
 2024-08-01,exports,EU5,00110,"Oilseeds, food oils",234683610
 2024-08-01,exports,EU5,00200,Corn,1157801506
@@ -4279,17 +4279,17 @@ date,flow,level,code,description,value
 2024-08-01,exports,EU5,50070,Parts for military-type goods,1174634065
 2024-08-01,exports,EU5,60000,Minimum value shipments,4828401803
 2024-08-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,939922388
-2024-09-01,exports,EU5,00110,"Oilseeds, food oils",245164183
 2024-09-01,exports,EU1,0,"Foods, feeds, and beverages",12789500328
-2024-09-01,exports,EU5,00000,Wheat,648935942
-2024-09-01,exports,EU5,00010,Rice,165346286
-2024-09-01,exports,EU5,00100,Soybeans,1492884527
 2024-09-01,exports,EU1,1,Industrial supplies and materials,58452687411
 2024-09-01,exports,EU1,2,"Capital goods, except automotive",55083324078
 2024-09-01,exports,EU1,3,"Automotive vehicles, parts, and engines",15444900882
 2024-09-01,exports,EU1,4,Consumer goods,22046445929
 2024-09-01,exports,EU1,5,Other goods,2040361673
 2024-09-01,exports,EU1,6,"Exports, n.e.c., and reexports",5369540912
+2024-09-01,exports,EU5,00000,Wheat,648935942
+2024-09-01,exports,EU5,00010,Rice,165346286
+2024-09-01,exports,EU5,00100,Soybeans,1492884527
+2024-09-01,exports,EU5,00110,"Oilseeds, food oils",245164183
 2024-09-01,exports,EU5,00200,Corn,996157159
 2024-09-01,exports,EU5,00210,"Sorghum, barley, oats",94326613
 2024-09-01,exports,EU5,00220,"Animal feeds, n.e.c.",912117325
@@ -4423,17 +4423,17 @@ date,flow,level,code,description,value
 2024-09-01,exports,EU5,50070,Parts for military-type goods,754423409
 2024-09-01,exports,EU5,60000,Minimum value shipments,4655331087
 2024-09-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,714209825
-2024-10-01,exports,EU5,00110,"Oilseeds, food oils",218335763
 2024-10-01,exports,EU1,0,"Foods, feeds, and beverages",15943130654
-2024-10-01,exports,EU5,00000,Wheat,382783954
-2024-10-01,exports,EU5,00010,Rice,221845847
-2024-10-01,exports,EU5,00100,Soybeans,4280482864
 2024-10-01,exports,EU1,1,Industrial supplies and materials,59271526191
 2024-10-01,exports,EU1,2,"Capital goods, except automotive",56609425882
 2024-10-01,exports,EU1,3,"Automotive vehicles, parts, and engines",14331113180
 2024-10-01,exports,EU1,4,Consumer goods,22674480089
 2024-10-01,exports,EU1,5,Other goods,2357552516
 2024-10-01,exports,EU1,6,"Exports, n.e.c., and reexports",5539035334
+2024-10-01,exports,EU5,00000,Wheat,382783954
+2024-10-01,exports,EU5,00010,Rice,221845847
+2024-10-01,exports,EU5,00100,Soybeans,4280482864
+2024-10-01,exports,EU5,00110,"Oilseeds, food oils",218335763
 2024-10-01,exports,EU5,00200,Corn,956150752
 2024-10-01,exports,EU5,00210,"Sorghum, barley, oats",61216456
 2024-10-01,exports,EU5,00220,"Animal feeds, n.e.c.",1008497789
@@ -4567,15 +4567,15 @@ date,flow,level,code,description,value
 2024-10-01,exports,EU5,50070,Parts for military-type goods,789773595
 2024-10-01,exports,EU5,60000,Minimum value shipments,4658943901
 2024-10-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,880091433
-2024-11-01,exports,EU5,00010,Rice,201057097
 2024-11-01,exports,EU1,0,"Foods, feeds, and beverages",16833538824
 2024-11-01,exports,EU1,1,Industrial supplies and materials,59773790514
-2024-11-01,exports,EU5,00000,Wheat,343958993
 2024-11-01,exports,EU1,2,"Capital goods, except automotive",54060856989
 2024-11-01,exports,EU1,3,"Automotive vehicles, parts, and engines",14419243454
 2024-11-01,exports,EU1,4,Consumer goods,21866426947
 2024-11-01,exports,EU1,5,Other goods,2120507617
 2024-11-01,exports,EU1,6,"Exports, n.e.c., and reexports",5252514023
+2024-11-01,exports,EU5,00000,Wheat,343958993
+2024-11-01,exports,EU5,00010,Rice,201057097
 2024-11-01,exports,EU5,00100,Soybeans,4590053266
 2024-11-01,exports,EU5,00110,"Oilseeds, food oils",256527458
 2024-11-01,exports,EU5,00200,Corn,1165693266
@@ -4709,19 +4709,19 @@ date,flow,level,code,description,value
 2024-11-01,exports,EU5,50050,"Tanks, artillery, missiles, rockets, guns and ammunition",566776852
 2024-11-01,exports,EU5,50060,Military apparel and footwear,3121955
 2024-11-01,exports,EU5,50070,Parts for military-type goods,779042638
-2024-11-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,762343377
 2024-11-01,exports,EU5,60000,Minimum value shipments,4490170646
-2024-12-01,exports,EU5,00110,"Oilseeds, food oils",342794767
+2024-11-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,762343377
 2024-12-01,exports,EU1,0,"Foods, feeds, and beverages",15145363796
-2024-12-01,exports,EU5,00000,Wheat,469608395
-2024-12-01,exports,EU5,00010,Rice,170950487
-2024-12-01,exports,EU5,00100,Soybeans,3321533053
 2024-12-01,exports,EU1,1,Industrial supplies and materials,58446168166
 2024-12-01,exports,EU1,2,"Capital goods, except automotive",53509748347
 2024-12-01,exports,EU1,3,"Automotive vehicles, parts, and engines",11758846256
 2024-12-01,exports,EU1,4,Consumer goods,17975652621
 2024-12-01,exports,EU1,5,Other goods,2218449850
 2024-12-01,exports,EU1,6,"Exports, n.e.c., and reexports",5504678797
+2024-12-01,exports,EU5,00000,Wheat,469608395
+2024-12-01,exports,EU5,00010,Rice,170950487
+2024-12-01,exports,EU5,00100,Soybeans,3321533053
+2024-12-01,exports,EU5,00110,"Oilseeds, food oils",342794767
 2024-12-01,exports,EU5,00200,Corn,1328056914
 2024-12-01,exports,EU5,00210,"Sorghum, barley, oats",130773644
 2024-12-01,exports,EU5,00220,"Animal feeds, n.e.c.",1030723214
@@ -4856,15 +4856,15 @@ date,flow,level,code,description,value
 2024-12-01,exports,EU5,60000,Minimum value shipments,4638319527
 2024-12-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,792509655
 2024-12-01,exports,EU5,60040,Undocumented exports to Canada,73849615
-2025-01-01,exports,EU5,00010,Rice,193893504
 2025-01-01,exports,EU1,0,"Foods, feeds, and beverages",13422148467
 2025-01-01,exports,EU1,1,Industrial supplies and materials,58601910823
-2025-01-01,exports,EU5,00000,Wheat,381755620
 2025-01-01,exports,EU1,2,"Capital goods, except automotive",54026779393
 2025-01-01,exports,EU1,3,"Automotive vehicles, parts, and engines",11407701180
 2025-01-01,exports,EU1,4,Consumer goods,20531206506
 2025-01-01,exports,EU1,5,Other goods,2291394559
 2025-01-01,exports,EU1,6,"Exports, n.e.c., and reexports",4720974688
+2025-01-01,exports,EU5,00000,Wheat,381755620
+2025-01-01,exports,EU5,00010,Rice,193893504
 2025-01-01,exports,EU5,00100,Soybeans,2237572242
 2025-01-01,exports,EU5,00110,"Oilseeds, food oils",451253920
 2025-01-01,exports,EU5,00200,Corn,1506974955
@@ -4999,17 +4999,17 @@ date,flow,level,code,description,value
 2025-01-01,exports,EU5,50070,Parts for military-type goods,652394257
 2025-01-01,exports,EU5,60000,Minimum value shipments,3962313789
 2025-01-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,758660899
-2025-02-01,exports,EU5,00110,"Oilseeds, food oils",336733490
 2025-02-01,exports,EU1,0,"Foods, feeds, and beverages",12656248728
 2025-02-01,exports,EU1,1,Industrial supplies and materials,59295662657
-2025-02-01,exports,EU5,00000,Wheat,464675844
-2025-02-01,exports,EU5,00010,Rice,201983692
-2025-02-01,exports,EU5,00100,Soybeans,1454325785
 2025-02-01,exports,EU1,2,"Capital goods, except automotive",53106938028
 2025-02-01,exports,EU1,3,"Automotive vehicles, parts, and engines",13607872516
 2025-02-01,exports,EU1,4,Consumer goods,21957805809
 2025-02-01,exports,EU1,5,Other goods,1652067303
 2025-02-01,exports,EU1,6,"Exports, n.e.c., and reexports",4931590748
+2025-02-01,exports,EU5,00000,Wheat,464675844
+2025-02-01,exports,EU5,00010,Rice,201983692
+2025-02-01,exports,EU5,00100,Soybeans,1454325785
+2025-02-01,exports,EU5,00110,"Oilseeds, food oils",336733490
 2025-02-01,exports,EU5,00200,Corn,1486907067
 2025-02-01,exports,EU5,00210,"Sorghum, barley, oats",13988215
 2025-02-01,exports,EU5,00220,"Animal feeds, n.e.c.",890203487
@@ -5142,17 +5142,17 @@ date,flow,level,code,description,value
 2025-02-01,exports,EU5,50070,Parts for military-type goods,601926172
 2025-02-01,exports,EU5,60000,Minimum value shipments,4192057718
 2025-02-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,739533030
-2025-03-01,exports,EU5,20005,Electric apparatus,5339532557
 2025-03-01,exports,EU1,2,"Capital goods, except automotive",61863965704
 2025-03-01,exports,EU1,3,"Automotive vehicles, parts, and engines",16806116503
 2025-03-01,exports,EU1,4,Consumer goods,23909240617
-2025-03-01,exports,EU5,13210,"Shingles, molding, wallboard",551808858
-2025-03-01,exports,EU5,13220,Nontextile floor tiles,43279381
-2025-03-01,exports,EU5,20000,"Generators, accessories",1463625046
 2025-03-01,exports,EU1,5,Other goods,2213519868
 2025-03-01,exports,EU1,6,"Exports, n.e.c., and reexports",5572325741
 2025-03-01,exports,EU1,0,"Foods, feeds, and beverages",14844551337
 2025-03-01,exports,EU1,1,Industrial supplies and materials,66237137505
+2025-03-01,exports,EU5,13210,"Shingles, molding, wallboard",551808858
+2025-03-01,exports,EU5,13220,Nontextile floor tiles,43279381
+2025-03-01,exports,EU5,20000,"Generators, accessories",1463625046
+2025-03-01,exports,EU5,20005,Electric apparatus,5339532557
 2025-03-01,exports,EU5,21000,Drilling & oilfield equipment,252239210
 2025-03-01,exports,EU5,21010,Specialized mining,141210527
 2025-03-01,exports,EU5,21030,Excavating machinery,1036669943
@@ -5285,17 +5285,17 @@ date,flow,level,code,description,value
 2025-03-01,exports,EU5,13100,Logs and lumber,436215013
 2025-03-01,exports,EU5,13110,"Wood supplies, manufactured",91025160
 2025-03-01,exports,EU5,13200,"Glass-plate, sheet, etc.",112951568
-2025-04-01,exports,EU5,00110,"Oilseeds, food oils",436659568
 2025-04-01,exports,EU1,0,"Foods, feeds, and beverages",13179268475
 2025-04-01,exports,EU1,1,Industrial supplies and materials,75890914616
-2025-04-01,exports,EU5,00000,Wheat,571666404
-2025-04-01,exports,EU5,00010,Rice,166310367
-2025-04-01,exports,EU5,00100,Soybeans,1006955482
 2025-04-01,exports,EU1,2,"Capital goods, except automotive",59089320287
 2025-04-01,exports,EU1,3,"Automotive vehicles, parts, and engines",13298764724
 2025-04-01,exports,EU1,4,Consumer goods,20135823708
 2025-04-01,exports,EU1,5,Other goods,2139432518
 2025-04-01,exports,EU1,6,"Exports, n.e.c., and reexports",5397072283
+2025-04-01,exports,EU5,00000,Wheat,571666404
+2025-04-01,exports,EU5,00010,Rice,166310367
+2025-04-01,exports,EU5,00100,Soybeans,1006955482
+2025-04-01,exports,EU5,00110,"Oilseeds, food oils",436659568
 2025-04-01,exports,EU5,00200,Corn,1891426837
 2025-04-01,exports,EU5,00210,"Sorghum, barley, oats",26453725
 2025-04-01,exports,EU5,00220,"Animal feeds, n.e.c.",939568413
@@ -5428,17 +5428,17 @@ date,flow,level,code,description,value
 2025-04-01,exports,EU5,50070,Parts for military-type goods,788694383
 2025-04-01,exports,EU5,60000,Minimum value shipments,4504205051
 2025-04-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,892867232
-2025-05-01,exports,EU5,00110,"Oilseeds, food oils",330233629
 2025-05-01,exports,EU1,0,"Foods, feeds, and beverages",12621471368
 2025-05-01,exports,EU1,1,Industrial supplies and materials,68799299770
-2025-05-01,exports,EU5,00000,Wheat,573100580
-2025-05-01,exports,EU5,00010,Rice,188569056
-2025-05-01,exports,EU5,00100,Soybeans,728431776
 2025-05-01,exports,EU1,2,"Capital goods, except automotive",58057846005
 2025-05-01,exports,EU1,3,"Automotive vehicles, parts, and engines",14528493145
 2025-05-01,exports,EU1,4,Consumer goods,22683031750
 2025-05-01,exports,EU1,5,Other goods,2027214781
 2025-05-01,exports,EU1,6,"Exports, n.e.c., and reexports",5492296629
+2025-05-01,exports,EU5,00000,Wheat,573100580
+2025-05-01,exports,EU5,00010,Rice,188569056
+2025-05-01,exports,EU5,00100,Soybeans,728431776
+2025-05-01,exports,EU5,00110,"Oilseeds, food oils",330233629
 2025-05-01,exports,EU5,00200,Corn,1709982289
 2025-05-01,exports,EU5,00210,"Sorghum, barley, oats",47967109
 2025-05-01,exports,EU5,00220,"Animal feeds, n.e.c.",881890546
@@ -5572,17 +5572,17 @@ date,flow,level,code,description,value
 2025-05-01,exports,EU5,50070,Parts for military-type goods,800363873
 2025-05-01,exports,EU5,60000,Minimum value shipments,4554280990
 2025-05-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,938015639
-2025-06-01,exports,EU5,00110,"Oilseeds, food oils",259796683
 2025-06-01,exports,EU1,0,"Foods, feeds, and beverages",12340008605
 2025-06-01,exports,EU1,1,Industrial supplies and materials,60957302441
-2025-06-01,exports,EU5,00000,Wheat,480901135
-2025-06-01,exports,EU5,00010,Rice,141111591
-2025-06-01,exports,EU5,00100,Soybeans,759905310
 2025-06-01,exports,EU1,2,"Capital goods, except automotive",61134294706
 2025-06-01,exports,EU1,3,"Automotive vehicles, parts, and engines",14105605565
 2025-06-01,exports,EU1,4,Consumer goods,24225500269
 2025-06-01,exports,EU1,5,Other goods,2439170966
 2025-06-01,exports,EU1,6,"Exports, n.e.c., and reexports",5336163540
+2025-06-01,exports,EU5,00000,Wheat,480901135
+2025-06-01,exports,EU5,00010,Rice,141111591
+2025-06-01,exports,EU5,00100,Soybeans,759905310
+2025-06-01,exports,EU5,00110,"Oilseeds, food oils",259796683
 2025-06-01,exports,EU5,00200,Corn,1629441426
 2025-06-01,exports,EU5,00210,"Sorghum, barley, oats",48673342
 2025-06-01,exports,EU5,00220,"Animal feeds, n.e.c.",923244063
@@ -5716,17 +5716,17 @@ date,flow,level,code,description,value
 2025-06-01,exports,EU5,50070,Parts for military-type goods,738721524
 2025-06-01,exports,EU5,60000,Minimum value shipments,4479455744
 2025-06-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,856707796
-2025-07-01,exports,EU5,00110,"Oilseeds, food oils",237973118
 2025-07-01,exports,EU1,0,"Foods, feeds, and beverages",12539514639
-2025-07-01,exports,EU5,00000,Wheat,597265171
 2025-07-01,exports,EU1,1,Industrial supplies and materials,60451148883
-2025-07-01,exports,EU5,00010,Rice,157321755
-2025-07-01,exports,EU5,00100,Soybeans,881590695
 2025-07-01,exports,EU1,2,"Capital goods, except automotive",60233458042
 2025-07-01,exports,EU1,3,"Automotive vehicles, parts, and engines",12790513416
 2025-07-01,exports,EU1,4,Consumer goods,21411574831
 2025-07-01,exports,EU1,5,Other goods,2807908702
 2025-07-01,exports,EU1,6,"Exports, n.e.c., and reexports",5222906377
+2025-07-01,exports,EU5,00000,Wheat,597265171
+2025-07-01,exports,EU5,00010,Rice,157321755
+2025-07-01,exports,EU5,00100,Soybeans,881590695
+2025-07-01,exports,EU5,00110,"Oilseeds, food oils",237973118
 2025-07-01,exports,EU5,00200,Corn,1423986569
 2025-07-01,exports,EU5,00210,"Sorghum, barley, oats",42640675
 2025-07-01,exports,EU5,00220,"Animal feeds, n.e.c.",856149556
@@ -5860,15 +5860,15 @@ date,flow,level,code,description,value
 2025-07-01,exports,EU5,50070,Parts for military-type goods,808806135
 2025-07-01,exports,EU5,60000,Minimum value shipments,4463622905
 2025-07-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,759283472
-2025-08-01,exports,EU5,00010,Rice,132866930
 2025-08-01,exports,EU1,0,"Foods, feeds, and beverages",12894153444
 2025-08-01,exports,EU1,1,Industrial supplies and materials,60464372362
-2025-08-01,exports,EU5,00000,Wheat,681296937
 2025-08-01,exports,EU1,2,"Capital goods, except automotive",63049206766
 2025-08-01,exports,EU1,3,"Automotive vehicles, parts, and engines",13447761199
 2025-08-01,exports,EU1,4,Consumer goods,21474186870
 2025-08-01,exports,EU1,5,Other goods,2495565974
 2025-08-01,exports,EU1,6,"Exports, n.e.c., and reexports",5623179866
+2025-08-01,exports,EU5,00000,Wheat,681296937
+2025-08-01,exports,EU5,00010,Rice,132866930
 2025-08-01,exports,EU5,00100,Soybeans,1102170901
 2025-08-01,exports,EU5,00110,"Oilseeds, food oils",272561103
 2025-08-01,exports,EU5,00200,Corn,1492740402
@@ -6004,17 +6004,17 @@ date,flow,level,code,description,value
 2025-08-01,exports,EU5,50070,Parts for military-type goods,871713529
 2025-08-01,exports,EU5,60000,Minimum value shipments,4731705767
 2025-08-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,891474099
-2025-09-01,exports,EU5,00110,"Oilseeds, food oils",260690956
 2025-09-01,exports,EU1,0,"Foods, feeds, and beverages",13197182196
 2025-09-01,exports,EU1,1,Industrial supplies and materials,66013496026
-2025-09-01,exports,EU5,00000,Wheat,850977331
-2025-09-01,exports,EU5,00010,Rice,167636822
-2025-09-01,exports,EU5,00100,Soybeans,1376419235
 2025-09-01,exports,EU1,2,"Capital goods, except automotive",58564872320
 2025-09-01,exports,EU1,3,"Automotive vehicles, parts, and engines",13334064520
 2025-09-01,exports,EU1,4,Consumer goods,25710955339
 2025-09-01,exports,EU1,5,Other goods,2714562865
 2025-09-01,exports,EU1,6,"Exports, n.e.c., and reexports",5649610232
+2025-09-01,exports,EU5,00000,Wheat,850977331
+2025-09-01,exports,EU5,00010,Rice,167636822
+2025-09-01,exports,EU5,00100,Soybeans,1376419235
+2025-09-01,exports,EU5,00110,"Oilseeds, food oils",260690956
 2025-09-01,exports,EU5,00200,Corn,1602634153
 2025-09-01,exports,EU5,00210,"Sorghum, barley, oats",36679656
 2025-09-01,exports,EU5,00220,"Animal feeds, n.e.c.",867565963
@@ -6149,18 +6149,18 @@ date,flow,level,code,description,value
 2025-09-01,exports,EU5,60000,Minimum value shipments,4452944524
 2025-09-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,871537240
 2025-09-01,exports,EU5,60040,Undocumented exports to Canada,325128468
-2025-10-01,exports,EU5,00200,Corn,1507016123
 2025-10-01,exports,EU1,0,"Foods, feeds, and beverages",14782259644
-2025-10-01,exports,EU5,00000,Wheat,482241820
-2025-10-01,exports,EU5,00010,Rice,134263953
-2025-10-01,exports,EU5,00100,Soybeans,2206533061
 2025-10-01,exports,EU1,1,Industrial supplies and materials,77758546012
-2025-10-01,exports,EU5,00110,"Oilseeds, food oils",270033582
 2025-10-01,exports,EU1,2,"Capital goods, except automotive",62039728133
 2025-10-01,exports,EU1,3,"Automotive vehicles, parts, and engines",13973787342
 2025-10-01,exports,EU1,4,Consumer goods,25622783527
 2025-10-01,exports,EU1,5,Other goods,2498204203
 2025-10-01,exports,EU1,6,"Exports, n.e.c., and reexports",6003464969
+2025-10-01,exports,EU5,00000,Wheat,482241820
+2025-10-01,exports,EU5,00010,Rice,134263953
+2025-10-01,exports,EU5,00100,Soybeans,2206533061
+2025-10-01,exports,EU5,00110,"Oilseeds, food oils",270033582
+2025-10-01,exports,EU5,00200,Corn,1507016123
 2025-10-01,exports,EU5,00210,"Sorghum, barley, oats",48913592
 2025-10-01,exports,EU5,00220,"Animal feeds, n.e.c.",950223908
 2025-10-01,exports,EU5,00300,"Meat, poultry, etc.",2336039881
@@ -6294,17 +6294,17 @@ date,flow,level,code,description,value
 2025-10-01,exports,EU5,60000,Minimum value shipments,5058664085
 2025-10-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,944800884
 2025-10-01,exports,EU5,60040,Undocumented exports to Canada,0
-2025-11-01,exports,EU5,00110,"Oilseeds, food oils",275722817
 2025-11-01,exports,EU1,0,"Foods, feeds, and beverages",14463518526
-2025-11-01,exports,EU5,00000,Wheat,410513931
-2025-11-01,exports,EU5,00010,Rice,178307088
-2025-11-01,exports,EU5,00100,Soybeans,1938173529
 2025-11-01,exports,EU1,1,Industrial supplies and materials,68446418439
 2025-11-01,exports,EU1,2,"Capital goods, except automotive",57722102051
 2025-11-01,exports,EU1,3,"Automotive vehicles, parts, and engines",12283632006
 2025-11-01,exports,EU1,4,Consumer goods,20754488882
 2025-11-01,exports,EU1,5,Other goods,2140793395
 2025-11-01,exports,EU1,6,"Exports, n.e.c., and reexports",5561361012
+2025-11-01,exports,EU5,00000,Wheat,410513931
+2025-11-01,exports,EU5,00010,Rice,178307088
+2025-11-01,exports,EU5,00100,Soybeans,1938173529
+2025-11-01,exports,EU5,00110,"Oilseeds, food oils",275722817
 2025-11-01,exports,EU5,00200,Corn,1753497495
 2025-11-01,exports,EU5,00210,"Sorghum, barley, oats",87005924
 2025-11-01,exports,EU5,00220,"Animal feeds, n.e.c.",938445642
@@ -6439,17 +6439,17 @@ date,flow,level,code,description,value
 2025-11-01,exports,EU5,60000,Minimum value shipments,4707505035
 2025-11-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,853855977
 2025-11-01,exports,EU5,60040,Undocumented exports to Canada,0
-2025-12-01,exports,EU5,00110,"Oilseeds, food oils",295408554
 2025-12-01,exports,EU1,0,"Foods, feeds, and beverages",14223496519
-2025-12-01,exports,EU5,00000,Wheat,489151402
-2025-12-01,exports,EU5,00010,Rice,149617293
-2025-12-01,exports,EU5,00100,Soybeans,1929860277
 2025-12-01,exports,EU1,1,Industrial supplies and materials,61437683804
 2025-12-01,exports,EU1,2,"Capital goods, except automotive",63290195214
 2025-12-01,exports,EU1,3,"Automotive vehicles, parts, and engines",10759819120
 2025-12-01,exports,EU1,4,Consumer goods,20184587490
 2025-12-01,exports,EU1,5,Other goods,2689970148
 2025-12-01,exports,EU1,6,"Exports, n.e.c., and reexports",5628954983
+2025-12-01,exports,EU5,00000,Wheat,489151402
+2025-12-01,exports,EU5,00010,Rice,149617293
+2025-12-01,exports,EU5,00100,Soybeans,1929860277
+2025-12-01,exports,EU5,00110,"Oilseeds, food oils",295408554
 2025-12-01,exports,EU5,00200,Corn,1619381287
 2025-12-01,exports,EU5,00210,"Sorghum, barley, oats",86123247
 2025-12-01,exports,EU5,00220,"Animal feeds, n.e.c.",1027187283
@@ -6584,17 +6584,17 @@ date,flow,level,code,description,value
 2025-12-01,exports,EU5,60000,Minimum value shipments,4824468810
 2025-12-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,804486173
 2025-12-01,exports,EU5,60040,Undocumented exports to Canada,0
-2026-01-01,exports,EU5,00110,"Oilseeds, food oils",270451498
 2026-01-01,exports,EU1,0,"Foods, feeds, and beverages",14028280828
 2026-01-01,exports,EU1,1,Industrial supplies and materials,70455433091
-2026-01-01,exports,EU5,00000,Wheat,406242819
-2026-01-01,exports,EU5,00010,Rice,164823844
-2026-01-01,exports,EU5,00100,Soybeans,2677301464
 2026-01-01,exports,EU1,2,"Capital goods, except automotive",63157080279
 2026-01-01,exports,EU1,3,"Automotive vehicles, parts, and engines",9955911000
 2026-01-01,exports,EU1,4,Consumer goods,18938985905
 2026-01-01,exports,EU1,5,Other goods,4339459973
 2026-01-01,exports,EU1,6,"Exports, n.e.c., and reexports",5511290675
+2026-01-01,exports,EU5,00000,Wheat,406242819
+2026-01-01,exports,EU5,00010,Rice,164823844
+2026-01-01,exports,EU5,00100,Soybeans,2677301464
+2026-01-01,exports,EU5,00110,"Oilseeds, food oils",270451498
 2026-01-01,exports,EU5,00200,Corn,1554610950
 2026-01-01,exports,EU5,00210,"Sorghum, barley, oats",197330192
 2026-01-01,exports,EU5,00220,"Animal feeds, n.e.c.",992877412
@@ -6728,17 +6728,17 @@ date,flow,level,code,description,value
 2026-01-01,exports,EU5,60000,Minimum value shipments,4421382443
 2026-01-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,796186888
 2026-01-01,exports,EU5,60040,Undocumented exports to Canada,293721344
-2026-02-01,exports,EU5,00110,"Oilseeds, food oils",285947875
 2026-02-01,exports,EU1,0,"Foods, feeds, and beverages",13682366593
 2026-02-01,exports,EU1,1,Industrial supplies and materials,79455242292
-2026-02-01,exports,EU5,00000,Wheat,508264082
-2026-02-01,exports,EU5,00010,Rice,117637713
-2026-02-01,exports,EU5,00100,Soybeans,1954299960
 2026-02-01,exports,EU1,2,"Capital goods, except automotive",59185719632
 2026-02-01,exports,EU1,3,"Automotive vehicles, parts, and engines",12096884839
 2026-02-01,exports,EU1,4,Consumer goods,22668733860
 2026-02-01,exports,EU1,5,Other goods,2184911495
 2026-02-01,exports,EU1,6,"Exports, n.e.c., and reexports",5863692517
+2026-02-01,exports,EU5,00000,Wheat,508264082
+2026-02-01,exports,EU5,00010,Rice,117637713
+2026-02-01,exports,EU5,00100,Soybeans,1954299960
+2026-02-01,exports,EU5,00110,"Oilseeds, food oils",285947875
 2026-02-01,exports,EU5,00200,Corn,1580833073
 2026-02-01,exports,EU5,00210,"Sorghum, barley, oats",152330373
 2026-02-01,exports,EU5,00220,"Animal feeds, n.e.c.",934616915
@@ -6872,15 +6872,15 @@ date,flow,level,code,description,value
 2026-02-01,exports,EU5,60000,Minimum value shipments,4184691583
 2026-02-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,854936784
 2026-02-01,exports,EU5,60040,Undocumented exports to Canada,824064150
-2026-03-01,exports,EU5,00010,Rice,169358286
 2026-03-01,exports,EU1,0,"Foods, feeds, and beverages",15584832250
 2026-03-01,exports,EU1,1,Industrial supplies and materials,88445530119
-2026-03-01,exports,EU5,00000,Wheat,492412065
 2026-03-01,exports,EU1,2,"Capital goods, except automotive",70113466800
 2026-03-01,exports,EU1,3,"Automotive vehicles, parts, and engines",14666848738
 2026-03-01,exports,EU1,4,Consumer goods,23221691877
 2026-03-01,exports,EU1,5,Other goods,2722654386
 2026-03-01,exports,EU1,6,"Exports, n.e.c., and reexports",6638457682
+2026-03-01,exports,EU5,00000,Wheat,492412065
+2026-03-01,exports,EU5,00010,Rice,169358286
 2026-03-01,exports,EU5,00100,Soybeans,1957527862
 2026-03-01,exports,EU5,00110,"Oilseeds, food oils",317344028
 2026-03-01,exports,EU5,00200,Corn,1889452475
@@ -7016,15 +7016,15 @@ date,flow,level,code,description,value
 2026-03-01,exports,EU5,60000,Minimum value shipments,4839873918
 2026-03-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,1034555868
 2026-03-01,exports,EU5,60040,Undocumented exports to Canada,764027896
-2026-04-01,exports,EU5,00010,Rice,168699139
 2026-04-01,exports,EU1,0,"Foods, feeds, and beverages",13941905059
 2026-04-01,exports,EU1,1,Industrial supplies and materials,89314478442
-2026-04-01,exports,EU5,00000,Wheat,513489111
 2026-04-01,exports,EU1,2,"Capital goods, except automotive",70045719220
 2026-04-01,exports,EU1,3,"Automotive vehicles, parts, and engines",13161144185
 2026-04-01,exports,EU1,4,Consumer goods,21966653580
 2026-04-01,exports,EU1,5,Other goods,3017675396
 2026-04-01,exports,EU1,6,"Exports, n.e.c., and reexports",6548300513
+2026-04-01,exports,EU5,00000,Wheat,513489111
+2026-04-01,exports,EU5,00010,Rice,168699139
 2026-04-01,exports,EU5,00100,Soybeans,1508951341
 2026-04-01,exports,EU5,00110,"Oilseeds, food oils",246175122
 2026-04-01,exports,EU5,00200,Corn,1786601896
@@ -7160,17 +7160,17 @@ date,flow,level,code,description,value
 2026-04-01,exports,EU5,60000,Minimum value shipments,4931326335
 2026-04-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,826410340
 2026-04-01,exports,EU5,60040,Undocumented exports to Canada,790563838
-2026-05-01,exports,EU5,00110,"Oilseeds, food oils",233480324
 2026-05-01,exports,EU1,0,"Foods, feeds, and beverages",13852132486
 2026-05-01,exports,EU1,1,Industrial supplies and materials,84580174159
-2026-05-01,exports,EU5,00000,Wheat,452031957
-2026-05-01,exports,EU5,00010,Rice,147713272
-2026-05-01,exports,EU5,00100,Soybeans,1328336806
 2026-05-01,exports,EU1,2,"Capital goods, except automotive",65497377363
 2026-05-01,exports,EU1,3,"Automotive vehicles, parts, and engines",13864969836
 2026-05-01,exports,EU1,4,Consumer goods,21451225617
 2026-05-01,exports,EU1,5,Other goods,2584002464
 2026-05-01,exports,EU1,6,"Exports, n.e.c., and reexports",6377848255
+2026-05-01,exports,EU5,00000,Wheat,452031957
+2026-05-01,exports,EU5,00010,Rice,147713272
+2026-05-01,exports,EU5,00100,Soybeans,1328336806
+2026-05-01,exports,EU5,00110,"Oilseeds, food oils",233480324
 2026-05-01,exports,EU5,00200,Corn,1724743367
 2026-05-01,exports,EU5,00210,"Sorghum, barley, oats",101044679
 2026-05-01,exports,EU5,00220,"Animal feeds, n.e.c.",1039826305
@@ -7304,17 +7304,17 @@ date,flow,level,code,description,value
 2026-05-01,exports,EU5,60000,Minimum value shipments,4752727576
 2026-05-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,800698003
 2026-05-01,exports,EU5,60040,Undocumented exports to Canada,824422676
-2026-06-01,exports,EU5,00110,"Oilseeds, food oils",273403068
 2026-06-01,exports,EU1,0,"Foods, feeds, and beverages",13473441157
-2026-06-01,exports,EU5,00000,Wheat,416399935
-2026-06-01,exports,EU5,00010,Rice,191262733
-2026-06-01,exports,EU5,00100,Soybeans,982957684
 2026-06-01,exports,EU1,1,Industrial supplies and materials,80880206728
 2026-06-01,exports,EU1,2,"Capital goods, except automotive",68345666653
 2026-06-01,exports,EU1,3,"Automotive vehicles, parts, and engines",14278341129
 2026-06-01,exports,EU1,4,Consumer goods,22383507678
 2026-06-01,exports,EU1,5,Other goods,2190672495
 2026-06-01,exports,EU1,6,"Exports, n.e.c., and reexports",6599474676
+2026-06-01,exports,EU5,00000,Wheat,416399935
+2026-06-01,exports,EU5,00010,Rice,191262733
+2026-06-01,exports,EU5,00100,Soybeans,982957684
+2026-06-01,exports,EU5,00110,"Oilseeds, food oils",273403068
 2026-06-01,exports,EU5,00200,Corn,1874133887
 2026-06-01,exports,EU5,00210,"Sorghum, barley, oats",174652473
 2026-06-01,exports,EU5,00220,"Animal feeds, n.e.c.",1048824066
@@ -7448,15 +7448,15 @@ date,flow,level,code,description,value
 2026-06-01,exports,EU5,60000,Minimum value shipments,4636461972
 2026-06-01,exports,EU5,60010,Miscellaneous domestic exports and special transactions,767143306
 2026-06-01,exports,EU5,60040,Undocumented exports to Canada,1195869398
-2026-07-01,exports,EU5,00010,Rice,142910156
 2026-07-01,exports,EU1,0,"Foods, feeds, and beverages",13560339668
 2026-07-01,exports,EU1,1,Industrial supplies and materials,72325348879
-2026-07-01,exports,EU5,00000,Wheat,466845667
 2026-07-01,exports,EU1,2,"Capital goods, except automotive",68609883279
 2026-07-01,exports,EU1,3,"Automotive vehicles, parts, and engines",13027038431
 2026-07-01,exports,EU1,4,Consumer goods,21496271971
 2026-07-01,exports,EU1,5,Other goods,2088156453
 2026-07-01,exports,EU1,6,"Exports, n.e.c., and reexports",6347099240
+2026-07-01,exports,EU5,00000,Wheat,466845667
+2026-07-01,exports,EU5,00010,Rice,142910156
 2026-07-01,exports,EU5,00100,Soybeans,984812245
 2026-07-01,exports,EU5,00110,"Oilseeds, food oils",284579963
 2026-07-01,exports,EU5,00200,Corn,1710862165
