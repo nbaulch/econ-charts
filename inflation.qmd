@@ -48,3 +48,18 @@ The Federal Reserve's 2 percent goal is for PCE inflation, but CPI is released f
 ::: {.chart-source}
 [Sources, definitions, and data](sources.qmd#pce-cpi-gap)
 :::
+
+## Software and electricity
+
+Software and electricity are the consumer prices most directly tied to AI: software as a product, and electricity as a main input for data centers. Federal Reserve Board economists [have examined](https://www.federalreserve.gov/econres/notes/feds-notes/measurement-of-computer-software-and-accessories-inflation-20260522.html) how well software prices are measured, and Dallas Fed economists [have estimated](https://www.dallasfed.org/research/economics/2026/0305-kay-datacenters) how data center demand affects electricity prices. The chart adapts the Board economists' software analysis to show both items' contributions to PCE inflation.
+
+```{=html}
+<picture>
+  <source media="(max-width: 600px)" srcset="charts/software-electricity-prices/output/software-electricity-prices-narrow.png">
+  <img src="charts/software-electricity-prices/output/software-electricity-prices.png" class="chart" alt="Line chart, monthly since 2015, of the contributions of computer software and accessories prices and electricity prices to the 12-month change in the PCE price index, in percentage points.">
+</picture>
+```
+
+::: {.chart-source}
+[Sources, definitions, and data](sources.qmd#software-electricity-prices)
+:::
