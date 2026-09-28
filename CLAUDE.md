@@ -4,7 +4,7 @@
 
 My personal website: a home page about me, my resume, and a section of charts on the U.S. economy worth watching, built from public data and kept current. The charts are organized into a small number of topics. Each chart comes with a short note on why it is worth watching, never a reading of what the data show. Being selective matters more than being comprehensive, and each chart should earn its place by answering a distinct question.
 
-Topics so far: the AI economy, interest rates, and inflation. Build the site so adding a topic is straightforward, but don't build for topics that don't exist yet.
+Topics so far: the AI economy, interest rates, inflation, and trade. Build the site so adding a topic is straightforward, but don't build for topics that don't exist yet.
 
 I'm a macroeconomist. I know the data and the economics well. I'm less experienced with web development and production engineering, so explain tradeoffs there plainly and don't assume I'll catch problems in that part of the stack.
 
@@ -23,6 +23,7 @@ Interpretation, such as what a refresh changed and what it might mean, goes to m
 - **The AI economy**: `charts/ai-investment-gdp/`, `charts/ai-adoption/`, `charts/productivity-decomposition/`.
 - **Interest rates**: `charts/yield-decomposition/`, `charts/yield-rise-by-model/`, `charts/duration-supply/`. Candidate: the 10-year yield split into inflation-protected yield and breakeven inflation, with the 2-year yield.
 - **Inflation**, started September 2026: `charts/inflation-measures/`, `charts/inflation-breadth/` (reproduces Warsh's share of PCE categories rising faster than 3 percent), `charts/pce-cpi-gap/` (follows Konczal on the gap between core PCE and core CPI), and `charts/software-electricity-prices/` (contributions of software and electricity prices, adapted from the FEDS Note on software prices). Planned: inflation expectations. Release-day tools (PCE implied by CPI and PPI, surprises) come later; surprises need a public benchmark, such as the Cleveland Fed nowcast, since consensus forecasts are proprietary.
+- **Trade**, started September 2026, built on the Census trade store: `charts/effective-tariff-rate/` (the collected tariff rate, following the Fed Board's April 2026 FEDS Note, and the rate at the 2024 mix of products and countries). Planned, one question each: the goods balance by category (computers and AI hardware, pharmaceuticals, gold, the rest), following Brad Setser; and imports from China as reported by the United States and by China, with partner shares. Candidate: imports by size of tariff increase.
 
 ## Chart candidates
 

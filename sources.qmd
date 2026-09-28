@@ -49,3 +49,9 @@ Sources, release dates, and definitions for each chart, with its data to downloa
 ### Software and electricity {#software-electricity-prices}
 
 {{< include charts/software-electricity-prices/output/software-electricity-prices-notes.md >}}
+
+## Trade
+
+### Tariff rates {#effective-tariff-rate}
+
+{{< include charts/effective-tariff-rate/output/effective-tariff-rate-notes.md >}}
