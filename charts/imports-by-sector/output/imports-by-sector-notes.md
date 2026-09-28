@@ -4,6 +4,8 @@
 
 **Latest 12 months:** Imports from August 2025 to July 2026.
 
+**Change:** Percent change in imports between the two periods.
+
 **Tariff rate:** Duties calculated on the sector's imports as a percent of their value, in the same two periods.
 
 ::: {.chart-source}

@@ -91,11 +91,11 @@ write_csv(imports_by_sector, file.path(chart_dir, "data", str_glue("census_impor
 sector_imports <- imports_by_sector |>
   transmute(sector, period, imports = gen_val / 1e9, tariff_rate = 100 * cal_dut / con_val) |>
   pivot_wider(names_from = period, values_from = c(imports, tariff_rate)) |>
-  mutate(label = sectors[sector]) |>
+  mutate(label = sectors[sector], imports_change = 100 * (imports_recent / imports_base - 1)) |>
   arrange(imports_recent)
 
 sector_imports |>
-  select(sector = label, imports_base, imports_recent, tariff_rate_base, tariff_rate_recent) |>
+  select(sector = label, imports_base, imports_recent, imports_change, tariff_rate_base, tariff_rate_recent) |>
   mutate(across(where(is.numeric), \(x) round(x, 3))) |>
   write_csv(file.path(chart_dir, "output", "imports-by-sector.csv"))
 
@@ -106,6 +106,7 @@ write_chart_notes(
   notes = c(
     str_glue("**{base_year}:** Imports in calendar {base_year}."),
     str_glue("**Latest 12 months:** Imports from {recent_label}."),
+    "**Change:** Percent change in imports between the two periods.",
     "**Tariff rate:** Duties calculated on the sector's imports as a percent of their value, in the same two periods."
   ),
   source = str_glue(
@@ -117,20 +118,21 @@ write_chart_notes(
 )
 
 rate_label <- \(x) if_else(x < 10, sprintf("%.1f", x), sprintf("%.0f", x))
+change_label <- \(x) if_else(round(x) == 0, "0", sprintf("%+.0f", x))
 
 chart_data <- sector_imports |>
   mutate(label = factor(label, levels = label))
 
-# The tariff rates sit in two columns to the right of the plotted range. On a
-# log scale, the columns are placed by multiplying rather than adding.
+# The change and tariff columns sit to the right of the plotted range. On a
+# log scale, they are placed by multiplying rather than adding.
 import_range <- range(chart_data$imports_base, chart_data$imports_recent)
 import_breaks <- c(10, 20, 50, 100, 200, 500, 1000)
 import_breaks <- import_breaks[between(import_breaks, import_range[1] * 0.8, import_range[2] * 1.5)]
-column_x <- max(import_breaks) * c(2.2, 3.6)
-rate_columns <- chart_data |>
-  select(label, tariff_rate_base, tariff_rate_recent) |>
-  pivot_longer(-label, values_to = "rate") |>
-  mutate(x = if_else(name == "tariff_rate_base", column_x[1], column_x[2]), rate = rate_label(rate))
+column_x <- max(import_breaks) * c(2.6, 5, 8.6)
+table_columns <- chart_data |>
+  transmute(label, change = change_label(imports_change), base = rate_label(tariff_rate_base), recent = rate_label(tariff_rate_recent)) |>
+  pivot_longer(-label, values_to = "text") |>
+  mutate(x = column_x[match(name, c("change", "base", "recent"))])
 column_header <- function(x, y, label, fontface = "plain") {
   annotate(
     "text",
@@ -148,17 +150,19 @@ sector_chart <- chart_data |>
   geom_line(aes(group = label), colour = chart_greys[["grid"]], linewidth = 1.2) +
   geom_point(aes(colour = period), size = 2.6) +
   geom_text(
-    data = rate_columns,
-    aes(x = x, label = rate),
+    data = table_columns,
+    aes(x = x, label = text),
     hjust = 1, size = 3.1, colour = chart_greys[["text"]], family = "Roboto Chart"
   ) +
-  column_header(column_x[2], top + 1.6, "Tariff rate, percent", "bold") +
-  column_header(column_x[1], top + 0.8, as.character(base_year)) +
-  column_header(column_x[2], top + 0.8, "Latest") +
+  column_header(column_x[1], top + 1.6, "Imports", "bold") +
+  column_header(column_x[1], top + 0.8, "% change") +
+  column_header(column_x[3], top + 1.6, "Tariff rate, %", "bold") +
+  column_header(column_x[2], top + 0.8, as.character(base_year)) +
+  column_header(column_x[3], top + 0.8, "Latest") +
   scale_colour_manual(values = c(chart_colors[["grey"]], chart_colors[["blue"]])) +
   scale_x_log10(breaks = import_breaks, labels = \(x) str_c("$", x)) +
   scale_y_discrete(expand = expansion(add = c(0.6, 2))) +
-  coord_cartesian(xlim = c(import_range[1] * 0.8, column_x[2]), clip = "off") +
+  coord_cartesian(xlim = c(import_range[1] * 0.8, column_x[3]), clip = "off") +
   theme_chart() +
   theme(panel.grid.major.y = element_blank())
 
