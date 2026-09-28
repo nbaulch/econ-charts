@@ -72,8 +72,9 @@ jobs:
           } > "$RUNNER_TEMP/summary.md"
         env:
           GH_TOKEN: ${{ github.token }}
+      # Pinned to a commit, not a tag, since the step holds the Gmail password.
       - if: steps.pr.outputs.url
-        uses: dawidd6/action-send-mail@v9
+        uses: dawidd6/action-send-mail@62a2d05b79935ad4fb90ce9079928099579c14ac # v9
         with:
           server_address: smtp.gmail.com
           server_port: 465
