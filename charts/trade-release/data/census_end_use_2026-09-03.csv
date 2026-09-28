@@ -261,10 +261,10 @@ date,flow,level,code,description,value
 2024-07-01,imports,EU1,4,Consumer goods,69896125723
 2024-07-01,imports,EU5,40000,"Apparel, household goods - cotton",4057953119
 2024-07-01,imports,EU5,40010,"Apparel, household goods - wool",372035917
-2024-07-01,imports,EU5,40050,Camping apparel and gear,1190392305
 2024-07-01,imports,EU5,40020,"Apparel, textiles, nonwool or cotton",5163834024
 2024-07-01,imports,EU5,40030,"Apparel,household goods-nontextile",909178238
 2024-07-01,imports,EU5,40040,Footwear,1921926267
+2024-07-01,imports,EU5,40050,Camping apparel and gear,1190392305
 2024-07-01,imports,EU5,40100,Pharmaceutical preparations,20912584374
 2024-07-01,imports,EU5,40110,"Books, printed matter",443922393
 2024-07-01,imports,EU5,40120,Toiletries and cosmetics,1905956238
@@ -478,10 +478,10 @@ date,flow,level,code,description,value
 2024-09-01,imports,EU5,12050,Natural rubber,147317235
 2024-09-01,imports,EU5,12060,"Farming materials, livestock",172523378
 2024-09-01,imports,EU5,12070,"Tobacco, waxes, etc.",1464645229
-2024-09-01,imports,EU5,12140,"Hair, waste materials",103120427
 2024-09-01,imports,EU5,12100,"Cotton cloth, fabrics",76878538
 2024-09-01,imports,EU5,12110,"Wool, silk, etc.",45011020
 2024-09-01,imports,EU5,12135,Synthetic cloth,469042305
+2024-09-01,imports,EU5,12140,"Hair, waste materials",103120427
 2024-09-01,imports,EU5,12150,Finished textile supplies,507243760
 2024-09-01,imports,EU5,12160,Leather and furs,35555579
 2024-09-01,imports,EU5,12320,"Materials, excluding chemicals",152916848
@@ -704,10 +704,10 @@ date,flow,level,code,description,value
 2024-10-01,imports,EU5,30230,Other parts and accessories of vehicles,12508125070
 2024-10-01,imports,EU1,4,Consumer goods,78649342934
 2024-10-01,imports,EU5,40000,"Apparel, household goods - cotton",4077165614
-2024-10-01,imports,EU5,40040,Footwear,1628104015
 2024-10-01,imports,EU5,40010,"Apparel, household goods - wool",345243478
 2024-10-01,imports,EU5,40020,"Apparel, textiles, nonwool or cotton",5184063104
 2024-10-01,imports,EU5,40030,"Apparel,household goods-nontextile",934876043
+2024-10-01,imports,EU5,40040,Footwear,1628104015
 2024-10-01,imports,EU5,40050,Camping apparel and gear,1223302714
 2024-10-01,imports,EU5,40100,Pharmaceutical preparations,23100455664
 2024-10-01,imports,EU5,40110,"Books, printed matter",414703243
@@ -906,10 +906,10 @@ date,flow,level,code,description,value
 2024-12-01,imports,EU5,01010,"Alcoholic beverages, excluding wine",1021839701
 2024-12-01,imports,EU5,01020,"Nonagricultural foods, etc.",110836378
 2024-12-01,imports,EU1,1,Industrial supplies and materials,64234930109
-2024-12-01,imports,EU5,10030,Liquefied petroleum gases,371648454
 2024-12-01,imports,EU5,10000,Crude oil,13298493393
 2024-12-01,imports,EU5,10010,Fuel oil,1549358338
 2024-12-01,imports,EU5,10020,"Petroleum products, other",2734105639
+2024-12-01,imports,EU5,10030,Liquefied petroleum gases,371648454
 2024-12-01,imports,EU5,10100,Coal and related fuels,196194103
 2024-12-01,imports,EU5,10110,Gas-natural,899846475
 2024-12-01,imports,EU5,10300,Nuclear fuel materials,542240343
@@ -1099,10 +1099,10 @@ date,flow,level,code,description,value
 2025-01-01,imports,EU5,14280,Other precious metals,1718915392
 2025-01-01,imports,EU5,14290,"Nonferrous metals, other",457700898
 2025-01-01,imports,EU5,15000,"Iron and steel products, n.e.c.",1090537266
-2025-01-01,imports,EU5,16050,Synthetic rubber--primary,223431157
 2025-01-01,imports,EU5,15100,"Iron and steel, advanced",1304502763
 2025-01-01,imports,EU5,15200,Finished metal shapes,32994124140
 2025-01-01,imports,EU5,16040,"Sulfur, nonmetallic minerals",149004512
+2025-01-01,imports,EU5,16050,Synthetic rubber--primary,223431157
 2025-01-01,imports,EU5,16110,"Blank tapes, audio & visual",10774137
 2025-01-01,imports,EU5,16120,"Industrial supplies, other",3921733424
 2025-01-01,imports,EU1,2,"Capital goods, except automotive",83745306938
@@ -1193,10 +1193,10 @@ date,flow,level,code,description,value
 2025-02-01,imports,EU5,00130,Vegetables,1735165523
 2025-02-01,imports,EU5,00140,Nuts,201357264
 2025-02-01,imports,EU5,00150,"Food oils, oilseeds",851899265
-2025-02-01,imports,EU5,00190,"Wine, beer, and related products",1162798938
 2025-02-01,imports,EU5,00160,Bakery products,1772226273
 2025-02-01,imports,EU5,00170,"Tea, spices, etc.",267497969
 2025-02-01,imports,EU5,00180,Other foods,2062814024
+2025-02-01,imports,EU5,00190,"Wine, beer, and related products",1162798938
 2025-02-01,imports,EU5,00200,Feedstuff and foodgrains,731632674
 2025-02-01,imports,EU5,01000,Fish and shellfish,1976786072
 2025-02-01,imports,EU5,01010,"Alcoholic beverages, excluding wine",900503759
@@ -1591,10 +1591,10 @@ date,flow,level,code,description,value
 2025-04-01,imports,EU5,30220,Automotive tires and tubes,1618954990
 2025-04-01,imports,EU5,30230,Other parts and accessories of vehicles,12118612354
 2025-04-01,imports,EU1,4,Consumer goods,67092908691
-2025-04-01,imports,EU5,40030,"Apparel,household goods-nontextile",721630087
 2025-04-01,imports,EU5,40000,"Apparel, household goods - cotton",3441032978
 2025-04-01,imports,EU5,40010,"Apparel, household goods - wool",126837610
 2025-04-01,imports,EU5,40020,"Apparel, textiles, nonwool or cotton",4080083528
+2025-04-01,imports,EU5,40030,"Apparel,household goods-nontextile",721630087
 2025-04-01,imports,EU5,40040,Footwear,1402398348
 2025-04-01,imports,EU5,40050,Camping apparel and gear,1289927552
 2025-04-01,imports,EU5,40100,Pharmaceutical preparations,24458251493
@@ -1642,10 +1642,10 @@ date,flow,level,code,description,value
 2025-05-01,imports,EU5,00180,Other foods,2594401922
 2025-05-01,imports,EU5,00190,"Wine, beer, and related products",1227154946
 2025-05-01,imports,EU5,00200,Feedstuff and foodgrains,770958204
-2025-05-01,imports,EU1,1,Industrial supplies and materials,52573055583
 2025-05-01,imports,EU5,01000,Fish and shellfish,2474135960
 2025-05-01,imports,EU5,01010,"Alcoholic beverages, excluding wine",820437588
 2025-05-01,imports,EU5,01020,"Nonagricultural foods, etc.",121917972
+2025-05-01,imports,EU1,1,Industrial supplies and materials,52573055583
 2025-05-01,imports,EU5,10000,Crude oil,12000517463
 2025-05-01,imports,EU5,10010,Fuel oil,1315501416
 2025-05-01,imports,EU5,10020,"Petroleum products, other",3447251995
@@ -1981,10 +1981,10 @@ date,flow,level,code,description,value
 2025-07-01,imports,EU5,14200,Bauxite and aluminum,1144644965
 2025-07-01,imports,EU5,14220,Copper,2280953338
 2025-07-01,imports,EU5,14240,Nickel,189219782
-2025-07-01,imports,EU5,14280,Other precious metals,2213458109
 2025-07-01,imports,EU5,14250,Tin,72075475
 2025-07-01,imports,EU5,14260,Zinc,147650404
 2025-07-01,imports,EU5,14270,Nonmonetary gold,10490752215
+2025-07-01,imports,EU5,14280,Other precious metals,2213458109
 2025-07-01,imports,EU5,14290,"Nonferrous metals, other",453332232
 2025-07-01,imports,EU5,15000,"Iron and steel products, n.e.c.",852857006
 2025-07-01,imports,EU5,15100,"Iron and steel, advanced",1062593854
@@ -2071,10 +2071,10 @@ date,flow,level,code,description,value
 2025-07-01,imports,EU5,50020,"U.s. Goods returned, and reimports",8942253272
 2025-07-01,imports,EU5,50030,Minimum value shipments,2756016849
 2025-07-01,imports,EU5,50040,"Other (movies, miscellaneous imports, and special transactions)",1017718033
-2025-08-01,imports,EU5,00020,Cane and beet sugar,84664726
 2025-08-01,imports,EU1,0,"Foods, feeds, and beverages",16164541260
 2025-08-01,imports,EU5,00000,Green coffee,790631861
 2025-08-01,imports,EU5,00010,Cocoa beans,140313252
+2025-08-01,imports,EU5,00020,Cane and beet sugar,84664726
 2025-08-01,imports,EU5,00100,Meat products,1743446903
 2025-08-01,imports,EU5,00110,Dairy products and eggs,253439601
 2025-08-01,imports,EU5,00120,"Fruits, frozen juices",1991692544
@@ -2290,10 +2290,10 @@ date,flow,level,code,description,value
 2025-09-01,imports,EU5,16110,"Blank tapes, audio & visual",7325038
 2025-09-01,imports,EU5,16120,"Industrial supplies, other",3756683622
 2025-09-01,imports,EU1,2,"Capital goods, except automotive",91360152923
-2025-09-01,imports,EU5,21010,Specialized mining,79875059
 2025-09-01,imports,EU5,20000,"Generators, accessories",4526375668
 2025-09-01,imports,EU5,20005,Electric apparatus,8011441770
 2025-09-01,imports,EU5,21000,Drilling & oilfield equipment,306510627
+2025-09-01,imports,EU5,21010,Specialized mining,79875059
 2025-09-01,imports,EU5,21030,Excavating machinery,1316424685
 2025-09-01,imports,EU5,21040,Nonfarm tractors and parts,68183929
 2025-09-01,imports,EU5,21100,Industrial engines,2712949402
@@ -2414,10 +2414,10 @@ date,flow,level,code,description,value
 2025-10-01,imports,EU5,12530,Chemicals-inorganic,940774495
 2025-10-01,imports,EU5,12540,Chemicals-organic,1633091500
 2025-10-01,imports,EU5,12550,"Chemicals-other, n.e.c.",1426604730
-2025-10-01,imports,EU5,13100,"Glass-plate, sheet, etc.",222716192
 2025-10-01,imports,EU5,13000,Lumber,489443859
 2025-10-01,imports,EU5,13010,Plywood and veneers,317934038
 2025-10-01,imports,EU5,13020,"Stone, sand, cement, etc.",594357264
+2025-10-01,imports,EU5,13100,"Glass-plate, sheet, etc.",222716192
 2025-10-01,imports,EU5,13110,"Shingles, wallboard",1115329253
 2025-10-01,imports,EU5,13120,Nontextile floor tiles,495233604
 2025-10-01,imports,EU5,14000,Steelmaking materials,830984152
@@ -2628,10 +2628,10 @@ date,flow,level,code,description,value
 2025-11-01,imports,EU5,30230,Other parts and accessories of vehicles,10292889724
 2025-11-01,imports,EU1,4,Consumer goods,58109855665
 2025-11-01,imports,EU5,40000,"Apparel, household goods - cotton",2759151639
-2025-11-01,imports,EU5,40040,Footwear,1241411041
 2025-11-01,imports,EU5,40010,"Apparel, household goods - wool",243882719
 2025-11-01,imports,EU5,40020,"Apparel, textiles, nonwool or cotton",3516318932
 2025-11-01,imports,EU5,40030,"Apparel,household goods-nontextile",725111858
+2025-11-01,imports,EU5,40040,Footwear,1241411041
 2025-11-01,imports,EU5,40050,Camping apparel and gear,920191492
 2025-11-01,imports,EU5,40100,Pharmaceutical preparations,18572512120
 2025-11-01,imports,EU5,40110,"Books, printed matter",323617505
@@ -2920,10 +2920,10 @@ date,flow,level,code,description,value
 2026-01-01,imports,EU5,30110,Bodies and chassis for trucks and buses,46707147
 2026-01-01,imports,EU5,30200,Engines and engine parts,2422768053
 2026-01-01,imports,EU5,30210,Bodies and chassis for passenger cars,2488917
-2026-01-01,imports,EU5,40000,"Apparel, household goods - cotton",3291649534
 2026-01-01,imports,EU5,30220,Automotive tires and tubes,1301925995
 2026-01-01,imports,EU5,30230,Other parts and accessories of vehicles,10296785064
 2026-01-01,imports,EU1,4,Consumer goods,50652095229
+2026-01-01,imports,EU5,40000,"Apparel, household goods - cotton",3291649534
 2026-01-01,imports,EU5,40010,"Apparel, household goods - wool",169481818
 2026-01-01,imports,EU5,40020,"Apparel, textiles, nonwool or cotton",4019233074
 2026-01-01,imports,EU5,40030,"Apparel,household goods-nontextile",716327021
@@ -3093,10 +3093,10 @@ date,flow,level,code,description,value
 2026-02-01,imports,EU5,41130,Photo equipment,298513189
 2026-02-01,imports,EU5,41140,Musical instruments,127834474
 2026-02-01,imports,EU5,41200,Televisions and video equipment,1062571307
-2026-02-01,imports,EU5,41310,Jewelry,1447025901
 2026-02-01,imports,EU5,41210,"Stereo equipment, etc",632315569
 2026-02-01,imports,EU5,41220,Recorded media,64065115
 2026-02-01,imports,EU5,41300,Numismatic coins,403867507
+2026-02-01,imports,EU5,41310,Jewelry,1447025901
 2026-02-01,imports,EU5,41320,"Artwork, antiques, stamps, etc.",1147310962
 2026-02-01,imports,EU5,42000,"Nursery stock, etc.",336305786
 2026-02-01,imports,EU5,42100,Gem diamonds,419658694
@@ -3164,10 +3164,10 @@ date,flow,level,code,description,value
 2026-03-01,imports,EU5,14100,Iron and steel mill products,1143149841
 2026-03-01,imports,EU5,14200,Bauxite and aluminum,2406346791
 2026-03-01,imports,EU5,14220,Copper,2091874979
-2026-03-01,imports,EU5,14270,Nonmonetary gold,1785656416
 2026-03-01,imports,EU5,14240,Nickel,250852346
 2026-03-01,imports,EU5,14250,Tin,89387162
 2026-03-01,imports,EU5,14260,Zinc,216427784
+2026-03-01,imports,EU5,14270,Nonmonetary gold,1785656416
 2026-03-01,imports,EU5,14280,Other precious metals,1867105084
 2026-03-01,imports,EU5,14290,"Nonferrous metals, other",517393879
 2026-03-01,imports,EU5,15000,"Iron and steel products, n.e.c.",787448989
@@ -3255,10 +3255,10 @@ date,flow,level,code,description,value
 2026-03-01,imports,EU5,50020,"U.s. Goods returned, and reimports",9448185626
 2026-03-01,imports,EU5,50030,Minimum value shipments,3241874726
 2026-03-01,imports,EU5,50040,"Other (movies, miscellaneous imports, and special transactions)",1054245538
-2026-04-01,imports,EU5,00020,Cane and beet sugar,163944710
 2026-04-01,imports,EU1,0,"Foods, feeds, and beverages",17985425243
 2026-04-01,imports,EU5,00000,Green coffee,753711912
 2026-04-01,imports,EU5,00010,Cocoa beans,183686025
+2026-04-01,imports,EU5,00020,Cane and beet sugar,163944710
 2026-04-01,imports,EU5,00100,Meat products,2173838748
 2026-04-01,imports,EU5,00110,Dairy products and eggs,337881962
 2026-04-01,imports,EU5,00120,"Fruits, frozen juices",2740177883

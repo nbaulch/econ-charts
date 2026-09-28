@@ -12,6 +12,8 @@ Seasonally adjusted, balance of payments basis, billions of dollars. The previou
 
 {{< include charts/trade-release/output/headline.md >}}
 
+The goods balance below is on a Census basis, seasonally adjusted and not, and not adjusted without gold, whose trade can move for reasons of its own. Gold is defined as on the [goods balance chart](trade.qmd#goods-trade-balance).
+
 ```{=html}
 <picture>
   <source media="(max-width: 600px)" srcset="charts/trade-release/output/goods-balance-narrow.png">
@@ -47,6 +49,17 @@ The ten detailed end-use categories with the largest change in dollars from a ye
 </picture>
 ```
 
+## Computers, chips, and telecom equipment by country
+
+Imports of computers and parts, and of semiconductors and telecom equipment, bear on estimates of AI investment and its effect on GDP. The chart shows where they come from, in the latest month and a year earlier, for the eight countries with the most imports of the two combined. The product groups are the Census end-use categories used on the [goods balance chart](trade.qmd#goods-trade-balance).
+
+```{=html}
+<picture>
+  <source media="(max-width: 600px)" srcset="charts/trade-release/output/hardware-by-country-narrow.png">
+  <img src="charts/trade-release/output/hardware-by-country.png" class="chart" alt="Dot plots of monthly U.S. imports of computers and parts, and of semiconductors and telecom equipment, by country, in the latest month and a year earlier.">
+</picture>
+```
+
 ## By country
 
 Goods balance with the twelve countries whose balances are largest either way, Census basis, billions of dollars. The balance and the change from the previous month are seasonally adjusted; the change from a year earlier is not. Census does not find seasonal patterns in trade with Ireland and the Netherlands, so their figures are not adjusted in either column.
@@ -67,5 +80,5 @@ Duties calculated on imports each month, and for the ten countries whose imports
 {{< include charts/trade-release/output/duties-by-country.md >}}
 
 ::: {.chart-source}
-Source: Census Bureau, U.S. International Trade in Goods and Services (FT-900), exhibits 1, 6, 10, and 19, and U.S. imports and exports of merchandise by end-use category and by product. Data: [goods balance](charts/trade-release/output/goods-balance.csv), [categories](charts/trade-release/output/end-use-changes.csv), [products](charts/trade-release/output/product-changes.csv), [countries](charts/trade-release/output/partners.csv), [duties](charts/trade-release/output/duties.csv).
+Source: Census Bureau, U.S. International Trade in Goods and Services (FT-900), exhibits 1, 6, 10, and 19, and U.S. imports and exports of merchandise by end-use category, product, and country. Data: [goods balance](charts/trade-release/output/goods-balance.csv), [categories](charts/trade-release/output/end-use-changes.csv), [products](charts/trade-release/output/product-changes.csv), [computers and chips by country](charts/trade-release/output/hardware-by-country.csv), [countries](charts/trade-release/output/partners.csv), [duties](charts/trade-release/output/duties.csv).
 :::

@@ -7,6 +7,7 @@ library(ggplot2)
 library(purrr)
 
 source("R/fetch_census.R")
+source("R/trade_products.R")
 source("R/chart_style.R")
 
 chart_dir <- "charts/trade-release"
@@ -26,6 +27,7 @@ end_use_adjusted <- fetch_census_ft900_exhibit(6, c(
 ))
 real_goods <- fetch_census_ft900_exhibit(10, c("total", "0", "1", "2", "3", "4", "5", "residual"))
 partners_adjusted <- fetch_census_ft900_countries()
+countries <- read_census_trade_countries()
 
 latest_month <- max(headline$date)
 previous_month <- latest_month - months(1)
@@ -58,6 +60,8 @@ list(
 billions <- \(x) sprintf("%.1f", x / 1e3)
 change <- \(x) if_else(round(x, 1) == 0, "0", sprintf("%+.1f", x))
 month_short <- \(date) format(date, "%b %Y")
+snakecase_label <- \(x) str_remove(str_to_lower(str_replace_all(x, "[^A-Za-z]+", "_")), "_$")
+country_name <- \(country) str_replace(str_to_title(country), "^Korea, South$", "South Korea")
 dollars <- \(x) if_else(x < 0, str_c("-$", abs(x)), str_c("$", x))
 
 markdown_table <- function(table, path) {
@@ -101,32 +105,63 @@ headline |>
   arrange(match(series, headline_rows)) |>
   markdown_table(file.path(chart_dir, "output", "headline.md"))
 
+# Product groups as on the goods balance chart, for gold here and for
+# computers, chips, and telecom equipment by country below.
+balance_start <- min(end_use_adjusted$date)
+product_groups <- read_census_trade_codes(c("imports", "exports"), year(balance_start):year(latest_month)) |>
+  transmute(flow, year, commodity, group = product_group(commodity, description, end_use))
+
+store_values <- c(imports = "gen_val", exports = "all_val")
+gold_balance <- store_values |>
+  imap(\(value, flow) {
+    gold_codes <- unique(filter(product_groups, flow == .env$flow, group == "gold")$commodity)
+    read_census_trade(flow, balance_start, latest_month) |>
+      filter(commodity %in% gold_codes) |>
+      select(date, commodity, value = all_of(value)) |>
+      summarise(value = sum(value), .by = c(date, commodity)) |>
+      collect()
+  }) |>
+  list_rbind(names_to = "flow") |>
+  mutate(year = year(date)) |>
+  semi_join(filter(product_groups, group == "gold"), by = c("flow", "year", "commodity")) |>
+  summarise(value = sum(value), .by = c(date, flow)) |>
+  pivot_wider(names_from = flow, values_fill = 0) |>
+  transmute(date, gold = (exports - imports) / 1e9)
+
+goods_balance_unadjusted <- end_use |>
+  filter(level == "EU1") |>
+  summarise(value = sum(value), .by = c(date, flow)) |>
+  pivot_wider(names_from = flow) |>
+  transmute(date, balance = (exports - imports) / 1e9)
+
+adjustment_labels <- c("Seasonally adjusted", "Not seasonally adjusted", "Not adjusted, excluding gold")
+
 goods_balance <- bind_rows(
   "Seasonally adjusted" = end_use_adjusted |>
     filter(series == "total_census") |>
     summarise(balance = value[block == "exports"] - value[block == "imports"], .by = date) |>
     mutate(balance = balance / 1e3),
-  "Not seasonally adjusted" = end_use |>
-    filter(level == "EU1") |>
-    summarise(value = sum(value), .by = c(date, flow)) |>
-    pivot_wider(names_from = flow, values_from = value) |>
-    transmute(date, balance = (exports - imports) / 1e9),
+  "Not seasonally adjusted" = goods_balance_unadjusted,
+  "Not adjusted, excluding gold" = goods_balance_unadjusted |>
+    inner_join(gold_balance, by = "date") |>
+    transmute(date, balance = balance - gold),
   .id = "adjustment"
 ) |>
-  filter(date >= min(end_use_adjusted$date)) |>
-  arrange(adjustment, date)
+  filter(date >= balance_start) |>
+  arrange(match(adjustment, adjustment_labels), date)
 
 goods_balance |>
   mutate(balance = round(balance, 3)) |>
+  mutate(adjustment = snakecase_label(adjustment)) |>
   pivot_wider(names_from = adjustment, values_from = balance) |>
   write_csv(file.path(chart_dir, "output", "goods-balance.csv"))
 
 goods_balance_chart <- goods_balance |>
-  mutate(adjustment = factor(adjustment, levels = c("Seasonally adjusted", "Not seasonally adjusted"))) |>
+  mutate(adjustment = factor(adjustment, levels = adjustment_labels)) |>
   ggplot(aes(date, balance, colour = adjustment)) +
   geom_line(linewidth = 0.9) +
   geom_point(data = \(data) filter(data, date == latest_month), size = 2.2) +
-  scale_colour_manual(values = unname(chart_colors[c("blue", "orange")])) +
+  scale_colour_manual(values = unname(chart_colors[c("blue", "orange", "teal")])) +
   scale_x_date(date_breaks = "3 months", date_labels = "%b\n%Y") +
   theme_chart()
 
@@ -248,9 +283,72 @@ product_chart <- product_changes |>
     strip.text = element_text(hjust = 0, face = "bold", size = rel(0.95), colour = chart_greys[["text"]])
   )
 
-# Partners ------------------------------------------------------------------------
+# Computers, chips, and telecom equipment by country ------------------------------------
 
-countries <- read_census_trade_countries()
+hardware_groups <- c(computers = "Computers and parts", chips_telecom = "Semiconductors and telecom equipment")
+
+hardware_by_country <- read_census_trade("imports", year_earlier, latest_month) |>
+  filter(date %in% c(latest_month, year_earlier)) |>
+  select(date, commodity, country_code, gen_val) |>
+  summarise(imports = sum(gen_val), .by = c(date, commodity, country_code)) |>
+  collect() |>
+  mutate(flow = "imports", year = year(date)) |>
+  inner_join(filter(product_groups, group %in% names(hardware_groups)), by = c("flow", "year", "commodity")) |>
+  summarise(imports = sum(imports) / 1e9, .by = c(date, group, country_code)) |>
+  left_join(countries, by = "country_code")
+
+# The eight countries with the most imports of the two groups combined in the
+# latest month; the rest are summed.
+top_hardware_countries <- hardware_by_country |>
+  filter(date == latest_month) |>
+  summarise(imports = sum(imports), .by = country) |>
+  slice_max(imports, n = 8) |>
+  pull(country)
+
+hardware_imports <- hardware_by_country |>
+  mutate(country = if_else(country %in% top_hardware_countries, country_name(country), "All other countries")) |>
+  summarise(imports = sum(imports), .by = c(date, group, country)) |>
+  complete(date, group, country, fill = list(imports = 0))
+
+hardware_imports |>
+  arrange(match(group, names(hardware_groups)), date) |>
+  mutate(
+    group = snakecase_label(hardware_groups[group]),
+    date = if_else(date == latest_month, "latest", "year_earlier"),
+    imports = round(imports, 3)
+  ) |>
+  pivot_wider(names_from = c(group, date), values_from = imports) |>
+  write_csv(file.path(chart_dir, "output", "hardware-by-country.csv"))
+
+hardware_period_labels <- c(month_short(year_earlier), month_short(latest_month))
+# Largest at the top, with all other countries at the bottom.
+hardware_country_order <- hardware_imports |>
+  filter(date == latest_month) |>
+  summarise(imports = sum(imports), .by = country) |>
+  arrange(country != "All other countries", imports) |>
+  pull(country)
+
+hardware_chart <- hardware_imports |>
+  mutate(
+    group = factor(hardware_groups[group], levels = hardware_groups),
+    period = factor(month_short(date), levels = hardware_period_labels),
+    country = factor(country, levels = hardware_country_order)
+  ) |>
+  ggplot(aes(imports, country)) +
+  geom_line(aes(group = country), colour = chart_greys[["grid"]], linewidth = 1.2) +
+  geom_point(aes(colour = period), size = 2.4) +
+  facet_wrap(vars(group)) +
+  scale_colour_manual(values = unname(chart_colors[c("grey", "blue")])) +
+  scale_x_continuous(labels = dollars, limits = c(0, NA)) +
+  theme_chart() +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.grid.major.x = element_line(colour = chart_greys[["grid"]], linewidth = 0.35),
+    strip.text = element_text(hjust = 0, size = rel(0.9), colour = chart_greys[["text"]]),
+    panel.spacing.x = unit(1.5, "lines")
+  )
+
+# Partners ------------------------------------------------------------------------
 
 # The change from a year earlier is not seasonally adjusted, from the trade
 # store, which names countries as the FT-900 does, in capitals.
@@ -296,7 +394,7 @@ partners |>
 
 partners |>
   transmute(
-    country = str_replace(country, "^Korea, South$", "South Korea"),
+    country = country_name(country),
     "Balance, {month_short(latest_month)}" := billions(latest),
     "From {month_short(previous_month)}" := change((latest - previous) / 1e3),
     "From {month_short(year_earlier)}, not adjusted" := change((latest_unadjusted - year_earlier_unadjusted) / 1e3)
@@ -338,7 +436,7 @@ duties |>
   slice_max(duties, n = 10) |>
   left_join(countries, by = "country_code") |>
   transmute(
-    country = str_replace(str_to_title(country), "^Korea, South$", "South Korea"),
+    country = country_name(country),
     "Duties, {month_short(latest_month)}" := sprintf("%.2f", duties),
     "{month_short(year_earlier)}" := sprintf("%.2f", duties_year_earlier),
     "Tariff rate, %" := sprintf("%.1f", rate)
@@ -360,6 +458,9 @@ charts <- tribble(
   "product-changes", product_chart, list(scale_y_discrete(labels = \(x) str_wrap(product_label(x), 24)), theme(axis.text.y = element_text(lineheight = 0.85))),
   "Largest changes in U.S. goods trade by product",
   str_glue("Change from {format(year_earlier, '%B %Y')}, billions of dollars, not seasonally adjusted"), 6.5, 11,
+  "hardware-by-country", hardware_chart, list(facet_wrap(vars(group), ncol = 1, labeller = label_wrap_gen(30))),
+  "U.S. imports of computers, chips, and telecom equipment by country",
+  "Billions of dollars a month, not seasonally adjusted", 5, 8,
   "duties", duties_chart, list(narrow_dates),
   "Duties on U.S. imports", "Calculated duties, billions of dollars a month, not seasonally adjusted", 4.5, 4.5
 )

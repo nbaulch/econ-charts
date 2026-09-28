@@ -16,6 +16,7 @@ What changed in the latest monthly trade report, seasonally adjusted and not? Se
 | FT-900 exhibit 19: goods by country, Census basis, seasonally adjusted | Same | `fetch_census_ft900_countries()` | Balance, exports, imports for the latest two months |
 | Goods by end-use category, not seasonally adjusted | Census international trade API, `timeseries/intltrade/{imports,exports}/enduse` | `fetch_census_trade_end_use()` | `GEN_VAL_MO`, `ALL_VAL_MO` at levels EU1 and EU5 |
 | Goods by product and country, not seasonally adjusted | Census trade store | `read_census_trade()` | `gen_val`, `all_val`, `con_val`, `cal_dut` |
+| Product codes with end-use categories and descriptions | Census trade store | `read_census_trade_codes()` | `commodity`, `description`, `end_use` |
 | Release dates | Census release schedule | `fetch_census_trade_schedule()` | First table (FT-900) |
 
 Exhibits are read from `current_press_release/exh{n}.xlsx`, which holds only the latest release.
@@ -24,9 +25,11 @@ Exhibits are read from `current_press_release/exh{n}.xlsx`, which holds only the
 
 - **Headline table:** exhibit 1, billions of dollars. Change is the latest month less the previous month as revised. Revision is the previous month as revised less the previous month as published a month earlier.
 - **Goods balance chart:** Census basis. Seasonally adjusted is exhibit 6 total exports less total imports. Not seasonally adjusted is the sum of the API's EU1 categories, exports less general imports.
+- **Goods balance excluding gold:** the not seasonally adjusted balance less the gold balance from the trade store. Gold is `product_group()` in `R/trade_products.R`: heading 7108 and the heading 7115 lines whose description names gold, as on the goods balance chart. Census does not seasonally adjust gold at this detail, so there is no seasonally adjusted version.
 - **Goods in chained dollars:** exhibit 10 totals. Monthly average over the current quarter to date and over the previous quarter. The percent change is annualized, (current / previous)^4 - 1. The balance is exports less imports in chained dollars, as BEA reports it.
 - **By category:** exhibit 6 categories, latest less previous month. API EU1 categories, latest month less the same month a year earlier. The API's export code 6 (exports n.e.c. and reexports) is added to other goods (5), as in exhibit 6.
 - **By product:** API EU5 categories, the ten largest absolute changes from a year earlier for each flow.
+- **Computers, chips, and telecom equipment by country:** general imports from the trade store in the latest month and a year earlier, by `product_group()`: computers and parts (end use 21300, 21301) and semiconductors and telecom equipment (21320, 21400). Each product is classified with the code list for its year. The eight countries with the most imports of the two combined in the latest month; the rest are summed.
 - **By country:** exhibit 19 balances for single countries; its areas (European Union, CAFTA-DR, South/Central America, all other countries) are left out. The twelve with the largest absolute balance in the latest month. The change from a year earlier is exports less general imports from the trade store, matched to exhibit 19 by country name.
 - **Tariffs:** calculated duties (`cal_dut`) from the trade store by month, last 25 months. The tariff rate is duties over imports for consumption (`con_val`). Countries are the ten with the most duties in the latest month.
 
