@@ -22,7 +22,7 @@ Interpretation, such as what a refresh changed and what it might mean, goes to m
 
 - **The AI economy**: `charts/ai-investment-gdp/`, `charts/ai-adoption/`, `charts/productivity-decomposition/`.
 - **Interest rates**: `charts/yield-decomposition/`, `charts/yield-rise-by-model/`, `charts/duration-supply/`. Candidate: the 10-year yield split into inflation-protected yield and breakeven inflation, with the 2-year yield.
-- **Inflation**, started September 2026: `charts/inflation-measures/`, `charts/inflation-breadth/` (reproduces Warsh's share of PCE categories rising faster than 3 percent), and `charts/pce-cpi-gap/` (follows Konczal on the gap between core PCE and core CPI). Planned, one question each: AI's contribution (software and electricity prices), and inflation expectations. Release-day tools (PCE implied by CPI and PPI, surprises) come later; surprises need a public benchmark, such as the Cleveland Fed nowcast, since consensus forecasts are proprietary.
+- **Inflation**, started September 2026: `charts/inflation-measures/`, `charts/inflation-breadth/` (reproduces Warsh's share of PCE categories rising faster than 3 percent), `charts/pce-cpi-gap/` (follows Konczal on the gap between core PCE and core CPI), and `charts/software-electricity-prices/` (contributions of software and electricity prices, adapted from the FEDS Note on software prices). Planned: inflation expectations. Release-day tools (PCE implied by CPI and PPI, surprises) come later; surprises need a public benchmark, such as the Cleveland Fed nowcast, since consensus forecasts are proprietary.
 
 ## Chart candidates
 
@@ -68,7 +68,7 @@ These are the analyses I've been considering. Treat them as starting points. Ver
 _quarto.yml, *.qmd      the site: config, index.qmd (home), resume.qmd, sources.qmd, and one page per chart topic
 images/                 headshot and link preview image
 styles.css              site styling, matched to STYLE.md
-R/                      fetch_<agency>_<dataset>() functions, one file per agency, and chart_style.R
+R/                      fetch_<agency>_<dataset>() functions, one file per agency, chart_style.R, and price_indexes.R
 fonts/                  bundled chart font, used by charts and the site
 charts/<chart-name>/
   spec.md               sources, series IDs, transformations, vintages, breaks, decision log

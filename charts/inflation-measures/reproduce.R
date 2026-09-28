@@ -11,23 +11,12 @@ library(stringr)
 library(lubridate)
 
 source("R/fetch_bea.R")
+source("R/price_indexes.R")
 
 chart_dir <- "charts/inflation-measures"
 
 measures <- read_csv(file.path(chart_dir, "output", "inflation-measures.csv"), show_col_types = FALSE)
 july <- filter(measures, date == ymd("2026-07-01"))
-
-# Same as in build.R.
-index_excluding <- function(price, spending, part_price, part_spending) {
-  aggregate_change <- price / lag(price)
-  part_change <- part_price / lag(part_price)
-  share_before <- lag(part_spending / spending)
-  share_after <- part_spending / spending
-  a <- 1 - share_before
-  b <- share_before * part_change - aggregate_change^2 * share_after / part_change
-  c <- -aggregate_change^2 * (1 - share_after)
-  cumprod(coalesce((-b + sqrt(b^2 - 4 * a * c)) / (2 * a), 1))
-}
 
 # Market-based core rebuilt from market-based PCE and its food and energy.
 method_check <- fetch_bea_nipa(
