@@ -4,7 +4,7 @@
 
 **Semiconductors and telecom equipment:** Semiconductors, and telecommunications equipment such as network switches.
 
-**Pharmaceuticals:** Pharmaceutical preparations, such as medicines in finished form.
+**Pharmaceuticals:** Medicines, vaccines and blood products, and hormones in bulk, such as insulin and the active ingredients of weight-loss drugs.
 
 **Gold:** Nonmonetary gold, including gold bars classed as articles of precious metal.
 

@@ -24,7 +24,7 @@ How much of the U.S. goods balance comes from a few product groups whose trade m
 - Categories, by Census end-use code:
   - Computers and parts: 21300 (computers) and 21301 (computer accessories, peripherals, and parts).
   - Semiconductors and telecom equipment: 21320 (semiconductors) and 21400 (telecommunications equipment).
-  - Pharmaceuticals: 40100 (pharmaceutical preparations).
+  - Pharmaceuticals: 40100 (pharmaceutical preparations). It covers chapter 30 (medicaments, vaccines, and blood products) except dressings, sutures, first-aid kits, and ostomy appliances, which Census files under medical supplies (40140), and ricin; and all of heading 2937 (hormones in bulk, including 2937.19, polypeptide hormones, where GLP-1 ingredients such as semaglutide are classified), plus some lines of 2933, 2934, and 2936 (heterocyclic compounds and vitamins).
   - Gold: products in heading 7108 (nonmonetary gold) or heading 7115 whose description names gold, whatever their end-use code.
   - All other goods: everything else.
 - Balance = exports less general imports, in billions of dollars a month, not seasonally adjusted: the Census basis of the monthly release. The chart starts in 2019; the CSV starts in 2017.
