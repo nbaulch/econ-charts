@@ -106,7 +106,6 @@ write_chart_notes(
   notes = c(
     str_glue("**{base_year}:** Imports in calendar {base_year}."),
     str_glue("**Latest 12 months:** Imports from {recent_label}."),
-    "**Change:** Percent change in imports between the two periods.",
     "**Tariff rate:** Duties calculated on the sector's imports as a percent of their value, in the same two periods."
   ),
   source = str_glue(
@@ -128,11 +127,11 @@ chart_data <- sector_imports |>
 import_range <- range(chart_data$imports_base, chart_data$imports_recent)
 import_breaks <- c(10, 20, 50, 100, 200, 500, 1000)
 import_breaks <- import_breaks[between(import_breaks, import_range[1] * 0.8, import_range[2] * 1.5)]
-column_x <- max(import_breaks) * c(2.6, 5, 8.6)
+column_x <- max(import_breaks) * c(3, 4.9)
 table_columns <- chart_data |>
-  transmute(label, change = change_label(imports_change), base = rate_label(tariff_rate_base), recent = rate_label(tariff_rate_recent)) |>
+  transmute(label, base = rate_label(tariff_rate_base), recent = rate_label(tariff_rate_recent)) |>
   pivot_longer(-label, values_to = "text") |>
-  mutate(x = column_x[match(name, c("change", "base", "recent"))])
+  mutate(x = column_x[match(name, c("base", "recent"))])
 column_header <- function(x, y, label, fontface = "plain") {
   annotate(
     "text",
@@ -154,20 +153,28 @@ sector_chart <- chart_data |>
     aes(x = x, label = text),
     hjust = 1, size = 3.1, colour = chart_greys[["text"]], family = "Roboto Chart"
   ) +
-  column_header(column_x[1], top + 1.6, "Imports", "bold") +
-  column_header(column_x[1], top + 0.8, "% change") +
-  column_header(column_x[3], top + 1.6, "Tariff rate, %", "bold") +
-  column_header(column_x[2], top + 0.8, as.character(base_year)) +
-  column_header(column_x[3], top + 0.8, "Latest") +
+  # The change sits just past the latest dot, on the side away from the 2024 one.
+  geom_text(
+    aes(
+      x = imports_recent * if_else(imports_change >= 0, 1.1, 1 / 1.1),
+      label = str_c(change_label(imports_change), "%"),
+      hjust = if_else(imports_change >= 0, 0, 1)
+    ),
+    data = chart_data,
+    size = 2.9, colour = chart_colors[["blue"]], family = "Roboto Chart"
+  ) +
+  column_header(column_x[2], top + 1.6, "Tariff rate, %", "bold") +
+  column_header(column_x[1], top + 0.8, as.character(base_year)) +
+  column_header(column_x[2], top + 0.8, "Latest") +
   scale_colour_manual(values = c(chart_colors[["grey"]], chart_colors[["blue"]])) +
   scale_x_log10(breaks = import_breaks, labels = \(x) str_c("$", x)) +
   scale_y_discrete(expand = expansion(add = c(0.6, 2))) +
-  coord_cartesian(xlim = c(import_range[1] * 0.8, column_x[3]), clip = "off") +
+  coord_cartesian(xlim = c(import_range[1] * 0.65, column_x[2]), clip = "off") +
   theme_chart() +
   theme(panel.grid.major.y = element_blank())
 
 title <- "U.S. imports by sector"
-subtitle <- "Billions of dollars a year, log scale"
+subtitle <- "Billions of dollars a year, log scale; labels give the percent change"
 source_line <- "Source: Census Bureau."
 
 save_chart(
