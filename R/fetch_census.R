@@ -145,12 +145,11 @@ read_census_trade_detail <- function(path, flow) {
 # months not yet in cache/, and again any that Census has since revised, then
 # returns an Arrow dataset to query with dplyr and collect().
 read_census_trade <- function(flow, from, to = today()) {
-  store <- "https://github.com/nbaulch/econ-charts/releases/download/census-trade-data"
   dir <- "cache/census_trade"
   dir.create(dir, recursive = TRUE, showWarnings = FALSE)
   local_manifest_path <- file.path(dir, "manifest.csv")
 
-  manifest <- read_csv(file.path(store, "manifest.csv"), col_types = "ccDcic") |>
+  manifest <- read_census_trade_manifest() |>
     filter(flow == .env$flow, date >= floor_date(from, "month"), date <= to)
   local_manifest <- if (file.exists(local_manifest_path)) {
     read_csv(local_manifest_path, col_types = "ccDcic")
@@ -163,7 +162,7 @@ read_census_trade <- function(flow, from, to = today()) {
     filter(file.exists(file.path(dir, file)))
   to_download <- anti_join(manifest, current, by = "file")
   walk(to_download$file, \(file) {
-    download.file(file.path(store, file), file.path(dir, file), mode = "wb", quiet = TRUE)
+    download.file(file.path(census_trade_store, file), file.path(dir, file), mode = "wb", quiet = TRUE)
   })
 
   local_manifest |>
@@ -172,6 +171,24 @@ read_census_trade <- function(flow, from, to = today()) {
     write_csv(local_manifest_path)
 
   arrow::open_dataset(file.path(dir, manifest$file))
+}
+
+census_trade_store <- "https://github.com/nbaulch/econ-charts/releases/download/census-trade-data"
+
+# One row per stored file: flow, month, and the Census release it came from.
+read_census_trade_manifest <- function() {
+  read_csv(file.path(census_trade_store, "manifest.csv"), col_types = "ccDcic")
+}
+
+# The store's product code lists, with descriptions and end-use categories.
+# Codes change each January, so each year has its own list.
+read_census_trade_codes <- function(flows, years) {
+  expand_grid(flow = flows, year = unique(years)) |>
+    pmap(\(flow, year) {
+      read_csv(file.path(census_trade_store, str_glue("{flow}-codes-{year}.csv")), col_types = cols(.default = "c")) |>
+        mutate(flow, year, .before = 1)
+    }) |>
+    list_rbind()
 }
 
 # One sheet of a Business Trends and Outlook Survey download, such as

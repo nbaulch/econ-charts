@@ -7,15 +7,12 @@ library(ggplot2)
 library(purrr)
 
 source("R/fetch_census.R")
+source("R/trade_products.R")
 source("R/chart_style.R")
 
 chart_dir <- "charts/goods-balance"
 from <- ymd("2017-01-01")
-store <- "https://github.com/nbaulch/econ-charts/releases/download/census-trade-data"
 
-# Census end-use categories, except gold. Census files gold bars under 7115
-# ("articles of precious metal") in finished metal shapes, not nonmonetary
-# gold, so gold is taken from the product codes and their descriptions.
 categories <- c(
   computers = "Computers and parts",
   chips_telecom = "Semiconductors and telecom equipment",
@@ -24,23 +21,8 @@ categories <- c(
   other = "All other goods"
 )
 
-category_of <- function(commodity, description, end_use) {
-  case_when(
-    str_starts(commodity, "7108") | (str_starts(commodity, "7115") & str_detect(description, "GOLD")) ~ "gold",
-    end_use %in% c("21300", "21301") ~ "computers",
-    end_use %in% c("21320", "21400") ~ "chips_telecom",
-    end_use == "40100" ~ "pharmaceuticals",
-    .default = "other"
-  )
-}
-
-# Codes change each January, so each year is classified with its own list.
-product_categories <- expand_grid(flow = c("imports", "exports"), year = year(from):year(today())) |>
-  pmap(\(flow, year) {
-    read_csv(str_glue("{store}/{flow}-codes-{year}.csv"), col_types = cols(.default = "c")) |>
-      transmute(flow, year, commodity, category = category_of(commodity, description, end_use))
-  }) |>
-  list_rbind()
+product_categories <- read_census_trade_codes(c("imports", "exports"), year(from):year(today())) |>
+  transmute(flow, year, commodity, category = product_group(commodity, description, end_use))
 
 # General imports and total exports, the Census basis of the monthly trade
 # release.
